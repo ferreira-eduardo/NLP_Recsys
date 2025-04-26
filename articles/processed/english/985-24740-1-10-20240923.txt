@@ -1,0 +1,979 @@
+# **Acceptance and Usability of Complex Medical Systems**
+## A Study with Radiology Professionals
+
+## Fábio Ap. Cândido da Silva
+#### fabio.acs@gmail.com UFLA - Federal University of Lavras Lavras, Minas Gerais, Brasil
+### **ABSTRACT**
+
+## André Pimenta Freire
+#### apfreire@ufla.br UFLA - Federal University of Lavras Lavras, Minas Gerais, Brasil
+
+## Marluce Rodrigues Pereira
+#### marluce@ufla.br UFLA - Federal University of Lavras Lavras, Minas Gerais, Brasil
+
+
+The increasing demand for imaging tests has made radiology information systems crucial in medical practice, especially those based
+on web technology. These systems include Picture Archiving and
+Communication System (PACS), Radiology Information Systems
+(RIS), and Hospital Information System (HIS), generate and manipulate images through specialized software. To operate this complex
+software, require attention to detail and image manipulation techniques for accurate diagnoses. Usability issues in medical image
+manipulation software, given the process of adapting to new software and complex tasks, can result in inaccurate diagnoses with
+clinical impact. This is a qualitative study, which is based on the
+work routines of radiology professionals, focusing on issues of cognitive learning, interaction, and usability with radiology software.
+Moderate usability tests with radiology technicians were conducted
+to identify the difficulties and challenges they encounter while using medical image manipulation software. The analysis identified
+64 problems grouped into 20 categories and organized under Visual
+Presentation, Content, Information Architecture, and Interactivity.
+The paper emphasizes violated heuristics and describes how these
+problem categories impact users in their medical activities and their
+influence on the clinical process. The obtained results provide insights to enhance usability practices and recommendations, aiming
+to support the development systems used in radiology practice.
+### **KEYWORDS**
+
+usability issues, radiology systems, qualitative analysis
+### **1 INTRODUCTION**
+
+Health information systems are extremely important in medical
+practice and clinical interventions, and are essential for the activities carried out by health professionals in hospitals and clinics
+
+[ 5, 8, 14, 34, 35 ]. There are works in the literature that apply computing to medical images to assist healthcare professionals. The
+work of Vieira et al . [37] used Applied Explainable Artificial Intelligence (XAI) in the classification of retinal images to support
+Glaucoma diagnoses. Martins et al . [27] presented a web-based
+platform that provides a intuitive interface suitable for Machine
+Learning computational pathology research to be easily carried out.
+In this study, the focus is on radiology systems, which are essential for carrying out clinical analyses. The tasks involving these
+analyses require attention to detail through image manipulation
+
+In: Proceedings of the Brazilian Symposium on Multimedia and the Web (WebMe
+dia’2024). Juiz de Fora, Brazil. Porto Alegre: Brazilian Computer Society, 2024.
+© 2024 SBC – Brazilian Computing Society.
+ISSN 2966-2753
+
+
+techniques to make a medical diagnosis. Are systems that have
+led to optimizing the quality and productivity of healthcare professionals [ 1 ]. Figure 1 shows a simplified workflow of radiology
+professionals and communication between systems. These professionals operate radiology equipment to generate medical images,
+which are manipulated in specific software and archived in the
+Image Archiving and Communication System (PACS). The images
+can be viewed on workstations, being accessed through the Radiology Information Systems (RIS) and Hospital Information System
+(HIS). The area painted in yellow between the arrows indicated
+with numbers 1 and 2 in the figure indicates that the focus of this
+study covers the processes that integrate the tasks in medical image
+manipulation software [8, 9].
+
+**Figure 1: Simplified layout of professional workflow and**
+**inter-system communication**
+
+Source: Adapted from Silva [8]
+
+It is important to highlight that many healthcare systems were
+developed based on web technology, especially PACS and DICOM
+(Digital Imaging and Communications in Medicine) imaging systems [3, 4].
+Medical systems used in radiology are multimedia systems with
+the ability to integrate and present medical images alongside text
+such as medical reports. The interactivity in viewing images, with
+zoom, rotation and annotation functionalities, in addition to the
+ability to present several photos in an integrated and simultaneous
+way, and the transmission of medical data for remote and collaborative access, demonstrate the multimedia essence of the system.
+
+
+28
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Silva et al.
+
+
+Previous studies have carried out several evaluations on PACS
+
+and RIS systems and found several usability problems that impact the performance of complex image capture and analysis tasks
+
+[ 9, 11, 15, 16, 38 ]. However, there is limited knowledge about image manipulation systems, whose aspects influence the procedural
+aspects and results of clinical examinations in hospitals and clinics,
+mainly in the Brazilian scenario. Another important aspect that
+was also revealed in a study with radiology professionals [ 8 ], points
+out that the work routine, the characteristics of the systems and
+the interaction of radiology professionals with these systems, are
+conditioned by the hospital or clinic process, where the system is
+process-centric and not user-centric.
+This paper aims to study and qualitatively analyze the postprocessing tasks of medical images performed by radiology professionals, observing the aspects of cognitive learning, the software
+usability problems encountered in these tasks, how these problems impact the process of hospitals and clinics, and how radiology
+professionals accept these systems.
+The study involves usability testing, given the CAAE research
+protocol nº 49170921.6.0000.5148, to understand in practice the
+tasks of radiology professionals and identify the difficulties and
+usability problems that these professionals present when using a
+medical image manipulation system model.
+This study seeks to answer which usability factors influence
+the use of radiology systems in the Brazilian context and what
+the impact of these problems would be on the radiology service
+provided.
+The paper is organized as follows. Section 2 presents the main
+concepts of radiology information systems, DICOM standard and
+related works. Section 3 presents the main methodological aspects.
+Section 4 presents the results, Section 5 the discussion and, finally,
+Section 6 the conclusions and future work.
+### **2 BACKGROUND**
+
+This section describes concepts about information systems in radiology and related works.
+### **2.1 Radiology Information Systems and DICOM** **standard**
+
+Hospital radiology departments have been using digital systems
+on a large scale, which has generated an increasing volume of data.
+This reinforces that the solutions to manage these data and digital
+images are adopting a PACS and RIS system [38].
+According to Dias et al . [9] and Huang [13], PACS is a short- and
+long-term image management system which consists of archiving
+medical images. These images are generated by medical equipment,
+such as digital radiography, computed radiography, computed tomography (CT), magnetic resonance imaging (MRI) and ultrasound.
+PACS plays a vital role in health information systems, helping
+reduce costs, facilitate access to medical images and improve workflow in the radiology department. PACS improves the processing,
+storage and transmission of medical images for radiologists [ 38 ].
+RIS and HIS are management systems that distribute data about
+diagnoses, procedures and patient exams over the network. The difference between them is that RIS is a radiology information system
+while HIS is a hospital information system. The complexity this
+
+
+systems can lead to different problems, such as procedural errors,
+delay in diagnosis, possible errors in the diagnosis of results and
+even discomfort or stress on the part of health professionals who
+use these systems for a long time. The usability of these systems is
+essential to avoid errors in collection and diagnosis.
+Images generated by radiology systems have a specific file format
+called DICOM (Digital Imaging and Communications in Medicine),
+a standard model for storing medical image information [ 36 ]. This
+standard provides a framework that allows the exchange of multiple
+medical images and related information stored in a single format
+by the PACS system.
+For post-processing tasks of DICOM images, medical image viewing software is used with measurement, zoom, contrast, and other
+tools to review patient exam images and work with other medical
+data. This software may be from the same company as the radiology
+equipment or third-party software. In addition to being essential
+software during an exam to obtain the medical report, there are
+web versions for patient access to consult the exams.
+### **2.2 Related Works**
+
+Several studies in the literature have reported evaluations and analyzes of usability in radiology systems. In 2017, a systematic literature review conducted by Dias et al . [9] examined and compiled
+usability issues identified in ten primary studies involving radiology
+professionals, resulting in 90 problem cases. The qualitative analysis
+revealed the causes and effects of the identified usability problems,
+classifying them according to the usability heuristics established
+by Nielsen and Molich [30], which were later improved and popularized by Nielsen [29] . The study provided implications related to
+the most common problems, with the top five heuristics with the
+highest number of reported usability problems being “Flexibility
+and efficiency of use”, “Consistency and standards”, “Match between system and the real world”, “Recognition rather than recall”,
+and “Help and documentation” [ 12, 15 – 18, 20, 25, 26, 31 ]. These
+implications include: attention to sequential steps in accordance
+with clinical analysis practices; direct access to crucial information for clinical decision-making; facilitate integration with other
+systems for producing clinical reports; improve efficient access to
+images that require simultaneous analysis; assisting in efficient
+basic image manipulations within the system; ensure consistency
+in patient identification to avoid misinterpretations; align information architecture with clinical terminology; maintain consistency
+in important features across tasks; system rules that accommodate
+real-world clinical procedures; accurate recognition capabilities;
+and easily recognizable feature activation.
+A study by Esfahani et al . [11] emphasized the significance of
+user interaction in selecting PACS. The study employed the ThinkAloud protocol in conjunction with a post-usability questionnaire to
+compare user interaction issues across various PACS user interfaces.
+The assessment focused on efficiency, encompassing aspects of usability such as efficiency, learning, error, and satisfaction, revealing
+user interaction challenges within three tested PACS systems.
+A study conducted by Salahuddin et al . [33] delved into the behavior of healthcare professionals regarding the adoption of a Health
+Information System (HIS) and its impact on patient health. Through
+
+
+29
+
+
+-----
+
+Acceptance and Usability of Complex Medical Systems WebMedia’2024, Juiz de Fora, Brazil
+
+
+a qualitative approach, the study conducted semi-structured interviews with 31 physicians across three hospitals that had implemented the system. Thematic qualitative analysis of the interview
+results revealed four key themes: (1) carelessness, (2) alternative
+solutions, (3) non-compliance with the procedure and (4) copying
+and pasting habits. The study provides practical examples of how
+these professional behaviors may lead to unintended consequences
+in the utilization of the HIS.
+
+In a more recent study by da Silva et al . [8], semi-structured
+interviews were conducted with 10 radiologic technologists to gain
+insight into the daily work routines of professionals in the radiology field, encompassing processes, workload, responsibilities,
+and challenges associated with the use of radiology systems. The
+data from this study underwent thematic analysis, facilitating the
+organization and description of a dataset that identified issues, comprehended processes, responsibilities, and factors influencing the
+routines of radiology professionals. Several important findings were
+presented, revealing that the work routines, system characteristics,
+and interactions of radiology professionals with the systems are
+contingent upon the processes of the hospital or clinic, demonstrating how participants had difficulties reporting when asked about
+system usability. The narratives underscore the need for professionals to adapt to system features, even if it requires memorizing
+actions and utilizing functionalities in languages they may not fully
+comprehend.
+Despite progress in studies of radiology systems, there is a lack
+of information about the Brazilian scenario. Previous research has
+
+focused mainly on aspects of usability and impact, often failing
+to explore in depth the implications of these systems in the work
+processes of healthcare professionals, as well as in hospital and
+clinical contexts. This study seeks to fill this gap by carrying out
+usability tests with radiology professionals, providing a comprehensive perspective on the use and challenges faced by these users in
+medical imaging software, enabling future work to deepen studies
+on the various aspects presented in this paper.
+### **3 METHODS**
+
+This study analyzes DICOM image post-processing tasks, evaluating the usability aspects of radiology systems in use in Brazil.
+The study included usability tests, which led to significant results
+regarding users’ behaviour and difficulties in using the software.
+The method counted on content analysis and thematic analysis
+to divide problems into categories according to how they affect the
+interaction. Data analysis was qualitative, where the unstructured
+data found were transformed into texts and other artifacts in a
+
+detailed description of the situation or problem, considering the
+essential aspects [22].
+### **3.1 Participants**
+
+Four male and two female radiology technicians were recruited
+(Table 1). The recruitment of participants for usability tests was
+done through contacts on social networks, e-mails, and by indication from the participants themselves. The research protocol
+was approved and registered by the university’s Research Ethics
+Committee with protocol CAAE 49170921.6.0000.5148 in August
+
+2021.
+
+
+**Table 1: Participant details**
+
+**#** **Academic level** **G*** **State** **W*** **Workplace**
+
+1 PhD M Pará 4 UPA*
+
+2 BSc de g ree F Paraná 6 Hos p ital
+3 S p ecialization M São Paulo 17 Hos p ital
+4 S p ecialization M São Paulo 9 UPA*
+5 BSc de g ree F São Paulo 10 Clinic
+6 Specialization M São Paulo 5 Hospital
+
+** G - Gender | W - Work in years | UPA - Emergency care unit*
+
+The participants had different characteristics, such as regionally,
+place of work and professional experience. Regarding academic
+training, three of the participants had specializations, two had a
+bachelor’s degree and one had a doctorate. Regarding the place of
+work, three worked in the hospital, two in the UPA Unidade de
+Pronto Atendimento, which translated means “Emergency Care
+Unit”), an emergency care unit, and the other worked in a clinic. The
+average professional experience of these participants is eight years,
+with the most experienced participant having seventeen years of
+experience and the least experienced having four years.
+Regarding the level of knowledge and experience with using
+the computer, the majority considered themselves to have an acceptable level, on a scale between low, acceptable and advanced
+levels. Likewise, most claim to have a good level of experience with
+radiology systems.
+### **3.2 Usability testing**
+
+This study applied a usability assessment in radiology systems with
+users as a data collection instrument. These tests were carried out
+
+remotely from November 2021 to March 2022, using Google Meet,
+with video recording, participant audio, and a computer screen
+later used to document all important and valuable information.
+During the evaluations, the Think-Aloud [ 10 ] protocol was used as
+a specific technique, which suggests the user describe aloud what
+he is thinking and doing while performing tasks. This technique
+focuses on user cognition when interacting with the system [11].
+Usability testing was moderated and performed remotely and
+individually. The participant remotely accessed the primary researcher’s computer, which contained the software and images
+used during the test, through the Google Remote Desktop service.
+Then the participants were given the tasks to perform while moderated by the researcher.
+The software used in this study for the tests is the JiveX DICOM
+Viewer, free software for non-commercial use for viewing images
+in DICOM format. JiveX DICOM Viewer is software that runs installed on the computer, unlike some software that runs in web
+browsers. In this software, it is possible to manipulate the image
+using several tools that are common in software used by radiology
+professionals. The JiveX DICOM Viewer software was chosen after
+research and testing on some software with the help of a professor
+and professional in the field of radiology. As the tests were planned
+to be run remotely, it was decided to choose free software, without
+the need to create accounts, that did not consume much memory
+during image processing and that had a sufficient variety of tools
+
+
+30
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Silva et al.
+
+
+to carry out the tasks. Some sets of example medical images, and
+the user manual for this software are available for download on the
+Visus website [1] .
+
+The main author provided participants with images publicly
+available by the TCIA service, which de-identifies and hosts an
+extensive archive of medical cancer images accessible for public
+download [2] . The download of medical images is done through specific software called NBIA Data Retriever. Installation guidelines
+can be accessed from the site [3] . The queries for images can be made
+at https://public.cancerimagingarchive.net/nbia-search.
+The tasks were shared with the participants by Google Meet
+e which task was read. The tasks performed were: Select layout;
+Adjust the position (rotation); Adjust the size (zoom); execute windowing (darken, lighten, highlighting); Describe the side or name of
+the incident; Open four images in 2x2 layout; Export file; and Print.
+The aspects studied and evaluated are cognitive learning (perception and attention, comprehension, memory, and active learning),
+interaction and usability problems with information systems and
+other elements related the radiology systems [21].
+It is worth mentioning that none of the participants knew the
+software used in the test. Each test took about 60 minutes. After
+
+completing the tasks, two satisfaction and usability questionnaires
+were applied to assess the participants’ post-task impressions. One
+of the questionnaires is a demographic survey developed by the
+author himself, which includes, for example, the participant’s education, age, position held, time of experience with the use of the
+computer, and the system. The other questionnaire is the PSSUQ
+
+- Post-Study System Usability Questionnaire [ 23 ], an instrument
+based on a script of post-test questions with 19 items that assess
+user satisfaction with the usability of a system. In this case, the
+author used an adapted version of this research in European Portuguese. These questionnaires are available in Portuguese in link
+https://bit.ly/questionnaires-pssuq. The PSSUQ questionnaire is
+important to understand participants’ acceptance of new software,
+even if the tools presented are similar to the software they are used
+to on a daily basis at work.
+### **3.3 Test data analysis**
+
+This section outlines the analysis methods employed in conducting
+the usability tests for this study. The approach is based in content
+and thematic analysis techniques, categorizing identified issues
+based on their impact on user interaction. The qualitative data analysis involves transforming unstructured data into detailed textual
+descriptions and other artifacts that provide an in-depth understanding of the situation or problem, considering essential aspects
+
+[ 22 ]. The usability issues identified in the content analysis were
+systematically organized using thematic analysis principles [6].
+The problems detected during the recorded tasks were transcribed by principal author, recording the usability problems identified in the recordings. Transcriptions and coding were carried
+out in the Microsoft Word word processor, then transported and
+organized in Google Sheets.
+
+1 https://www.visus.com/en/downloads/jivex-dicom-viewer.html
+2 https://www.cancerimagingarchive.net/about-the-cancer-imaging-archive-tcia
+3 https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images
+
+
+Open coding was performed by authors after identifying the
+problems and generating the initial codes to categorize the problems found. After each round of open coding, the version of the
+categorization instrument was used to assess inter-coder reliability,
+being evaluated based on the Cohen coefficient [ 28 ]. After reaching
+an acceptable level of reliability, differences were discussed and
+resolved between the authors. The next step in thematic analysis
+involved identifying themes for the categories identified in the categorization round. For categorization and organization into themes,
+the four major categories (Physical Presentation, Content, Information Architecture, and Interactivity) described in the work of
+Petrie and Power [32] were adapted. Finally, at the end of the stage,
+the themes, categories and usability problems identified during the
+entire process were presented.
+This analysis consolidated recommendations for the designs and
+acceptance of radiology systems, incorporating the usability aspects
+identified and related to the Brazilian context.
+### **4 RESULTS**
+
+This section presents the results obtained in analysing usability
+tests carried out with six radiology professionals for this research.
+The software used in the usability test had no integration with a
+PACS and RIS system. So, we only consider the process of editing
+the radiology image done by the radiology technician.
+### **4.1 Problem categories**
+
+The researchers found 64 problem situations, with an average of
+10 problems per user. Problems were separated into 20 problem
+categories organized into the following themes: Visual Presentation,
+Content, Information Architecture, and Interactivity. The Table 2
+is organized by problem categories, presenting just a few problem
+situations as examples in each category. In this link (https://bit.
+ly/tab-categorization) you will have access to another table with
+all problem situations, that is organized by users/problems found.
+For better understand the tables it is important to note that two
+types of codes appear in both tables. In the case of the "U4-P5"
+code, for example, this identifies that "U4" is user 4 and "P5" is this
+user’s problem 5. While in the case of the "visu1" code, for example,
+it identifies the theme "Visual Presentation", with the number 1
+representing a problem category of this theme.
+**Visual Presentation** details the visual presentation of the software to the user. Findings from four categories indicate that users
+encountered challenges in navigating the layout due to a lack of
+clarity and organization in its functionalities. The presentation of
+certain icons also led to user confusion. Consequently, several times,
+some users took time to find the interactive elements to perform
+the tasks.
+
+The **Content** theme has four categories, outlining issues related
+to the layout. These problems include sections displaying excessive
+content, often with unclear contexts, occasional duplication, and
+terms lacking precise definitions, making it challenging for users
+to discern their functionality.
+**Information Architecture** theme reveals structural issues within
+
+the system that impact the user’s tasks. This encompasses two
+categories, elucidating scenarios where task execution could be
+streamlined for users, such as actions easily performed with the
+
+
+31
+
+
+-----
+
+Acceptance and Usability of Complex Medical Systems WebMedia’2024, Juiz de Fora, Brazil
+
+**Table 2: Problem categories organized into themes**
+
+**Code** **Category** **Occurrences** **Example**
+
+
+
+Toolbar for windowing task has different options that accomplish the same
+visu1 Unclear or confusing layout 6
+g oal ( U4-P5 )
+
+
+visu2
+
+
+Text/interactive element
+is not clear/distinguished
+enough to identify its functionalit y
+
+
+The user did not realize that there is another interactive element to describe
+
+10 the side and the radiological incidence that inserts only the text without the
+indicative arrow (U2-P2)
+
+
+Interactive elements with difThe icon of the "reset" element is confused with the icon of the "rotate image"
+visu3 ferent functionality have sim- 3
+element (U4-P2)
+ilar icons
+
+It takes time to find the de- It took a long time for the user to find the text tool that allows describing the
+visu4 7
+sired interactive element side and radiolo g ical incidence ( U3-P4 )
+
+Layout with too much concont1 2 Mouse action drop-down menu presents many unnecessary options (U6-P4)
+tent confuses the user
+
+Radiology image viewing software content is not available in other languages
+cont2 Content is not clear enough 7
+( U2-P7 )
+
+Duplicate or contradictory The "reset" interactive element exists in two places, but performs different
+cont3 1
+content actions ( U5-P9 )
+
+The interactive element represented by the floppy disk icon does not make it
+cont4 Undefined terms 1
+clear what the user is savin g ( U5-P10 )
+
+There is not enough structure The actions performed with the mouse can be changed, but require several
+arch1 3
+for the content ste p s that hinder the user ( U5-P11 )
+
+Purpose of the structure is un- There are two options to display more than one radiology exam image on the
+arch2 4
+clear screen with different ob j ectives that confuse the user ( U5-P8 )
+
+Lack of information on how
+In the radiology image viewer, the user does not know how he activated and
+inte1 to proceed and why things 2
+how to close the full-screen mode (U3-P8)
+are ha pp enin g
+
+Excessive effort required by If the user makes a mistake in a procedure, it is necessary to reset and redo
+inte2 2
+the user ever y thin g a g ain ( U4-P9 )
+
+System does not allow user If there is any misfit in the radiology image during the editing process, the user
+inte3 to revert wrongly performed 5
+cannot revert to the previous action (U5-P2)
+action
+
+Software does not generate The software does not provide visual feedback when switching between one
+inte4 3
+feedback on user actions radiolo gy ima g e and another ( U4-P1 )
+
+Opening the same radiology image in the layout with more than one image
+inte5 Illogical interaction sequence 7
+p review ( U3-P10 )
+
+Result of the action perThe "ESC" key, by default, coincides with the action to exit full-screen mode,
+inte6 formed does not meet the 11
+which does not occur in this radiology image viewer (U6-P8)
+user’s ex p ectation
+
+Expected interactive func- The option to undo the last action is missing in this radiology image viewer
+inte7 3
+tionalit y is absent ( U1-P3 )
+
+Security issues not high- Software allows opening images of different patients in the same work window
+inte8 1
+li g hted and does not have a division to identif y these ima g es ( U4-P11 )
+
+Missing error/warning mes- When resetting the radiology image to the initial state, the software does not
+inte9 4
+sa g es ask if the user wants to p roceed with the action ( U1-P3 )
+
+The user took a long time to perform a task because he could not use the tool
+inte10 Delay to perform a task 4
+properly (U5-P5)
+
+32
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Silva et al.
+
+
+mouse. The other category highlights instances where the user may
+find it less intuitive to utilize multi-layout options for displaying
+images.
+**Interactivity** theme is the one that most presents problem situations, encompassing ten categories to delineate each scenario.
+Notably, four categories deserve emphasis: "Lack of information
+on how to proceed and why things are happening", "System does
+not allow the user to revert wrongly performed action", "Illogical
+interaction sequence", and "Result of the action performed does not
+meet the user’s expectation". During the tests, it became evident
+that a majority of users encountered challenges. For instance, upon
+entering full screen, users found themselves disoriented, lacking
+guidance on what had transpired and how to revert. Additionally, users faced difficulty undoing incorrectly performed actions
+and experienced instances where the outcomes did not align with
+their expectations. These challenges necessitated users to navigate
+through unnecessary steps to resolve or complete tasks.
+### **4.2 Usability Problems Encountered**
+
+This section describes some categories obtained by analyzing the
+usability test data, to exemplify how the problem affected the user.
+
+*4.2.1* *Text or interactive element is not clear enough to identify*
+*its functionality.* The design must speak the user’s language. It is
+necessary to ensure that the user understands the meaning without
+looking for a definition or remembering what it means [29].
+During the tests, several users used a text tool to write the incidence on the exam image. There are two tools with the same
+purpose, but one of these tools includes an arrow, and some users
+tried to remove the arrow without success. Others took a while to
+
+realize that the other tool did not include the arrow. Figure 2 shows
+the detail of each tool.
+
+**Figure 2: Interactive element is not distinguished enough to**
+**identify its functionality**
+
+Source: Screenshot of JiveX DICOM Viewer software
+
+We had ten hits for this category that violated the following
+Nielsen heuristics: “Aesthetic and minimalist design”, “Match between system and real world”, “Recognition rather than recall”, and
+“Consistency and standards”.
+
+
+*4.2.2* *Content is not clear enough.* We had seven problem situations
+in this category, and we understand that five violated the heuristic
+“Match between system and the real world”. The leading cause is
+users’ difficulty with the English language.
+
+**Figure 3: Content is not clear enough**
+Source: Screenshot of JiveX DICOM Viewer software
+
+For the example, let us use the problem situation that violated the
+“Consistency and standards” heuristic. Figure 3 shows four options
+for exporting exam images, and the task was to export four exams.
+The user chose the option he understood to be exporting all exams
+but ended up exporting only one.
+
+*4.2.3* *Purpose of the structure is unclear.* Improving the ability to
+learn by keeping the types of consistency (internal and external)
+helps the user to understand and perform tasks. In this category,
+we had four problem occurrences that affect this “Consistency and
+patterns” heuristic and another two: “Match between system and
+the real world” and “Visibility of system status”.
+In Figure 4 is the options for exporting exams, and the result did
+not match what the user expected.
+
+*4.2.4* *Result of the action performed does not meet the user’s ex-*
+*pectation.* This category describes when the result of the action
+performed by the user is unexpected. Eleven problem situations
+were found in the tests with the radiology software that did not
+correspond to what the user expected. We had six violations of
+the “Consistency and standards” heuristic, the others violated the
+“Flexibility and efficiency of use”, “Match between the system and
+the real world” and “User control and freedom” heuristics.
+
+Some examples mentioned above also fall into this category. For
+example, the user tried to zoom in on the exam with the mouse and
+the result ended up changing the contrast in the image. In another
+case, they exported four exams and the result only exports one. By
+mistake, the user enters in full screen and tries to exit by pressing
+the “ESC” key, which does not work.
+### **4.3 Violated Nielsen’s heuristics**
+
+In addition to categorization, each problem was analyzed by assigning the violated heuristic on the Nielsen scale [ 29 ]. For more
+
+
+33
+
+
+-----
+
+Acceptance and Usability of Complex Medical Systems WebMedia’2024, Juiz de Fora, Brazil
+### **4.4 Post study questionnaire**
+
+After the usability test, participants received a link to the PSSUQ [4]
+
+post-study questionnaire to assess their satisfaction with the software’s usability. The questionnaire brought some interesting insights, as shown the number of responses for each question show
+in Figure 5. Overall, all participants say they are satisfied with the
+system they used in the test. Most (83%) understand that the system
+has a pleasant interface, easy to understand and learn. However,
+two participants understood that they could complete the tasks efficiently. Only one participant said that the information the system
+presented was clear. Moreover, none of the participants agreed that
+the system indicated an error and helped resolve it.
+Analyzing the aspect of user acceptance of the tested system,
+it is possible to see that users will adhere to the system, as they
+understand that over time they will be able to get used to the system,
+minimizing the problems faced during testing.
+
+**Figure 5: PSSUQ questionnaire result**
+### **4.5 Research limitations**
+
+
+**Figure 4: Purpose of the structure is unclear**
+
+Source: Screenshot of JiveX DICOM Viewer software
+
+details, see the complete table (https://bit.ly/tab-categorization),
+which contains the problem situations characterized with the respective violated heuristics.
+The results of the analysis that are based on Nielsen’s [ 29 ] heuristics, reference usability issues. Of Nielsen’s ten heuristics, the study
+presented a violation in 7 of these heuristics, and they are: **Visibility**
+**of System Status** (3 occurrences); **Match Between System and**
+**the Real World** (13 occurrences); **User Control and Freedom**
+(8 occurrences); **Consistency and Standards** (14 occurrences);
+**Recognition Rather than Recall** (4 occurrences); **Flexibility**
+**and Efficiency of Use** (8 occurrences); and **Aesthetic and Mini-**
+**malist Design** (14 occurrences).
+
+
+The ideal scenario for usability testing would be "in loco", however, there were still many restrictions imposed by the COVID-19
+pandemic at the time. Therefore, the way found to carry out the usability tests was to provide commercial software for public and free
+use, with medical images used from a public and free image bank.
+The chosen software works with the process of refining the exam
+images before being sent to the PACS, which allows the doctor to
+analyze and write the report. However, this is another limitation,
+we did not have a PACS system or an HIS or RIS system to integrate. With this, we mitigate usability testing tasks, specifically for
+radiology technicians. As most of the participants had experience
+only with X-ray exams, we chose to work only with this scenario,
+as MRI and CT exams are more complex. Thus, it was impossible
+to mitigate tasks such as collecting patient data from the RIS and
+sending the exam to PACS, because the software also does not have
+a patient registration module. On the other hand, carrying out the
+tests remotely allowed us to have a greater diversity of participants,
+given their professional characteristics, location and experience.
+### **5 DISCUSSION**
+
+This section discusses the problems observed in analyzing usability
+tests with radiology systems, mapping the different issues that can
+affect the tasks of radiology professionals, analysis processes and
+
+4 https://bit.ly/questionnaires-pssuq
+
+
+34
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Silva et al.
+
+
+patient exam results. This study brought four essential aspects:
+the visual presentation of the system, the content, the information
+architecture and the interactivity with the system.
+The visual presentation of the radiology system is overloaded,
+confusing users due to elements with unclear functionality and
+similar icons with different purposes. Users faced difficulty in locating hidden elements or identifying them visually. Content-related
+issues, such as unnecessary information in drop-down menus and
+unclear options for exporting exams, also impeded task completion.
+Duplicate or contradictory content, poorly defined terms, and incongruent representation of actions, like saving a custom layout
+with a floppy disk icon, are some examples. The lack of a coherent information architecture resulted in inconsistencies, requiring
+users to switch between mouse actions and disrupting workflow.
+Some system structures lacked clarity, with redundant options that
+seemingly served the same purpose, difficult complicating usability.
+In the systematic mapping of the literature carried out in 2017 by
+Dias et al . [9], the heuristics “Match between system and the real
+world” and “Consistency and standards” also appear with many
+occurrences in the current study. A good example is the category
+“(inte6) Result of the action performed does not meet the user’s
+expectation” which has ten occurrences if we look at the table 2.
+The other two studies in the literature [ 2, 11 ] are more related to
+PACS systems, but the current study may indicate aspects regarding
+integration with PACS and RIS systems. Although there was no
+such integration in the tests, it is still possible to discuss some
+aspects. The example of the category “(inte8) Security issues not
+highlighted" reveals that the software allows opening images of
+different patients in the same work area without separating. We
+can only imagine how serious this situation would be.
+In the qualitative study [ 7 ] performed out with an analysis of
+the needs and experience of doctors who use PACS, it presented
+results that describe factors like tasks and resources; workflow;
+performance issues; and training. In addition, the author addresses
+the situations where usability problems may occur but does not go
+into detail. In contrast, the usability tests of the current study delve
+deeper into the topic of tasks and features. While the study related
+presents reports from the participants, the present study reports
+the situations as they emerged in an actual simulated test, with the
+problems highlighted and contextualized.
+Another aspect is related to the study [ 8 ] on the routine of health
+professionals, as a clinical and hospital environment defines an
+intense work routine and well-defined processes in which users
+who interact with health information systems are conditioned on
+this process and the characteristics of the systems.
+To answer which usability factors influence the use of radiology
+systems in the Brazilian context, this study reveals the difficulties
+users have in completing some of the tasks, due to some facts: Many
+radiology equipment and software are not available in Portuguese,
+especially when deals with tomography and magnetic resonance
+systems. This is an important aspect, as many visual presentation
+and content problems appeared in the tests and compromised users
+with little knowledge of the English language. The medical image
+manipulation software used in the tests is different from what the
+participants were used to. This explain the difficulties in carrying
+out the tasks that they normally carry out on a daily basis at work.
+
+
+Responding to another question in this study, what would be
+the impact of these problems on the radiology service provided, we
+note that the usability problems reported in this study can directly
+impact several aspects, such as, for example, changes to patient
+exams, delays in carrying out of a simple task, errors in handling the
+exam image, not being able to correct a basic error, often becoming
+dependent on support. Many of these problems may be related to
+adaptation to a specific process, need for training, difficulties with
+a foreign language, lack of standardization of layout and icons of
+radiology systems and optimization of the resources presented.
+### **6 CONCLUSION**
+
+The paper studied a radiology system to find instances of problems
+affecting users in their medical tasks and how these problems can
+become severe enough to affect the clinical process. A moderated
+usability test was conducted remotely with six radiology technical
+professionals using radiology image visualization software that
+allowed editing and refining of the image before sending it for
+analysis and medical report. Analysis of the study resulted in 64
+usability issues, organized into 20 categories that provide essential
+insights to evolve current usability practices and recommendations
+to support the design of complex medical systems used in radiology
+practice.
+The paper argued that usability factors in radiology systems need
+attention, even if the tests were done in non-commercial software,
+but present the essential tools for the tasks performed by radiology
+technicians. The results were significant to denote which usability
+aspects violate Nielsen’s usability heuristics and how these problems can interfere with the clinical process. Adjustments to the
+problems found can improve and speed up the execution of tasks,
+prevent the user from making errors, ensure that the system is
+organized and secure with patient data and exams, and ensure that
+physicians receive this data consistently to carry out the analysis
+and report. As a contribution to the area of Multimedia, Hypermedia and Web, although the software used in this study is not
+a web version, this study shows opportunities for new research
+on complex medical systems and greater reflection on interaction
+needs and understanding the specificities of the Brazilian context,
+understanding that several of these systems are based on web technology, such as RPACS (https://rpacs.com.br) and Vue PACS (used
+several by hospitals and clinics), as well as DICOM image viewers
+(https://dicomviewer.net and https://medevel.com/dwv/).
+For future work, we want to conduct studies with a more significant number of professionals, include more systems for testing
+and validate of severity of usability, as the safety severity scale by
+Kennedy et al . [19] and Lowry et al . [24], and patient safety based
+on the "rating" made by professionals in the medical field. Additionally, a severity scale should encourage user-centric development
+processes with a focus on security, facilitating the design of interfaces with good usability, with more secure, and providing methods
+to measure and validate user performance before deployment.
+### **ACKNOWLEDGMENTS**
+
+To Elvio, for his help in choosing and recommending medical image
+manipulation software. The authors also thank FAPEMIG, CAPES
+and CNPq for funding parts of this study.
+
+
+35
+
+
+-----
+
+Acceptance and Usability of Complex Medical Systems WebMedia’2024, Juiz de Fora, Brazil
+
+### **REFERENCES**
+
+[1] Reza Abbasi, Monireh Sadeqi Jabali, Reza Khajouei, and Hamidreza Tadayon.
+2020. Investigating the satisfaction level of physicians in regards to implementing
+medical Picture Archiving and Communication System (PACS). *BMC medical*
+*informatics and decision making* 20, 1 (2020), 1–8.
+
+[2] M. Alhajeri and S.G.S. Shah. 2019. Limitations in and Solutions for Improving the
+Functionality of Picture Archiving and Communication System: an Exploratory
+Study of PACS Professionals’ Perspectives. *Journal of Digital Imaging* 32 (2019),
+54–67.
+
+[3] Priya Darshini B, Deepan Chakkaravarthy N, Gokul B, and Sabari Maharaja B.
+2023. A Web-based Dicom Image and Plane Viewer. In *2023 Fifth International*
+*Conference on Electrical, Computer and Communication Technologies (ICECCT)* .
+IEEE, 1–7.
+
+[4] Rade R Babić, Zoran Milošević, and Gordana Stanković-Babić. 2012. Web technology in health information system. *Acta Facultatis Medicae Naissensis* 29, 2
+(2012), 81–87.
+
+[5] Mirza Mansoor Baig, Hamid GholamHosseini, Aasia A Moqeem, Farhaan Mirza,
+and Maria Lindén. 2017. A systematic review of wearable patient monitoring
+systems–current challenges and opportunities for clinical adoption. *Journal of*
+*medical systems* 41, 7 (2017), 1–9.
+
+[6] Virginia Braun and Victoria Clarke. 2006. Using thematic analysis in psychology.
+*Qualitative research in psychology* 3, 2 (2006), 77–101.
+
+[7] S. Cronin, B. Kane, and G. Doherty. 2021. A Qualitative Analysis of the Needs
+and Experiences of Hospital-based Clinicians when Accessing Medical Imaging.
+*Journal of digital imaging* (2021), 1––12. https://doi.org/10.1007/s10278-02100446-1
+
+[8] Fábio A. C. da Silva, André P. Freire, and Marluce R. Pereira. 2022. Understanding Interaction and Organizational Issues in Radiology Information Systems: a
+Qualitative Study with Health Professionals. In *XVIII Brazilian Symposium on*
+*Information Systems* . –.
+
+[9] Camila Rodrigues Dias, Marluce Rodrigues Pereira, and Andre Pimenta Freire.
+2017. Qualitative review of usability problems in health information systems for
+radiology. *Journal of biomedical informatics* 76 (2017), 19–33.
+
+[10] K Anders Ericsson and Herbert A Simon. 1984. *Protocol analysis: Verbal reports*
+*as data.* MIT Press, Cambridge, MA, USA.
+
+[11] Misagh Zahiri Esfahani, Reza Khajouei, and Mohammad Reza Baneshi. 2018. Augmentation of the think aloud method with users’ perspectives for the selection of
+a picture archiving and communication system. *Journal of Biomedical Informatics*
+80 (2018), 43–51.
+
+[12] Ina Geldermann, Christoph Grouls, Christiane Kuhl, Thomas M Deserno, and
+Cord Spreckelsen. 2013. Black box integration of computer-aided diagnosis into
+PACS deserves a second chance: results of a usability study concerning bone age
+assessment. *Journal of Digital Imaging* 6 (2013), 698—-708.
+
+[13] Hai K Huang. 2003. Enterprise PACS and image distribution. *Computerized*
+*Medical Imaging and Graphics* 27, 2-3 (2003), 241–253.
+
+[14] Fateme Rangraz Jeddi, Ehsan Nabovati, Reyhane Bigham, and Razieh Farrahi.
+2020. Usability evaluation of a comprehensive national health information system:
+A heuristic evaluation. *Informatics in Medicine Unlocked* 19 (2020), 100332.
+
+[15] Wiard Jorritsma, Fokie Cnossen, Rudi A Dierckx, Matthijs Oudkerk, and Peter MA
+van Ooijen. 2016. Pattern mining of user interaction logs for a post-deployment
+usability evaluation of a radiology PACS client. *International Journal of Medical*
+*Informatics* 85, 1 (2016), 36–42.
+
+[16] Wiard Jorritsma, Fokie Cnossen, Rudi A Dierckx, Matthijs Oudkerk, and Peter MA Van Ooijen. 2016. Post-deployment usability evaluation of a radiology
+workstation. *International Journal of Medical Informatics* 85, 1 (2016), 28–35.
+
+[17] Wiard Jorritsma, Fokie Cnossen, and Peter MA van Ooijen. 2014. Merits of
+usability testing for PACS selection. *International Journal of Medical Informatics*
+83, 1 (2014), 27–36.
+
+[18] Wiard Jorritsma, Fokie Cnossen, and Peter MA van Ooijen. 2015. Adaptive
+support for user interface customization: a study in radiology. *International*
+*Journal of Human-Computer Studies* 77 (2015), 1–9.
+
+[19] Brandan Kennedy, Ellen Kerns, Y Raymond Chan, Barbara S Chaparro, and
+Sarah D Fouquet. 2019. Safeuristics! Do Heuristic Evaluation Violation Severity
+Ratings Correlate with Patient Safety Severity Ratings for a Native Electronic
+Health Record Mobile Application? *Applied clinical informatics* 10, 02 (2019),
+210–218.
+
+[20] Dasueran Kim, Peter Kang, Jungmin Yun, Sung-Hye Park, Jeong-Wook Seo, and
+Peom Park. 2014. Study on User Interface of Pathology Picture Archiving and
+Communication System. *Healthcare Informatics Research* 20, 1 (2014), 45–51.
+
+[21] Andre W Kushniruk and Vimla L Patel. 2004. Cognitive and usability engineering
+methods for the evaluation of clinical information systems. *Journal of biomedical*
+*informatics* 37, 1 (2004), 56–76.
+
+[22] J. Lazar, J. H. Feng, and H. Hochheiser. 2017. *Research Methods in Human-Computer*
+*Interaction* . Morgan Kaufmann is an imprint of Elsevier, Cambridge, MA, USA.
+
+[23] James R Lewis. 1995. IBM computer usability satisfaction questionnaires: psychometric evaluation and instructions for use. *International Journal of Human-*
+*Computer Interaction* 7, 1 (1995), 57–78.
+
+
+
+[24] Svetlana Z Lowry, Patricia Abbott, Michael C Gibbons, Svetlana Z Lowry, Robert
+North, Emily S Patterson, Matthew T Quinn, Mala Ramaiah, Robert M Schumacher, and Jiajie Zhang. 2012. *Technical Evaluation, Testing, and Validatiaon of*
+*the Usability of Electronic Health Records* . US Department of Commerce, National
+Institute of Standards and Technology.
+
+[25] Dimitrios Markonis, Frederic Baroz, Rafael Luis Ruiz De Castaneda, Celia Boyer,
+and Henning Müller. 2013. User Tests for Assessing a Medical Image Retrieval
+System: A Pilot Study. In *MEDINFO 2013* . Studies in Health Technology and
+Informatics, Vol. 192. IOS Press, Amsterdam, Netherlands, 224–8.
+
+[26] Dimitrios Markonis, Markus Holzer, Frederic Baroz, Rafael Luis Ruiz De Castaneda, Célia Boyer, Georg Langs, and Henning Müller. 2015. User-oriented
+evaluation of a medical image retrieval system for radiologists. *International*
+*Journal of Medical Informatics* 84, 10 (2015), 774–783.
+
+[27] Luan Martins, Adriana Bueno, Alexandre Defelicibus, Rodrigo Drummond, Renan
+Valieris, Yu-Tao Zhu, Israel Da Silva, and Liang Zhao. 2023. WSI2ML – An
+Open-Source Whole Slide Image Annotation Software for Machine Learning
+Applications. In *Anais do XXIX Simpósio Brasileiro de Sistemas Multimídia e Web*
+(Ribeirão Preto/SP). SBC, Porto Alegre, RS, Brasil, 104–109. https://sol.sbc.org.
+br/index.php/webmedia/article/view/25871
+
+[28] Mary L McHugh. 2012. Interrater reliability: the kappa statistic. *Biochemia*
+*medica* 22, 3 (2012), 276–282.
+
+[29] J. Nielsen. 2020. 10 Usability Heuristics for User Interface Design. *Nielsen Norman*
+*Group* (2020). https://www.nngroup.com/articles/ten-usability-heuristics
+
+[30] Jakob Nielsen and Rolf Molich. 1990. Heuristic evaluation of user interfaces.
+In *Proceedings of the SIGCHI conference on Human factors in computing systems* .
+249–256.
+
+[31] Kenneth Olbrish, Paul Shanken, Donna Rabe, Lorraine Steven, and Nicholas
+Irizarry. 2011. Four-year enterprise PACS support trend analysis. *Journal of*
+*Digital Imaging* 24 (2011), 284—-294.
+
+[32] Helen Petrie and Christopher Power. 2012. What do users really care about? A
+comparison of usability problems found by users and experts on highly interactive
+websites. In *Proceedings of the SIGCHI Conference on Human Factors in Computing*
+*Systems* . 2107–2116.
+
+[33] Lizawati Salahuddin, Zuraini Ismail, Ummi Rabaah Hashim, Nor Haslinda Ismail,
+Raja Rina Raja Ikram, Fiza Abdul Rahim, and Noor Hafizah Hassan. 2020. Healthcare practitioner behaviours that influence unsafe use of hospital information
+systems. *Health informatics journal* 26, 1 (2020), 420–434.
+
+[34] Sandro Luis F. F. C. Silva, Marcelo Fornazin, and Rodrigo Pereira dos Santos. 2020.
+Analysis and Modeling of Emergent Systems in the Health Information System
+Domain. In *XVI Brazilian Symposium on Information Systems* . 1–8.
+
+[35] Marcílio Ferreira Souza-Júnior, Lívio Antonio Monteiro Amorim, Lucas Emanoel
+Paulino Silva Santos, Jorge Silva Correia-Neto, and Hugo Araujo Souza. 2019.
+Aprimoramento de Interfaces de Usuários de Sistemas de Informação em Saúde no
+Atendimento Pré-hospitalar na Ótica da Consciência Situacional. *iSys-Brazilian*
+*Journal of Information Systems* 12, 4 (2019), 98–116.
+
+[36] US National Electrical Manufacturers Association. 2021. Digital Imaging and Communications in Medicine (DICOM) stanrdard.
+http://dicom.nema.org/medical/dicom/current/output/html/part01.html.
+accessed on 19/05/2021.
+
+[37] Cleverson Vieira, Marcus Oliveira, Marcelo Guimarães, Leonardo Rocha, and
+Diego Dias. 2023. Applied Explainable Artificial Intelligence (XAI) in the classification of retinal images for support in the diagnosis of Glaucoma. In *Anais*
+*do XXIX Simpósio Brasileiro de Sistemas Multimídia e Web* (Ribeirão Preto/SP).
+SBC, Porto Alegre, RS, Brasil, 82–90. https://sol.sbc.org.br/index.php/webmedia/
+article/view/25869
+
+[38] Misagh Zahiri Esfahani, Jamileh Farokhzadian, Kambiz Bahaadinbeigy, and Reza
+Khajouei. 2019. Factors influencing the selection of a picture archiving and
+communication system: A qualitative study. *The International journal of health*
+*planning and management* 34, 2 (2019), 780–793.
+
+
+36
+
+
+-----
+

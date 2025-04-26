@@ -1,0 +1,1103 @@
+# **Twitter and the 2022 Brazilian Elections Portrait:** **A Network and Content-Driven Analysis**
+
+## Larissa Malagoli
+#### larissagomes@dcc.ufmg.br Universidade Federal de Minas Gerais
+## Carlos H. G. Ferreira
+#### chgferreira@ufop.edu.br Universidade Federal de Ouro Preto
+### **ABSTRACT**
+
+The influence of online social networks on people’s actions and
+beliefs has grown significantly over the past decade, impacting
+everyday life. This is especially evident in Brazil, where these platforms have been instrumental in disseminating political content
+rapidly and widely. In this work, we aim to understand how the political debate surrounding the Brazilian elections of 2022 on Twitter
+unfolds through different levels of user engagement. We provide a
+content analysis that unveils the main topics discussed by different
+users, regardless of the strength of their interactions. Our results
+enrich the understanding of how online discussions evolved on
+social media during this important event in the recent history of
+democracy in Brazil.
+### **KEYWORDS**
+
+2022 Brazilian Elections, Network Modeling, Online Discussions,
+Twitter, Natural Language Processing
+### **1 INTRODUCTION**
+
+Online Social Media Platforms (OSMPs) have served as one of
+the main stages for the organization and development of many
+significant social movements worldwide, from health [ 8, 21 ] to
+politics [ 9, 34 ]. Platforms such as (former) Twitter [1] [ 30 ], WhatsApp
+
+[ 25, 26, 29 ] and Telegram [ 37 ], have been the focus of many works
+that aimed to analyze how information is disseminated in such
+platforms and its implications to societies.
+This scenario is no different in Brazil, where OSMPs have been
+mainly used for political debates. Several studies in the literature
+
+[ 3, 4, 10, 12, 16, 17, 20, 27, 29, 31, 34, 37 ] characterized the Brazilian political debates across a variety of platforms. In contrast to
+previous work that focused on Twitter, we here provide a more
+comprehensive analysis of the Brazilian political landscape of 2022
+by using network modeling and backbone extraction methods to
+show how the political debate unfolds through different levels of
+user engagement and diffusion. To accomplish this, we crawled
+Twitter to collect about 741K shared tweets covering the days of
+the two election. We then model the information spread during
+
+1 Twitter has been recently rebranded as X. Yet, we maintain the reference to the old
+platform´s name as our study relies on features commonly associated with it.
+
+In: Proceedings of the Brazilian Symposium on Multimedia and the Web (WebMe
+dia’2024). Juiz de Fora, Brazil. Porto Alegre: Brazilian Computer Society, 2024.
+© 2024 SBC – Brazilian Computing Society.
+ISSN 2966-2753
+
+## Giovana Piorino
+#### giovana.piorino@dcc.ufmg.br Universidade Federal de Minas Gerais
+## Ana Paula Couto da Silva
+#### ana.coutosilva@dcc.ufmg.br Universidade Federal de Minas Gerais
+
+each round using a media-centric network that connects users who
+shared the same content (overall network) and employ backbone
+extraction methods to identify the group of users who frequently
+share the same pieces of information [ 18, 33 ]. These users are placed
+in the core of the media-centric network, thereby driving the election debate on Twitter. Finally, we analyzed the text shared by the
+users from three different (yet complementary) perspectives: topic
+extraction, sentiment analysis, and psycholinguistic analysis.
+Our main findings are as follows: (i) The identification of backbone networks reveals a set of users engaged through stronger
+interactions. This structured network may prompt these users to
+act more cohesively in promoting specific content, thereby influencing discourse on a particular topic. (ii) The topics diffused by
+users in backbones differ from those shared by the overall network. Interestingly, the most shared topics in these backbones, not
+present in the overall network, are more aligned with supporting
+the candidate Luis Inácio Lula da Silva and celebrating his victory.
+(iii) There is a small set of users who shared a significant amount
+of information across both election rounds, with a higher potential
+to reach a larger audience due to their above-average number of
+followers in our dataset.
+### **2 RELATED WORK**
+
+Our work is not the first to examine the Brazilian political scenario on OSMPs. The authors in [ 25, 26 ] analyzed the messages
+exchanged on WhatsApp during the 2018 Brazilian general elections. Similar to our work, the authors built a network based on
+users that shared the same content messages in one or more groups.
+They also employed backbone extraction techniques to search for
+strongly connected user communities to evidence possible coordination actions in sharing specific content. In the same direction,
+Machado *et al.* [ 20 ] explored misinformation in WhatsApp content
+during the same election period. The main results showed that viral
+content in WhatsApp groups was mainly based on hate speech
+and fake news. In [ 3 ], the authors characterized the tweets of preelection advertisement for the 2016, 2018 and 2020 elections. By
+applying psycholinguistic and sentiment analysis techniques, the
+results showed that early advertisements are usually negative or
+neutral, with the neutral sentiment growing over time, and there is
+a pattern in the use of hashtags and links, along with mentions to
+
+entities.
+Focusing specifically on the 2022 Brazilian elections, the study of
+Venâncio et al . [37] applied the methodology of backbone extraction
+
+
+283
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Larissa Malagoli, Giovana Piorino, Carlos H. G. Ferreira, and Ana Paula Couto da Silva
+
+
+to search for evidences of coordination in the information dissemi
+nation on Telegram. This study not only highlighted the growing
+influence of messaging apps on political mobilization, but also contributed to the understanding of digital communication strategies in
+modern electoral contexts. The authors in [ 23 ] collected data from
+an online experiment where participants built personalized government programs by combining policies proposed by the candidates
+of the 2022 French and Brazilian presidential elections, identifying
+polarizing proposals. Santana *et al.* presented a study that analyzed
+the use and engagement of the TikTok profiles of the two leading
+candidates: Lula and Bolsonaro [ 31 ]. The authors in [ 17 ] applied
+sentiment analysis in order to identify gender bias on comments
+on YouTube in the 2018 and 2022 elections.
+
+In the context of Twitter, Silva and Faria [ 34 ] analyzed the sentiments expressed by Twitter users regarding the presidential candidates, with the aim of verifying whether the candidates’ performance is related to their popularity on social media. The authors in
+
+[ 32 ] analyzed the opinions of Brazilians about the candidates using
+machine learning techniques. The work in [ 4 ] investigated how
+sentiment analysis was a prominent factor in interpreting the possible relationship between the opinions of social media users and the
+final result of the 2018 elections in Brazil. Paiva *et al.* focused on
+understanding how some feminist causes were addressed during
+the elections [ 27 ]. Finally, the authors in [ 16 ] developed a methodology, which is a similar approach used in our work, to discover
+the contribution of specific groups to network polarization.
+The investigation we offer here complements the aforementioned
+studies and greatly builds on their findings by offering a broader
+set of analysis on a large Twitter dataset. We rely on backbone extraction methods to show how the political debate unfolds through
+different levels of users’ engagement. Our results enrich the understanding of how online discussions evolved on social media during
+this important event in the recent history of democracy in Brazil.
+### **3 METHODOLOGY**
+
+This section describes our methodology, including data collection,
+modeling and analysis.
+### **3.1 Dataset**
+
+We collect Portuguese-language tweets shared during the two
+rounds of 2022 Brazilian general elections, occurred on October
+2 *[𝑛𝑑]*, 2022 and October 30 *[𝑡ℎ]*, 2022.
+The collection was done using the Twitter API Search. [2] We built
+a list of keywords that include terms such as the official election
+keyword used by the Twitter and the most important presidential
+candidates. Specifically, we consider the following list of keywords:
+*Eleições2022* [3] *, Lula, Bolsonaro, Ciro, SimoneTebet* . [4]
+
+Table 1 show the total number of unique tweets and retweets
+for each keyword, after filtering tweets with at least two users
+in the dataset that retweeted that message. Furthermore, tweets
+with the same ID that contain multiple keywords were counted
+only once. We analyzed approximately 741K shared tweets across
+
+2 https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/apireference/get-search-tweets
+3 Elections2022
+4 These candidates accounted for over 98% of all votes.
+
+
+the two election rounds. As expected, in our dataset the official
+Twitter general election keyword ( *Eleições2022* ) is the most shared
+one, followed by the keywords with the name of the two main
+presidential candidates.
+
+**Table 1: First and Second Round Datasets.**
+
+**Keywords** **First Round** **Second Round**
+**# Unique** **# Unique**
+**# Retweets** **# Retweets**
+**Tweets** **Tweets**
+
+*Elei* *ç* *ões2022* 2,145 186,594 875 153,525
+*Bolsonaro* 3,771 154,165 2,716 112,840
+
+*Lula* 3,094 100,066 2,930 96,546
+
+*Ciro* 1,705 44,185 445 11,995
+
+*SimoneTebet* 4 64 4 197
+
+**Total** 8,774 409,956 5,835 331,175
+
+To provide a first overview of our data, we look into the contents
+of the collected retweets. We do so by showing in Figure 1 the word
+clouds with the top 100 most frequent words (in numbers of the
+retweets) during the first and second election rounds. In the first
+round (Figure 1.a) we note that elections related words are predominant, such as *vote* and *president* . Interestingly, the term electronic
+voting machine is also one of the most used terms, probably due to
+the suspicion about its credibility raised by the supporters of Jair
+Bolsonaro candidate. [5] During the second round word cloud (Figure
+1.b), we observe the presence of words celebrating the victory of
+the Luis Inácio Lula da Silva, such as *victory*, *lulapresidente2022*,
+*democracy* . Finally, it is worth noting the presence of the word
+*Northeast* in both election rounds, which is a Brazilian region in
+which Lula has many supporters. [6]
+### **3.2 Network Modeling**
+
+To investigate the 2022 election debate on Twitter, we employed a
+network model, known as *media-centric* network, which connects
+users who shared similar content [ 5, 18, 25, 26 ]. By analyzing the
+properties of such media-centric networks, we are able to determine
+which actors contribute the most to content propagation.
+We built two graphs, where each graph represents a mediacentric network capturing the user sharing patterns during each
+election round. In each graph *𝐺* ( *𝑉, 𝐸* ), a node *𝑣* ∈ *𝑉* corresponds
+to a user who retweeted a tweet, and an undirected edge *𝑒* =( *𝑣* *𝑖*, *𝑣* *𝑗* )
+is included in *𝐸* if the users corresponding to *𝑣* *𝑖* and *𝑣* *𝑗* shared the
+same tweet (exactly the same textual content) at least once. The
+weight of *𝑒* is the number of tweets both users shared in common.
+The total amount of retweets shared across each network is the
+
+sum of all edge weights.
+### **3.3** **Key Users Identification**
+
+In addition to providing a general overview of content dissemination on Twitter, the media-centric network model allows us to
+identify the group of users who frequently share the same pieces of
+
+5 https://www.nytimes.com/2022/09/29/world/americas/election-bolsonaro-brazilfraud.html?smid=url-share
+6 https://www.cnnbrasil.com.br/politica/nordeste-e-a-unicaregiao-em-que-lula-obteve-mais-votos-que-bolsonaro-confira/
+https://www.theguardian.com/world/2022/nov/01/brazil-election-how-lula-won-therunoff-from-sao-paulo-to-the-north-east
+
+
+284
+
+
+-----
+
+Twitter and the 2022 Brazilian Elections Portrait: A Network and Content-Driven Analysis WebMedia’2024, Juiz de Fora, Brazil
+
+(a) First Round. (b) Second Round.
+
+**Figure 1: Retweets’ word clouds.**
+
+
+information, thereby driving the election debate on Twitter. Here,
+we denote these users as *key users* .
+We next focus on finding pairs of users whose sharing patterns
+are non-random (strong). In other words, we filter out noisy or
+sporadic edges, revealing only pairs of users whose shared tweets
+deviate disproportionately from the expected number of content
+shares. To that end, we used the DF+NB network backbone extraction method from the literature to filter out weaker edges, thus
+retaining only stronger edges [ 18 ]. DF+NB method combines the
+Disparity Filter method [ 25, 33 ] with the concept of Neighborhood
+Overlap. Specifically, DF considers as reference model for a user
+sharing content independently of the others a uniform distribution
+of the edge weights incident to the corresponding node. Thus, an
+edge ( *𝑣* *𝑖* *, 𝑣* *𝑗* ) is retained in the backbone if its weight greatly deviates
+(from a statistical point of view) from this reference model for both
+*𝑣* *𝑖* and *𝑣* *𝑗* . This method effectively highlights edges that demonstrate
+consistent and repeated behavior between pairs of users. With the
+Neighborhood Overlap filter, DF+NB goes further by removing peripheral and bridge connections, focusing on edges between users
+with common neighbors who also share similar patterns of content
+dissemination. DF+NB showed to be more effective in scenarios
+with high levels of noise, as data collected from Twitter [18].
+To parametrize the DF+NB method, we set *𝛼* = 0 *.* 05, which represents the evidence of the existence of users whose shared same
+
+content [ 13 ]. This parameter is the p-value used to test against the
+assumption of uniform distribution for independent behavior. For
+the filter based on the neighborhood overlap metric, we assume the
+threshold given by the 95 *[𝑡ℎ]* percentile of the neighborhood overlap
+distribution.
+
+After extracting the backbone of each graph, we applied the
+widely used Louvain community detection algorithm [ 2 ] to identify
+and analyze patterns of user groupings and their organization in
+each backbone. The goal of the Louvain algorithm is to maximize
+community modularity, which is a key metric representing the
+density of connections within communities compared to a hypothetical random network. Modularity values range from -0.5 to +1,
+with higher scores (above 0.3) indicating well-defined community
+structures [24].
+### **3.4 Content Analysis**
+
+Besides identifying the key users who shared a high volume of
+similar information during the two election rounds, we are also
+interested in characterizing what they were talking about. In other
+
+
+words, this study focuses on retweets to analyze content dissemination and user behavior in the electoral context. To achieve this,
+we analyzed the text shared by them from three different (yet complementary) perspectives: topic extraction, sentiment analysis, and
+psycholinguistic analysis.
+
+*3.4.1* *Topic Extraction.* To identify the debated topics, we applied
+the BERTopic model [ 14 ], which was proved to be one of the best
+models for the analysis of short-text data [6].
+The process of BERTopic begins with converting a collection
+of retweets into vector representations using the BERTimbau, a
+Portuguese language pre-trained model as a base for the transformer in order to improve the performance [ 11, 22, 28, 35 ]. Subsequently, the dimensionality of these vectors is reduced using the
+*Uniform Manifold Approximation and Projection for Dimension Re-*
+*duction* (UMAP) technique, enhancing the efficiency of subsequent
+clustering processes. Following the dimensionality reduction, the
+*Hierarchical Density-Based Spatial Clustering of Applications with*
+*Noise* (HDBSCAN) algorithm groups these low-dimensional vector
+representations into clusters based on semantic similarities. These
+clusters (or documents) are then analyzed using the *Class-based*
+*Term Frequency-Inverse Document Frequency* (c-TF-IDF) technique
+to identify distinctive words for each cluster, thereby defining the
+topics associated with each group of retweets. Here, the *Maxi-*
+*mal Marginal Relevance* (MMR) parameter was applied in order to
+achieve better diversification between the topics’ keywords. This
+parameter limits the number of duplicated words among the topics,
+comparing word embeddings with topic embedding. It also leads
+to a less occurrence of synonyms among the topics, making them
+more concise and avoiding redundancy.
+For the parameterization, we followed the recommendations
+in the BERTopic documentation to find a balanced compromise
+between the number of topics and the size of the dataset. [7] As a
+result, we obtain the following parameterization: the number of
+neighbors and the component parameters required by UMAP were
+set to 10 and 5, respectively. The minimum topic size was set to
+5, which controls the minimum number of unique retweets on a
+topic. The minimum number of words required to visualize topics
+contents was set to 20, in order to inform broader content about
+the topics’ subjects and their relation to the elections. Finally, MMR
+was adjusted to 0.6 (on a scale of 0 to 1).
+
+7 https://maartengr.github.io/BERTopic/
+
+
+285
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Larissa Malagoli, Giovana Piorino, Carlos H. G. Ferreira, and Ana Paula Couto da Silva
+
+**Table 2: Characterization of the topology of the networks and backbones.**
+
+**# Comm.**
+**Network Date** **# Nodes** **# Edges** **Tweets Retweets** **Avg.** **Avg.** **# Comm.** **With >** **Modul.**
+**(%)** **(%)** **Degree** **[Density]** **Clustering** **[# Components Size Giant]** **Comp.** **10 Users**
+
+Complete 1st Round 71,585 192,539,317 8,774 409,956 5,379.32 0.075 0.6955 13 71,559 25 9 0.38
+DF+NB 1st Round 5,192 (7.25%) 137,165 (0.0712%) 944 67,521 52.84 0.010 0.4261 433 3,658 457 18 0.42
+Complete 2nd Round 60,288 152,603,351 5,835 331,175 5,062.48 0.084 0.6958 14 60,258 20 7 0.35
+DF+NB 2nd Round 3,704 ( 6.14% ) 33,480 ( 0.0219% ) 556 33,637 18.08 0.005 0.4682 308 2,799 335 20 0.68
+
+
+*3.4.2* *Psycholinguistic Analysis.* We delve deeper into the content
+analysis by understanding the psycholinguistic properties of the
+shared text. We rely on the Linguistic Inquiry and Word Count
+(LIWC) lexicon [ 36 ] to categorize words in the text in linguistic
+style, affective and cognitive attributes. We then compute the average frequency of the attributes over the retweets. In our data, we
+identify all 64 attributes, out of the available in LIWC’s Portuguese
+dictionary.
+We then identify attributes that characterize the discourse on
+our data. We rank the attributes according to their capacity to
+discriminate the retweets, estimated by the Gini Coefficient [ 38 ]
+and we use the top-10 to create heatmaps that can better highlight
+attributes associated with our dataset.
+
+The heatmap cells in a column indicate the relative deviation of
+the given attribute for the given keyword from the other keywords.
+In other words, each column (attribute) is normalized following the
+z-score – i.e., *𝑧* = ( *𝑥* − *𝑚𝑒𝑎𝑛* )/ *𝑠𝑡𝑑* . Thus, each value gets subtracted
+from the average of the column, then divided by the standard deviation of the column. Locations are color-coded red (resp. blue)
+when the attribute is more (resp. less) present than the average.
+
+*3.4.3* *Sentiment Analysis.* Finally, we study the sentiments expressed by individuals debating the elections on Twitter. For this
+purpose, we used the XLM-RoBERTa [8] ( *Cross Lingual Language*
+*Model - Robustly Optimized BERT-Pretraining Approach* ) model,
+which is available on the Hugging Face library. This model is a
+fine-tuned version of RoBERTa [ 19 ], trained on a Twitter database
+containing 198 million multilingual tweets, with Portuguese being
+the second most frequently occurring language in these tweets. The
+XLM-RoBERTa model returns the probabilities of a particular tweet
+being classified as positive, negative, or neutral. In our analysis,
+we classify the sentiment of a tweet as the class with the highest
+probability assigned by the model.
+### **4 RESULTS**
+
+This section presents our results and their findings.
+### **4.1 Topological Analysis**
+
+Table 2 shows the analysis of the network topologies for the two
+events of interest, revealing distinct structures between the complete networks and their respective backbones. DF+NB significantly
+reduces the weak links in both graphs, leading to reductions in the
+number of nodes and edges. Considering the first round, the complete network consists of 71,585 nodes and 192,539,317 edges with
+an average degree of 5,379.32. In contrast, applying the DF+NB
+method reduces this network to 5,192 nodes and 137,165 edges. In
+
+8 https://huggingface.co/docs/transformers/model_doc/xlm-roberta
+
+
+the second round, instead, the complete network consists of 60,288
+nodes and 152,603,351 edges with an average degree of 5,062.48.
+Applying the DF+NB method reduces this network to 3,704 nodes
+and 33,480 edges. Both backbones highlight the users who are most
+active in sharing content: they retweeted, approximately, 16% and
+10% of the produced tweets.
+Our results also show the increase in the modularity metric,
+especially regarding the backbones. This suggests a highly connected and structured community networks, showing the potential
+of DF+NB in filtering out noise in the data. Moreover, this increase
+in modularity reveals the growing complexity of the interaction network across the two election rounds, which is further highlighted
+by the rise in the number of larger communities in the resulting
+topologies.
+*Takeaway.* The identification of backbone networks reveals a set
+of users engaged through stronger interactions. This structured network may prompt these users to act more cohesively in promoting
+specific content, thereby influencing the discourse.
+### **4.2 Content Analysis**
+
+Here, we split our content analysis into two types of dissemination:
+*widespread dissemination*, which examines the complete mediacentric networks of the two election rounds, and *key users’ dissemi-*
+*nation*, where we analyze only the retweets shared by the users in
+the backbones. While the former provides a broader overview of
+the debate surrounding the theme we are interested in, the latter
+allows us to delve deeper into the core of the discussion, filtering
+out the weak interactions that may obscure the main topics and
+concerns regarding the Brazilian elections.
+
+*4.2.1* *Widespread Dissemination.* We first look at the disseminated
+topics by all Twitter users in our dataset. This analysis was performed using the BERTopic model for the tweets disseminated
+over the two election rounds. Initially, 192 topics were identified
+through the application of BERTopic. However, in order to focus
+our analysis on the most influential discussions, we prioritize the
+20 most popular discussed topics, in number of retweets, being able
+to shed light on the predominant themes of the Twitter users. Table
+3 provides a comprehensive overview of the final topics, including
+the most discriminating words and a brief description of each topic.
+Topics 1, 2, 3, 7, 11, 13, 14 and 18 are mainly related to Lula’s
+victory. Topics 1 and 18 highlight the Brazilian regions in which
+Lula was the candidate winner as well as the fact that the United
+States President, Joe Biden, was a one of the first to internationally
+recognize and congratulate Lula’s victory. [10] To illustrate, the most
+
+10 https://www.whitehouse.gov/briefing-room/statementsreleases/2022/10/30/statement-by-president-joe-biden-congratulating-luiz-inaciolula-da-silva-as-president-of-brazil/
+
+
+286
+
+
+-----
+
+Twitter and the 2022 Brazilian Elections Portrait: A Network and Content-Driven Analysis WebMedia’2024, Juiz de Fora, Brazil
+
+**Table 3: Top discussion topics found on Twitter.**
+
+**ID** **#** **#** **Most Discriminative Words** **Description**
+
+**Tweets** **Retweets**
+
+1 587 48978 inácio, silva, luiz, president, biden, elected, vic- Discusses President Lula’s victory in the election in the second round
+tory, new, brazil, luis and the possibility of his upcoming victory during the first round. Cites
+Joe Biden, president of the United States, who was one of the first international fi g ures to reco g nize Lula’s election.
+2 473 30496 elections2022, turn, turned, lulanofirstturn13, Regarding the turnaround in votes that Lula had, when the votes from
+northeast, elections2022, lulapresident1, elec- the northeast began to be counted.
+tions2022, turnaround, lulinha
+
+3 76 28892 supporters, celebrating, turnaround, victory, Refers to Lula’s victory and the voters’ celebration.
+p art y, celebrate, streets, brasília, a g ainst, p etista
+
+4 167 24892 way, third, fault, simone, chance, second, have, Mentions the discourse of a third way of opposition to Lula and Bolsonaro,
+ciro, y ou, voted q uotin g candidates Ciro Gomes and Simone Tebet.
+5 97 22882 history, times, time, re-election, since, 1st, pres- Topic that debates about the possibility of reelection of Bolsonaro and
+ident, re-elect, term, succeeds the fact of him bein g the first Brazilian p resident to not be re-elected.
+6 145 18158 mourning, thousand, pandemic, 700, covid, Issues and fatalities that occurred during Bolsonaro’s administration in
+deaths, dead, p eo p le, lost, durin g the COVID-19 p andemic p eriod.
+7 293 14738 over, nightmare, goodbye, won, bye, lulapresi- Electoral opponents of the Bolsonaro government celebrating the election
+dent2022, end, well, above, finall y results.
+8 65 13181 deputy, federal, paulo, ferreira, voted, mg, niko- Mentions the State’s Elections for House of Representatives and Senate.
+las, elected, p araná, senator
+
+9 42 12755 elected, federal, woman, first, paulo, historic, Comments on the electoral victory of women for the position of consenate, all, damares, a g ainst g resswomen.
+10 25 11790 stupid, general, voting, others, vote, for him, Criticizes voters for their decision to vote on polemic candidates from
+enou g h, re g ions, minas, ri g ht far ri g ht, includin g Bolsonaro.
+11 124 11604 thank you, thank you, congratulations, god, People celebrating and thanking the Brazilian democracy regime with
+g ood, democrac y, countr y, all, sir, above Lula’s election.
+12 60 11202 lost, neymar, fall, equal, lose, falling, stick, cup, Mentions terms related to the World Cup, which took place close to the
+this, in this election p eriod.
+13 40 11181 lo, lulapresident2022, let’s go, turn, big, lulapres- Talks about Lula’s victory and his first speech.
+ident1, victor y, moment, luiz, listen
+
+14 53 11140 urgent, missing, only, less, missing, thousand, Refers to the first round when Lula led with 48.43% of the votes and
+victor y, lulaonFirstRound13, elections2022, g ive almost was elected and the victor y of Lula in second round.
+15 51 10758 was, fraud, winning, won, good, right, talking, Debates about the turnaround, with some users using the discourse of
+u p, the, turned electoral fraud.
+16 168 10030 zema, minas, nikolas, strange, general, some- Discussion of the voting outcomes for the state of Minas Gerais, debating
+thing, mg, winning, wrong, vote on how the senate and governor votes were for far right candidates, but
+the most voted for p resident in the re g ion was Lula.
+17 477 9902 voted, simone, blank, null, asshole, voted, ciro, Critics on null votes and about votes for the third and fourth place candig et, y ou, dick dates of the p residential election.
+18 53 9704 states, leads, northeast, all, general, leading, mi- Comments on the regions of Brazil that Lula was leading the dispute.
+nas, bahia, re g ion, mato
+
+19 263 9454 street, you, are, any, stay, what, someone, any, A topic with common used words in tweets in Portuguese, commenting
+tweet, p eo p le the event.
+20 41 9367 first, woman, elected, federal, PT, paulo, new, Discusses the first trans women elected for different Brazilian states as
+somethin g, su pp ort, s p con g resswomen.
+
+
+retweet content in topic 18 (4,419 retweets) is: *Lula leads in all*
+*states of the Northeast* . Furthermore, discussions also celebrate *the*
+*victory of democracy*, reflecting disapproval of the previous Brazilian
+president’s governance.
+Some topics reveal the main themes that attracted attention
+during the elections. For instance, topic 15 focuses on a recurring
+theme consistently explored by far-right supporters: the possibility
+of election fraud. Topics 4 and 17 underscore the spread of discussions surrounding the concept of the *third way*, an alternative
+proposed by certain individuals aiming to circumvent the polarization between the two leading candidates, Lula and Bolsonaro.
+
+
+This approach encourages voters to contemplate voting for candidates such as Simone Tebet and Ciro Gomes [11] . Topic 6 reflects the
+controversial decisions taken during the period of the COVID-19
+pandemic by Jair Bolsonaro’s government. [12]
+
+Besides the discussion around the presidential candidates, our
+data also highlights retweets about the states’ government elections
+as well as the deputy elections. Topics 8 and 16 focus on the discussion around candidates from Minas Gerais state. In particular, topic
+
+11 https://www.lemonde.fr/en/international/article/2022/09/28/brazil-election-thirdway-candidates-gain-little-ground-against-lula-and-bolsonaro_5998463_4.html
+12 https://www.kcl.ac.uk/covid-19-in-brazil-how-jair-bolsonaro-created-a-calamity
+
+
+287
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Larissa Malagoli, Giovana Piorino, Carlos H. G. Ferreira, and Ana Paula Couto da Silva
+
+**Table 4: Top 20 discussion topics found on Twitter for backbones.**
+
+**ID** **#** **#** **Most Discriminative Words** **Description (New Topics Only)**
+
+**Tweets** **Retweets**
+
+1 587 8005 inácio, silva, luiz, president, biden, elected, victor y, new, brazil, luis
+2 473 5865 elections2022, turn, turned, lulanofirstturn13,
+northeast, elections2022, lulapresident1, elections2022, turnaround, lulinha
+
+3 76 3893 supporters, celebrating, turnaround, victory,
+p art y, celebrate, streets, brasília, a g ainst, p etista
+4 79 3684 difference, falls, million, less, fell, thousand, 46, Highlights the difference between Lula’s and Bolsonaro’s votes
+onl y, elections2022, votes
+
+5 53 3112 urgent, missing, only, less, missing, thousand,
+victor y, lulaonFirstRound13, elections2022, g ive
+6 97 2987 history, times, time, re-election, since, 1st, president, re-elect, term, succeeds
+7 42 2732 elected, federal, woman, first, paulo, historic,
+senate, all, damares, a g ainst
+8 56 2418 must, minutes, prf, 19, 10, next, in this, night, Discuss the projections by major news agencies, which estimate that Lula
+g lobo, cam p ai g n would sur p ass Bolsonaro in votes
+9 41 2179 first, woman, elected, federal, PT, paulo, new,
+somethin g, su pp ort, s p
+10 177 2126 2nd, datafolha, 1st, round, second, presidential, DataFolha survey indicating a high likelihood of second-round runoffs
+elections2022, g overnor, will, need for the p residential race
+11 53 1976 states, leads, northeast, all, general, leading, minas, bahia, re g ion, mato
+12 167 1874 way, third, fault, simone, chance, second, have,
+ciro, y ou, voted
+13 65 1838 deputy, federal, paulo, ferreira, voted, mg, nikolas, elected, p araná, senator
+14 45 1776 advantage, over, continues, determined, 47, 90, After the majority of voting machine results were cleared, Lula was
+million, ballots, leadershi p, almost leadin g the race, s p arkin g wides p read discussion amon g voters
+15 83 1667 northeast, arriving, always, north, pará, elec- Tweets celebrating the Northeast region votes were being counted, which
+tions2022, bahia, re g ion si g nificantl y im p acted the votin g results in favor of Lula
+16 69 1652 health, want, education, people, good, freedom, Concerns about education and health issues
+life, live, g overn, because
+
+
+17 40 1565 lo, lulapresident2022, let’s go, turn, big, lulapresident1, victor y, moment, luiz, listen
+18 64 1526 turn, delicious, lulinha, lulapresident, lulanomelhorturno13, calm, elections2022, god, turned,
+northeast
+
+
+Tweets with the use of "He who laughs last, laughs best" to comment on
+Lula’s victory in the election results.
+
+
+19 293 1454 over, nightmare, goodbye, won, bye, lulapresident2022, end, well, above, finall y
+20 37 1443 amazons, pandemic, during, vote, for him, Controversial outcomes arose from the presidential election in the state
+shame, seems, man y, leadin g, leads of Amazonas, due to Bolsonaro’s actions durin g the COVID-19 crisis [9]
+
+
+16 raised questions about the apparent contradictions in the voting
+patterns, where state voters gave victory to Lula as president while
+simultaneously voting predominantly for far-right candidates for
+the state government, deputies, and senators. Moreover, topics 9
+and 20 are related with the increase of the number of elected female
+
+candidates in 2022 elections.
+
+Figure 2 shows the percentage of retweets per topic in each round.
+As expected, some topics were more prominent in one election
+round than in the other, due to the nature of the discussions. For
+instance, the elections for the chamber of deputies and senators
+(topics 8, 10, 16 and 18), as well as Lula’s victory (topics 1, 3, 11
+and 13), were more prominent in specific rounds. However, some
+
+
+topics were broadly discussed almost equally in both rounds (topics
+2, 15, 19 and 20). Among these topics we highlight the topic 15,
+which was related to possible frauds in the election, a theme highly
+explored mainly by the far-right voters, through the dissemination
+of fake news and misinformation about the matter. [13]
+
+We now turn our attention to the psycholinguistic analysis of the
+debate. Figure 3 shows the results. In the first round, we emphasize
+the notable presence of words related to *home, money, assent, see*
+*and sexual* . Retweets containing words associated with *home* often
+depict individuals describing their voting experiences (leaving their
+
+13 https://www.nytimes.com/interactive/2022/10/25/world/americas/brazilbolsonaro-misinformation.html
+
+
+288
+
+
+-----
+
+Twitter and the 2022 Brazilian Elections Portrait: A Network and Content-Driven Analysis WebMedia’2024, Juiz de Fora, Brazil
+
+
+100
+
+
+
+80
+
+60
+
+40
+
+20
+
+0
+
+|Col1|Col2|
+|---|---|
+|||
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+
+Topics
+
+**Figure 2: Percentage of normalized retweets per topic.**
+
+homes to go vote) [14] or discussing family-related matters such as
+losses due to the COVID-19 pandemic. [15] Money related words
+are mainly related to economical concerns. In the second round,
+retweets frequently use words regarding *death, friend, religion* and
+*positive emotion* . Interestingly, religion (moral and religious concerns) was actually a theme highly emphasized by Bolsonaro’s
+campaign. [16] Positive emotions were probably expressed by the
+Lula’s supporters due to his victory. Death, instead, was closely
+related to the retweets regarding the COVID-19 pandemic and the
+way Bolsonaro’s government deals with it.
+
+0 *.* 50 0 *.* 75 1 *.* 00 1 *.* 25 1 *.* 50
+
+Assent
+
+Death
+
+Friend
+
+Home
+
+Money
+Nonfluencies
+Positive Emotion
+
+See
+
+Sexual
+
+Religion
+
+First Round Second Round
+
+**Figure 3: Top-10 LIWC attributes (Complete networks).**
+
+Finally, we focus on the sentiment analysis. Table 5 shows the
+overall sentiment distribution of the retweets. Negative sentiments
+dominate across both election rounds. However, the percentage
+of positive retweets increases by 2.2 times in the second round,
+corroborated by the increase in positive emotion-related words in
+the retweets (see Figure 3).
+We go further in our analysis by presenting the sentiment breakdown by topic. Figure 4 summarizes the *contrastive score*, calculated
+as the difference between the fraction of positive and negative
+retweets. Across both rounds, negative sentiment predominates
+
+14 "They abused the public sector, lied, threatened believers and employees, attempted
+a coup, used the police to stop voters on their way to vote. It didn’t help. “Good
+evening, President Lula! - popular resistance won.” Read and enjoy @Maufalavigna
+#DomingoDetremuraSDV"
+15 "The route from home to the polling place passes through my work and the UBS
+where I took the 4th dose (the one in the photo). On the way, all I could think about
+was the 9 patients I lost. In my mother’s desperation for me to get vaccinated... While
+Bolsonaro was riding a jet-ski. #Eleicao2022"
+16 https://edition.cnn.com/2022/10/29/americas/brazil-elections-gun-religion-intllatam/index.html
+
+
+**Figure 4: Contrasting sentiment score (complete networks).**
+
+overall. Topics 3 and 14, regarding Lula’s victory, were exceptions
+to this trend. The analysis captures an important insight regarding
+the polarized nature of political debate, particularly on platforms
+like Twitter [1, 7, 15].
+
+**Table 5: Sentiment distribution (complete networks).**
+
+**Date** **Ne** **g** **ative** **(** **%** **)** **Positive** **(** **%** **)** **Neutral** **(** **%** **)**
+1st Round 243,098 (60 *.* 1%) 17,791 (4 *.* 4%) 143,333 (35 *.* 5%)
+2nd Round 171,128 ( 53 *.* 3% ) 31,863 ( 9 *.* 9% ) 118,325 ( 36 *.* 8% )
+
+*4.2.2* *Key Users’ Dissemination.* We now turn our attention to the
+content diffused by the *key users*, whose belong to the DF+NB
+backbones. Their interactions extend beyond random occurrences,
+being in the core of the discussion across the analyzed Twitter
+networks.
+
+Table 4 lists the top 20 topics retweeted by these users. Twelve of
+these topics are the same as those shared by all users in the complete
+networks, though they may appear in a different order. Analyzing
+the complementary set of topics, we observe that these topics are
+more related to Lula’s performance in the election, as well as to
+some issues usually raised by the opposition to Bolsonaro, such as
+concerns about previous government actions towards education,
+health, and the COVID-19 crisis. We also note that the majority of
+retweets in the top 20 for the backbones are related to discussing
+or celebrating Lula’s victory.
+Our data unveils interesting changes in the psycholinguistic
+attributes of the content shared by users in the extracted backbones.
+Figure 5 shows these results. Words related to *family* prevail in
+the content shared by these users, mainly in the first round. To
+better understanding what users shared in this topic, we manually
+analyzed our data. These messages mainly mentioned Bolsonaro’s
+family, which is strongly involved in politics and has been at the
+center of several controversial situations reported by the media, as
+well as family conflicts due to the political polarization, which was
+a remarkable characteristic of 2022 Brazilian elections. Regarding
+the second election round, retweets with *religion* related words
+attracted more attention of these users.
+
+**Table 6: Sentiment distribution (key users).**
+
+**Date** **Ne** **g** **ative** **(** **%** **)** **Positive** **(** **%** **)** **Neutral** **(** **%** **)**
+1st Round 29,815 (44 *.* 16%) 2,238 (3 *.* 31%) 35,468 (52 *.* 53%)
+2nd Round 15,545 ( 46 *.* 21% ) 4,399 ( 13 *.* 08% ) 13,693 ( 40 *.* 71% )
+
+Lastly, results on the sentiment analysis are shown in Figure
+6 and Table 6. Key users tend to balance the shared content with
+negative and neutral sentiments in both rounds. Unlike users from
+the complete networks, key users shared more tweets with neutral
+
+
+First Round
+
+Second Round
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+
+Topics
+
+
+1.0
+
+0.5
+
+0.0
+
+0.5
+
+1.0
+
+
+289
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Larissa Malagoli, Giovana Piorino, Carlos H. G. Ferreira, and Ana Paula Couto da Silva
+
+
+0 *.* 50 0 *.* 75 1 *.* 00 1 *.* 25 1 *.* 50
+
+Assent
+
+Certain
+
+Death
+
+Family
+Humans
+Nonfluencies
+Positive Emotion
+
+See
+
+Work
+
+Religion
+
+First Round Second Round
+
+**Figure 5: Top-10 LIWC attributes (key users).**
+
+sentiments. Moreover, retweets shared in the second round tend to
+be more positive than those shared by the overall users. Specifically,
+we highlight topic 14, which pertains to Lula’s leadership in the
+second round. These retweets are highly positive, suggesting strong
+support from these users for the possibility of Lula’s victory.
+*Takeaway.* The topics diffused by the users in backbones (core)
+differ from the ones shared by the overall network (with peripheral
+users as well). Interestingly, the most shared topics in backbones
+that are not on the overall networks are more aligned with supporting Lula and celebrating his victory. Sentiments towards the
+content are more positive in the second round, mainly considering the topic in which Lula’s victory is discussed (topic 14). The
+percentage of negative retweets is smaller in the two rounds.
+
+
+First Round
+
+Second Round
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+
+Topics
+
+
+1.0
+
+0.5
+
+0.0
+
+0.5
+
+1.0
+
+
+**Figure 6: Contrasting sentiment score (key users).**
+### **4.3 Persistence Analysis**
+
+We next focus on understanding if the key users persist over time.
+Specifically, we consider the users in DF+NB and analyze the dynamics of these users over the two election rounds.
+
+A total of 624 users, representing 7% of users on the DF+NB
+backbones, shared information across the two rounds. This small
+percentage of users demonstrated significant activity, retweeting
+almost 22% of the messages shared across the events of interest
+for the backbones. All persistent users are non-verified users [17]
+
+and they have, in general, more followers than the users in the
+complete network. [18] Due to space constrains, we focus our final
+discussion on the main topics persistent users boost the most within
+Twitter networks. The most shared topics by the persistent users are
+almost the same that those shared by the key users, except by one
+topic with the following most discriminative words: *bahia, millions,*
+*cleared, still, people, day, voting, missing, voted*, which focuses on
+Lula’s leadership in the second round, with a significant margin of
+votes in the state of Bahia.
+
+17 Our data were collected previous the introduction of plans to buy the blue ticks.
+18 We omitted the probability distribution due space constraints.
+
+
+*Takeaway.* Although the set of persistent users is small (7%), our
+results suggest that they play an important role in content diffusion
+by the key users, accounting for 22% of the retweets. The topics
+they share are almost identical to those shared by the key users, and
+their potential to reach a larger audience is higher than that of users
+in the complete networks, as they typically have more followers.
+### **5 DISCUSSION**
+
+The influence of online social networks on people’s actions and
+beliefs has grown significantly over the past decade, impacting
+everyday life. Regarding politics, these platforms provide citizens
+with a way to voice their opinions and connect with other voters
+through content dissemination. In this work, we characterized the
+debate surrounding the Brazilian elections of 2022 on Twitter by
+exploring the shared content among users’ interactions. We conducted our analysis over two types of interactions: the weak ones,
+which tend to be randomly made by the involved users (mainly on a
+*noisy* network, such as Twitter), and the strong ones, which are consistently made by a set of core users. The core users were identified
+through backbone extraction techniques found in the literature.
+Our findings show that the topics, explored by the overall users
+in both rounds, reflect individuals’ opinions on election results,
+controversies surrounding the previous government, and Brazilian
+political events in general. Among the most shared topics by key
+users, they largely retained the most widely disseminated topics,
+though they diverged slightly by focusing on disseminating more
+topics that supported Lula’s victory or discussed matters against
+previous government decisions, particularly related to the pandemic period and government affairs such as health and education.
+Persistent users, who actively engaged in the debate in both rounds,
+are users with considerable numbers of followers and unverified
+accounts. The main disseminated topics by them were almost the
+same as the ones shared by the key users, underscoring this group as
+a representation of the core network with significant responsibility
+for the topics disseminated.
+The prevalence of psycholinguistic attributes associated with
+*home* (in the first round network) and *family* (in the key and persistent users group) was prominent in the initial round. However,
+in the second round, there was an increase in the use of words
+related to *death, positive emotion* and *religion* . These attributes align
+with expectations regarding topics heavily discussed during these
+elections, such as speeches focusing on religion and family and
+their impact on the general voters, as well as the dissemination
+of information and opinions on deaths during the pandemic and
+Lula’s electoral victory. Negative sentiment prevailed in the debate,
+characterized by contentious issues and high polarization, but the
+dissemination by key users showed more balance, with a significant
+percentage of neutral sentiment as well.
+The main limitation of our analysis is due to the way we collected
+our data. By utilizing a select set of keywords, chosen based on our
+perceived representativeness as the event of interest, we were only
+able to capture a partial view of the overall Twitter debate. Despite
+this limitation, our work enriches the understanding of how the
+2022 Brazilian elections were discussed on Twitter.
+
+**Acknowledgements** The research leading to these results has
+been funded by CNPQ, CAPES and FAPEMIG.
+
+
+290
+
+
+-----
+
+Twitter and the 2022 Brazilian Elections Portrait: A Network and Content-Driven Analysis WebMedia’2024, Juiz de Fora, Brazil
+
+### **REFERENCES**
+
+[1] Peiman Barnaghi, Parsa Ghaffari, and John G. Breslin. 2016. Opinion Mining and
+Sentiment Polarity on Twitter and Correlation between Events and Sentiment.
+In *2016 IEEE Second International Conference on Big Data Computing Service and*
+*Applications (BigDataService)* . 52–57. https://doi.org/10.1109/BigDataService.
+2016.36
+
+[2] Vincent D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, and Etienne Lefebvre. 2008. Fast unfolding of comm. in large networks. *Journal of Statisti-*
+*cal Mechanics: Theory and Experiment* 2008, 10 (oct 2008), P10008. https:
+//doi.org/10.1088/1742-5468/2008/10/P10008
+
+[3] Josemar Caetano, Samuel Guimarães, Marcelo M. R. Araújo, Márcio Silva, Júlio
+C. S. Reis, Ana P. C. Silva, Fabrício Benevenuto, and Jussara M. Almeida. 2022.
+Characterizing Early Electoral Advertisements on Twitter: A Brazilian Case Study.
+In *Social Informatics*, Frank Hopfgartner, Kokil Jaidka, Philipp Mayr, Joemon Jose,
+and Jan Breitsohl (Eds.). Springer International Publishing, Cham, 257–272.
+
+[4] André Cristiani, Douglas Lieira, and Heloisa Camargo. 2020. A Sentiment Analysis of Brazilian Elections Tweets. In *Anais do VIII Symposium on Knowledge*
+*Discovery, Mining and Learning* (Evento Online). SBC, Porto Alegre, RS, Brasil,
+153–160. https://doi.org/10.5753/kdmile.2020.11971
+
+[5] Jose Martins da Rosa, Renan Saldanha Linhares, Carlos Henrique Gomes Ferreira,
+Gabriel P. Nobre, Fabricio Murai, and Jussara M. Almeida. 2022. Uncovering
+Discussion Groups on Claims of Election Fraud from Twitter. In *Proc. of Social*
+*Informatics: 13th International Conference* . https://doi.org/10.1007/978-3-03119097-1_20
+
+[6] Roman Egger and Joanne Yu. 2022. A Topic Modeling Comparison Between LDA,
+NMF, Top2Vec, and BERTopic to Demystify Twitter Posts. *Frontiers in Sociology*
+7 (05 2022). https://doi.org/10.3389/fsoc.2022.886498
+
+[7] Anna Fang and Zina Ben-Miled. 2017. Does bad news spread faster?. In *2017*
+*International Conference on Computing, Networking and Communications (ICNC)* .
+793–797. https://doi.org/10.1109/ICCNC.2017.7876232
+
+[8] Juliana Feitosa, Luiz De Camargo, Eloisa Bonatti, Giovanna Simioni, and José
+Brega. 2023. eXplainable Artificial Intelligence in sentiment analysis of posts
+about Covid-19 vaccination on Twitter. In *Proceedings of the 29th Brazilian Sym-*
+*posium on Multimedia and the Web* (Ribeirão Preto/SP). SBC, Porto Alegre, RS,
+Brasil, 65–72. https://sol.sbc.org.br/index.php/webmedia/article/view/25867
+
+[9] Emilio Ferrara, Herbert Chang, Emily Chen, Goran Muric, and Jaimin Patel. 2020.
+Characterizing social media manipulation in the 2020 U.S. presidential election.
+*First Monday* (2020). https://doi.org/10.5210/fm.v25i11.11431
+
+[10] Carlos HG Ferreira, Fabricio Murai, Ana PC Silva, Jussara M Almeida, Martino
+Trevisan, Luca Vassio, Marco Mellia, and Idilio Drago. 2021. On the dynamics of
+political discussions on instagram: A network perspective. *Online Social Networks*
+*and Media* 25 (2021), 100155.
+
+[11] E Fonseca, L Santos, Marcelo Criscuolo, and S Aluisio. 2016. ASSIN: Avaliacao
+de similaridade semantica e inferencia textual. In *Computational Processing of the*
+*Portuguese Language-12th International Conference, Tomar, Portugal* . 13–15.
+
+[12] Carlos Henrique Gomes Ferreira, Fabricio Murai, Ana Paula Couto da Silva,
+Jussara Marques de Almeida, Martino Trevisan, Luca Vassio, Idilio Drago, and
+Marco Mellia. 2020. Unveiling community dynamics on instagram political
+network. In *Proceedings of the 12th ACM Conference on Web Science* . 231–240.
+
+[13] Carlos Henrique Gomes Ferreira, Fabricio Murai, Ana P. C. Silva, Martino Trevisan, Luca Vassio, Idilio Drago, Marco Mellia, and Jussara M. Almeida. 2022. On
+network backbone extraction for modeling online collective behavior. *PLOS ONE*
+17, 9 (09 2022), 1–36. https://doi.org/10.1371/journal.pone.0274218
+
+[14] Maarten Grootendorst. 2022. BERTopic: Neural topic modeling with a class-based
+TF-IDF procedure. *arXiv preprint arXiv:2203.05794* (2022).
+
+[15] Joshua Guberman, Carol E. Schmitz, and Libby Hemphill. 2016. Quantifying
+Toxicity and Verbal Violence on Twitter. In *Proceedings of the 19th ACM Conference*
+*on Computer Supported Cooperative Work and Social Computing, CSCW 2015, San*
+*Francisco, CA, USA, February 27 - March 2, 2016, Companion Volume*, Darren
+Gergle, Meredith Ringel Morris, Pernille Bjørn, and Joseph A. Konstan (Eds.).
+ACM, 277–280. https://doi.org/10.1145/2818052.2869107
+
+[16] Ruben Interian and Francisco A Rodrigues. 2023. Group polarization, influence,
+and domination in online interaction networks: a case study of the 2022 Brazilian
+elections. *Journal of Physics: Complexity* 4, 3 (Sept. 2023), 035008. https://doi.
+org/10.1088/2632-072x/acf6a4
+
+[17] Andressa Kappaun and Jonice Oliveira. 2023. Análise sobre Viés de Gênero no
+Youtube: Um Estudo sobre as Eleições Presidenciais de 2018 e 2022. In *Anais do XII*
+*Brazilian Workshop on Social Network Analysis and Mining* (João Pessoa/PB). SBC,
+Porto Alegre, RS, Brasil, 127–138. https://doi.org/10.5753/brasnam.2023.230625
+
+[18] Renan S. Linhares, José M. Rosa, Carlos H. G. Ferreira, Fabricio Murai, Gabriel
+Nobre, and Jussara Almeida. 2022. Uncovering Coordinated Communities on
+Twitter During the 2020 U.S. Election. In *Proc. of ASONAM* .
+
+[19] Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer
+Levy, Mike Lewis, Luke Zettlemoyer, and Veselin Stoyanov. 2019. RoBERTa: A
+Robustly Optimized BERT Pretraining Approach. *CoRR* abs/1907.11692 (2019).
+arXiv:1907.11692 http://arxiv.org/abs/1907.11692
+
+
+
+[20] Caio Machado, Beatriz Kira, Vidya Narayanan, Bence Kollanyi, and Philip Howard.
+2019. A Study of Misinformation in WhatsApp Groups with a Focus on the
+Brazilian Presidential Elections.. In *Companion Proceedings of The 2019 World Wide*
+*Web Conference* (San Francisco, USA) *(WWW ’19)* . Association for Computing
+Machinery, New York, NY, USA, 1013–1019. https://doi.org/10.1145/3308560.
+3316738
+
+[21] Larissa G. Malagoli, Julia Stancioli, Carlos H. G. Ferreira, Marisa Vasconcelos,
+Ana Paula Couto da Silva, and Jussara M. Almeida. 2021. A Look into COVID19 Vaccination Debate on Twitter. In *Proceedings of the 13th ACM Web Science*
+*Conference 2021* (Virtual Event, United Kingdom) *(WebSci ’21)* . Association for
+Computing Machinery, New York, NY, USA, 225–233. https://doi.org/10.1145/
+3447535.3462498
+
+[22] Philip May. 2021. Machine translated multilingual STS benchmark dataset. https:
+//github.com/PhilipMay/stsb-multi-mt
+
+[23] Carlos Navarrete, Mariana Macedo, Rachael Colley, Jingling Zhang, Nicole Ferrada, Maria Eduarda Mello, Rodrigo Lira, Carmelo Bastos-Filho, Umberto Grandi,
+Jerome Lang, and César A. Hidalgo. 2023. Understanding Political Divisiveness
+using Online Participation data from the 2022 French and Brazilian Presidential
+Elections. arXiv:2211.04577 [cs.CY]
+
+[24] M. E. J. Newman and M. Girvan. 2004. Finding and evaluating community
+structure in networks. *Phys. Rev. E* 69 (Feb 2004), 026113. Issue 2. https://doi.
+org/10.1103/PhysRevE.69.026113
+
+[25] Gabriel Nobre, Carlos Ferreira, and Jussara Almeida. 2020. Beyond Groups:
+Uncovering Dynamic Communities on the WhatsApp Network of Information
+Dissemination. In *SocInfo’ 2020* .
+
+[26] Gabriel Peres Nobre, Carlos H.G. Ferreira, and Jussara M. Almeida. 2022. A
+Hierarchical Network-Oriented Analysis of User Participation in Misinformation
+Spread on WhatsApp. *Information Processing and Management* 59, 1 (jan 2022),
+21 pages. https://doi.org/10.1016/j.ipm.2021.102757
+
+[27] Beatriz Paiva, Beatriz Barbosa, Ana Silva, and Mirella Moro. 2023. O debate do
+feminismo no Twitter: Um estudo de caso das eleições brasileiras de 2022. In
+*Anais do XII Brazilian Workshop on Social Network Analysis and Mining* (João
+Pessoa/PB). SBC, Porto Alegre, RS, Brasil, 103–114. https://doi.org/10.5753/
+brasnam.2023.230537
+
+[28] Livy Real, Erick Fonseca, and Hugo Goncalo Oliveira. 2020. The assin 2 shared
+task: a quick overview. In *International Conference on Computational Processing*
+*of the Portuguese Language* . Springer, 406–412.
+
+[29] Julio Reis, Philipe Melo, Fabiano Belém, Fabricio Murai, Jussara Almeida, and
+Fabricio Benevenuto. 2023. Helping Fact-Checkers Identify Fake News Stories
+Shared through Images on WhatsApp. In *Proceedings of the 29th Brazilian Sym-*
+*posium on Multimedia and the Web* (Ribeirão Preto/SP). SBC, Porto Alegre, RS,
+Brasil, 159–167. https://sol.sbc.org.br/index.php/webmedia/article/view/25877
+
+[30] Gonzalo A. Ruz, Pablo A. Henríquez, and Aldo Mascareño. 2020. Sentiment
+analysis of Twitter data during critical events through Bayesian Net. class. *Future*
+*Gen. Computer Systems* 106 (2020), 92–104. https://doi.org/10.1016/j.future.2020.
+01.005
+
+[31] Maria Santana, Juliana Lima, Andreiwid Correa, and Kellyton Brito. 2023. Engajamento no TikTok dos candidatos às eleições Brasileiras de 2022 – Resultados Iniciais. In *Anais do XII Brazilian Workshop on Social Network Analysis*
+*and Mining* (João Pessoa/PB). SBC, Porto Alegre, RS, Brasil, 151–162. https:
+//doi.org/10.5753/brasnam.2023.230641
+
+[32] Daiana Santos and Lilian Berton. 2023. Analysis of Twitter users’ sentiments
+about the first round 2022 presidential election in Brazil. In *Anais do XX Encontro*
+*Nacional de Inteligência Artificial e Computacional* (Belo Horizonte/MG). SBC,
+Porto Alegre, RS, Brasil, 880–893. https://doi.org/10.5753/eniac.2023.234511
+
+[33] M. Ángeles Serrano, Marián Boguñá, and Alessandro Vespignani. 2009. Extracting
+the multiscale backbone of complex weighted networks. *Proceedings of the*
+*National Academy of Sciences* 106, 16 (April 2009), 6483–6488. https://doi.org/10.
+1073/pnas.0808904106
+
+[34] Sarah Silva and Elaine Faria. 2023. Análise de sentimentos expressos no Twitter
+em relação aos candidatos da eleição presidencial de 2022. In *Anais do XII Brazilian*
+*Workshop on Social Network Analysis and Mining* (João Pessoa/PB). SBC, Porto
+Alegre, RS, Brasil, 79–90. https://doi.org/10.5753/brasnam.2023.229992
+
+[35] Fábio Souza, Rodrigo Nogueira, and Roberto Lotufo. 2020. BERTimbau: pretrained
+BERT models for Brazilian Portuguese. In *9th Brazilian Conference on Intelligent*
+*Systems, BRACIS, Rio Grande do Sul, Brazil, October 20-23 (to appear)* .
+
+[36] Yla Tausczik and James Pennebaker. 2010. The psychological meaning of words:
+LIWC and computerized text analysis methods. *Journal of language and social*
+*psychology* 29, 1 (2010), 24–54.
+
+[37] Otavio R. Venâncio, Carlos H. G. Ferreira, Jussara M. Almeida, and Ana Paula
+C. da Silva. 2024. Unraveling User Coordination on Telegram: A Comprehensive
+Analysis of Political Mobilization during the 2022 Brazilian Presidential Election.
+*Proceedings of the International AAAI Conference on Web and Social Media* 18, 1
+(May 2024), 1545–1556. https://doi.org/10.1609/icwsm.v18i1.31408
+
+[38] Shlomo Yitzhaki. 1979. Relative deprivation and the Gini coefficient. *The quarterly*
+*journal of economics* (1979), 321–324.
+
+
+291
+
+
+-----
+

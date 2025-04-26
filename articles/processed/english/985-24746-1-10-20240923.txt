@@ -1,0 +1,1436 @@
+# **Characterization of the Brazilian musical landscape: A study of** **regional preferences based on the Spotify charts**
+
+## Filipe A. S. Moura
+#### filipe.asm@aluno.ufop.edu.br
+
+Departamento de Computação e Sistemas
+Universidade Federal de Ouro Preto
+### **ABSTRACT**
+
+## Carlos H. G. Ferreira
+#### chgferreira@ufop.edu.br
+
+Departamento de Computação e Sistemas
+Universidade Federal de Ouro Preto
+
+## Helen C. S. C. Lima
+#### helen@ufop.edu.br
+
+Departamento de Computação e Sistemas
+Universidade Federal de Ouro Preto
+
+
+In the digital age, streaming services such as Spotify have changed
+the way people consume music, highlighting the enormous influence these platforms have on the market. In the highly competitive
+music industry, it is crucial for independent artists in particular to
+maintain their popularity. This is especially true in countries like
+Brazil, where geographical and cultural differences influence music
+consumption patterns. Understanding these patterns is essential for
+effective marketing and production strategies. Despite previous research on music consumption, genre preferences and user behavior,
+there is a lack of detailed studies on the geographical and cultural
+distribution of music preferences in Brazil. Our study fills this gap
+by examining musical genre preferences and acoustic features of
+tracks across Brazilian regions over two years. We collected Spotify chart data from 2022 and 2023, modeled bipartite genre-city
+networks, and used backbone extraction methods to highlight significant genre preferences. Temporal analysis revealed patterns and
+persistence of musical preferences across cities, while clustering
+techniques revealed regional and cultural differences in acoustic
+features. Our results show that genre preferences are stable across
+Brazilian regions, with important genres emphasized by backbone
+networks. Persistence analysis suggests minimal changes over time,
+except during major holidays. Furthermore, Brazilian city clusters
+exhibit distinct acoustic patterns regardless of music genres, with
+notable differences in features such as liveliness, speechiness, and
+valence. This research provides new insights into regional musical
+diversity in Brazil and paves the way for future studies on cultural
+and geographical influences on music preferences.
+### **KEYWORDS**
+
+Music Preferences, Music Genre Networks, Regional Analysis, Spotify Charts, Music Data Mining
+### **1 INTRODUCTION**
+
+In the digital era, streaming services have revolutionized the way
+people consume media content, particularly music [ 3, 8, 12 ]. The
+number of music streaming subscribers worldwide increased from
+616 million at the end of the second quarter of 2022 to 713 million
+in the third quarter of 2023 [ 26 ]. As a result, paid music streaming
+subscriptions have become the norm for many music fans and
+have led to impressive growth in subscriber numbers in recent
+years. This surge in popularity has led to music streaming services
+
+In: Proceedings of the Brazilian Symposium on Multimedia and the Web (WebMe
+dia’2024). Juiz de Fora, Brazil. Porto Alegre: Brazilian Computer Society, 2024.
+© 2024 SBC – Brazilian Computing Society.
+ISSN 2966-2753
+
+
+accounting for a significant portion of the music industry’s revenue,
+demonstrating their significant influence on the market and the
+steady global expansion of these platforms [ 4, 8, 36 ]. Among the
+various music streaming services, Spotify stands out as a profitable
+player. In 2023, Spotify paid out more than 9 billion dollars to
+artists, one of the highest annual payouts by a single provider
+in history [1] . What factors contribute to the persistence of these
+regional patterns?
+In parallel, the music industry is highly competitive, and maintaining popularity and influence is crucial for artists, especially for
+independent ones [ 32 ]. Expertise in production and promotion offers substantial advantages in this landscape [ 5 ]. In large countries
+such as Brazil, this knowledge is even more important due to the
+great geographic and cultural diversity [ 45 ]. A music popular in
+the South may not resonate in the North, and vice versa. Thanks
+to extensive data from streaming platforms such as Spotify, it is
+now possible to understand the geographical distribution of music preferences [ 30 ]. Mapping regional popular music is the first
+step toward identifying the profile of a region and testing relevant
+marketing strategies [ 45 ]. This profiling, carried out through a temporal analysis, assesses the common characteristics associated with
+popular music and their cultural significance.
+Indeed, several prior efforts have concentrated on studying music popularity within groups [ 2, 37 ], geographical distribution of
+music preferences [ 7, 25, 30, 45 ], user demographics and personality [ 6, 43 ], and music diversity [ 20, 31, 46 ]. However, these studies
+do not capture the regional behaviors of these groups in terms of
+genre preferences, especially in the Brazilian context. Given the
+significant role that music streaming platforms play in the distribution and consumption of music, it is important to understand
+the composition of musical preferences in different regions [ 6, 15 ].
+In Brazil, with its diverse cultural landscape, this understanding is
+particularly important for artists, producers, and marketers who
+want to tailor their strategies to regional tastes [ 13, 17, 47 ]. With
+this in mind, this study seeks to fill this gap by examining and
+characterizing the musical genre preferences and audio features
+of tracks in different regions of Brazil over a two-year period on
+Spotify charts. In this way, we aim to gain valuable insights into the
+regional musical landscape that can improve marketing strategies,
+production decisions, and promotional activities. Our study aims
+to address the following research questions:
+
+**—RQ1:** How do preferences for musical genres differ in different
+Brazilian cities over the years? What factors contribute to the persistence of these regional patterns?
+
+1 Spotify royalty data 2023: https://apnews.com/article/spotify-loud-clear-report8ddab5a6e03f65233b0f9ed80eb99e0c
+
+
+80
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Filipe A. S. Moura, Carlos H. G. Ferreira, and Helen C. S. C. Lima
+
+
+**—RQ2:** To what extent do the acoustic features of the tracks reflect
+regional and cultural patterns in Brazil, independent of their musical
+genres? Furthermore, are there acoustic differences within the same
+musical genre across different regions?
+
+To tackle these research questions, we collected data from Spotify
+charts for the years 2022 and 2023. We modeled genre-city bipartite networks and applied a state-of-the-art backbone extraction
+method to highlight significant genre preferences while respecting
+the heterogeneity of musical tastes across different cities. Using
+this refined topology, we conducted a temporal analysis to identify patterns and persistence in musical preferences, addressing
+RQ1. For RQ2, we generated features from the backbone network
+and applied clustering techniques to uncover regional and cultural
+variations in the intrinsic acoustic features of tracks. This involved
+profiling clusters based on their acoustic characteristics and identifying significant differences within the same genre in different
+regions. Our results show that preferences for musical genres in
+Brazilian cities exhibit a stable set of preferred genres, with backbone networks highlighting the most important ones. Moreover, we
+observed balanced preferences, while persistence analysis indicated
+minimal changes over time, except during important holidays. Regarding RQ2, Brazilian city clusters showed different audio patterns
+in tracks, regardless of musical genres. We found significant differences in features such as *liveness*, *speechiness*, and *valence* between
+clusters with similar genre preferences, indicating regional and
+cultural differences in musical preferences and acoustic nuances
+within the same genres in different regions.
+The remainder of this paper is organized as follows. In Section
+2, we discuss related works. In Section 3, we describe the method
+of data crawling and the generated dataset. Section 4 details our
+methodology in four steps. In Section 5, we present our results
+in discuss our findings for RQ1 and RQ2. Finally, in Section 6, we
+conclude and propose ideas for future research.
+### **2 RELATED WORKS**
+
+Some works aim to understand the distribution of music consumption in a population [ 7, 42, 43, 46 ], focusing on various aspects.
+These include consumption patterns [ 37, 42 ], genre preferences
+
+[ 22, 25, 27, 30, 45 ], user behavior [ 8, 14 ], the temporal evolution
+of music preferences [ 12, 41 ], the impact of marketing campaigns
+
+[ 5, 32 ], the influence of social events [ 10, 24 ], user demographics
+and personality [ 6, 43 ], the effects of algorithmic recommendations
+
+[33, 40], and musical diversity [20, 31].
+Focusing on consumption patterns, Ren and Kauffman [37] built
+a machine learning model to predict the popularity of new releases
+on streaming platforms, uncovering patterns that remain common
+to popular music, such as tracks staying at the top of the charts
+for long periods. Similarly, Terroso-Saenz et al . [42] developed an
+algorithm to detect music propagation patterns on Spotify across
+different countries, finding strong correlations with cultural and
+social similarities. Our goal is different, as we want to identify the
+most popular music in each city, excluding national hits and making
+correlations between cities based on their popular music to describe
+possible geographical and cultural connections.
+In terms of genre preferences, Mondelli et al . [30] used a networkbased approach to analyze communities of countries with similar
+
+
+musical genre preferences, finding that most communities are culturally and/or geographically related. They also showed that Brazil
+is unique, with its top genres primarily originating from its own
+culture. Jiang et al . [22] found that new releases with functional
+purposes are less consumed, and popular genres like *pop* do not
+always equate to high consumption rates. Our study focuses on
+genre preferences in the different regions of Brazil. It emphasizes
+the country’s cultural and geographical diversity and reinforces
+the idea that the most popular music genres in Brazil come from
+within the country.
+Lee and Cunningham [25] presented hierarchical groups of countries with similar genre preferences, identifying leader-follower relations where leaders are defined by their historical production and
+consumption of a genre. Although determining the origin of genres
+in the Brazilian regions is not our primary research question, we
+address it by recognizing sub-genres that indicate regional origins
+and identifying national genres that are predominantly listened to
+in specific areas. Similarly, Vaz de Melo et al . [45] identified digital music consumption patterns in each state but did not reveal
+differences. Our goal is to highlight these differences by analyzing the track acoustic features of similar genres and sub-genres in
+different regions, connecting users geographically through similar
+preferences, and revealing regional differences.
+Regarding user demographics and personality, Tricomi et al . [43]
+linked Spotify users’ playlists to their demographic and personality
+traits, finding that similar playlists are created by users with similar
+profiles. Bello and Garcia [6] explored cross-country diversity in
+music charts over four years, revealing a trend towards greater
+diversity in global digital music consumption. In the area of musical
+diversity, Way et al . [46] found that the preference for local content
+increased in various genres from 2014 to 2019. Hesmondhalgh [20]
+argued that streaming platforms encourage music to have certain
+characteristics and thus influence the listener’s aesthetic experience.
+Morris [31] investigated the “platform effects” on users’ musical
+tastes and found that music acts like data, putting pressure on
+musicians and producers to adapt to platform trends.
+Our study contributes to the literature by providing a longitudinal analysis of the geographical and cultural distribution of music
+preferences in Brazil. Using data from a two-year period, we examine how genre preferences and track acoustic features differ from
+region to region, offering new insights into the regional diversity
+of musical tastes in Brazil. Our research fills a gap in the understanding of regional music consumption and provides a basis for
+future studies on cultural and geographical influences on music
+preferences.
+### **3 DATASET**
+
+To analyze Brazil’s musical preferences geographically, we use
+the Spotify Charts [2] . This service summarizes the daily Top 200
+most listened to songs in a specific region, referred to as a “chart”.
+We collected the weekly rankings of all available Brazilian cities
+on the platform from 2022 to 2023. Each chart contains essential
+information about all tracks, including the track name, artist names,
+and the Spotify identifier for each track. Additionally, we used these
+identifiers to query for acoustic features and genres of each track
+
+2 Spotify Charts: https://charts.spotify.com/charts/overview/global
+
+
+81
+
+
+-----
+
+Characterization of the Brazilian musical landscape WebMedia’2024, Juiz de Fora, Brazil
+
+
+using the Spotify API for Developers [3] . Some core features described
+by Spotify are as follows:
+
+**—Acousticness** measures from 0.0 to 1.0 whether the track is
+
+acoustic; 1.0 indicates an acoustic song, while 0.0 means a song
+without any acoustic elements.
+**—Danceability** describes from 0.0 to 1.0 how suitable the track is
+for dancing based on a combination of musical elements; higher
+values indicate greater danceability.
+**—Energy** measures from 0.0 to 1.0 how intense a track is.
+**—Liveness** detects the presence of an audience in the recording
+on a scale between 0.0 and 1.0.
+
+**—Speechiness** detects the presence of spoken words in a track;
+the more exclusively speech-like the recording, the closer to 1.0 the
+attribute value.
+
+**—Valence** ranges from 0.0 to 1.0 describing the positivity of a track.
+Values close to 1.0 indicate happy, positive, and euphoric songs,
+while low values sound more negative, sad, depressed, or angry.
+
+The dataset includes 5190 unique tracks, 487 genres, and 2056
+artists. Geographically, we cover 17 cities across 16 states, namely:
+Belém, Belo Horizonte, Brasília, Campinas, Campo Grande, Cuiabá,
+Curitiba, Florianópolis, Fortaleza, Goiânia, Manaus, Porto Alegre,
+Recife, Rio de Janeiro, Salvador, São Paulo, and Uberlândia. Unfortunately, other cities – especially the countryside – could not be
+covered by this study due to their absence on the Spotify Charts platform. However, those mentioned above represent the five regions of
+Brazil (North, Northeast, Midwest, Southeast, and South), providing
+a comprehensive geographical perspective of the country’s music
+preferences. Thus, we extend the literature with a detailed analysis
+of the temporal, geographical and cultural distribution of music
+preferences in Brazil across different regions.
+### **4 METHODOLOGY**
+
+This section presents our methodology, including the steps for
+answering each RQ.
+### **4.1 Modeling musical genre preferences**
+
+Aiming to answer our RQ’s, we start by discretizing the two-year
+period into bimonthly windows. We then adopted network models for each period Δ *𝜏*, specifically bipartite networks. Formally,
+the bipartite network B [∆] *[𝜏]* = ( *𝑉* *𝐺𝑒𝑛𝑟𝑒* *,𝑉* *𝐶𝑖𝑡𝑦* *, 𝐸* [Δ] *[𝜏]* ) consists of the
+following elements: *𝑉* *𝐺𝑒𝑛𝑟𝑒* is the set of all music genres, *𝑉* *𝐶𝑖𝑡𝑦* is
+the set of all cities, and *𝐸* [Δ] *[𝜏]* is the set of directed edges ( *𝑔,𝑐,𝑤* *𝑔𝑐* [Δ] *[𝜏]* [)] [,]
+
+where *𝑔* ∈ *𝑉* *𝐺𝑒𝑛𝑟𝑒* and *𝑐* ∈ *𝑉* *𝐶𝑖𝑡𝑦* . The weight *𝑤* *𝑔𝑐* [Δ] *[𝜏]* [represents the]
+number of unique tracks of a genre *𝑔* that appear in the Spotify
+chart of city *𝑐* during the period Δ *𝜏* .
+Then, we use instances of B [∆] *[𝜏]* to identify cities with common
+genre preferences. However, our analysis revealed that these networks often resulted in highly dense structures, where each node
+was strongly linked with many others. This density made it challenging to extract meaningful information about common preferences.
+This phenomenon is similar to the observations in prior efforts
+
+[ 30 ], who also faced difficulties due to the dense nature of their
+networks. They found that certain genres were universally popular,
+
+3 Spotify API for Developers: https://developer.spotify.com/documentation/web-api
+
+
+appearing in charts across multiple countries, resulting in an overly
+connected network.
+
+To address the issue of overly dense networks, we employ a network backbone extraction method [ 16, 29, 34 ]. Since not all edges
+are equally significant for comprehension, as tracks and genres can
+be influenced by side effects such as singer popularity, we propose
+adopting *backbone* extraction algorithms to filter through the noise
+and unveil only the most relevant edges, resulting in a subset of the
+initial network [ 9 ]. There are several backbone extraction methods
+in the literature [ 16 ]. Some of these methods are used to explore network heterogeneity by identifying salient edges with significantly
+higher weights based on local individual patterns (e.g., Polya Urn
+Filter and Disparity Filter) or global network patterns (e.g., Thresholding), representing persistent and repetitive interactions [ 28, 39 ].
+Local methods, in particular, are probabilistic methods that build
+*null models* for each node and can capture, from a local perspective,
+how salient an edge is according to its weight. A review of these
+methods for this context is available in the literature [16].
+We determined that the most valuable edges – also called *salient*
+edges – in our context are not necessarily the weakest or strongest
+across all cities but those that have exceptional weights from the
+perspective of each city. In other words, these are the genres that
+appear most frequently in the charts of the individual cities, taking
+into account the popularity of the city and the genre. The main
+assumption is that these edges will not exhibit a uniform behavior
+across all cities but will show specific deviation patterns for smaller
+sets of cities. Thus, we employ the Polya Urn Filter [ 29 ], a backbone
+extraction method inspired by the Pólya urn combinatorial model.
+This method takes into account the reinforcement hypothesis of
+interactions between the same two nodes over time (i.e., a genre
+with a high presence in the listened genres of a city over the studied
+time windows is a salient link), presuming these edges are maintained and reinforced [ 29 ]. The method is controlled by a given
+*alpha*, which is used to determine the probability for the statistical
+significance of an edge according to the null model of the Pólya-Urn
+filter, and by a reinforcement parameter, which may be self-tuned.
+We advocate the use of this method, as opposed to the thresholds used by other authors [ 1 ], because it is advantageous when
+observing cities and genre preferences, as it takes into account
+the heterogeneity of the data. For example, a genre may appear 10
+times in the chart of one city and 100 times in another, creating
+edges with the corresponding weights. Both edges can remain in
+the backbone and connect the genre in both cities. This is possible
+because from the perspective of the first city, 10 occurrences may
+be significant when other genres only occur 1, 2 or 3 times. In this
+way, this approach respects the heterogeneity of edge weights in
+the networks.
+
+The execution of the Polya Urn Filter reveals the most statistically significant edges of the network, and we retained edges with
+a *p-value <* 0 *.* 05, corresponding to a 95% confidence level. By extracting the backbone of B [∆] *[𝜏]*, we generated B [∆] *[𝜏]*
+Backbone [, identifying]
+the most listened-to genres in each city for each period. Overall,
+we aim to capture significant patterns in genre preferences across
+different cities using B [∆] *[𝜏]*
+Backbone [.]
+Given the bimonthly sequence of bipartite backbone networks
+B [∆] *[𝜏]*
+Backbone [, we start by analyzing how genre preferences vary and]
+
+
+82
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Filipe A. S. Moura, Carlos H. G. Ferreira, and Helen C. S. C. Lima
+
+
+persist across cities. We focus on the distribution of genre popularity
+in each city (i.e., whether all genres in the backbone are listened to
+with the same intensity). To measure this distribution variation, we
+calculated the Gini index, a well-established conventional measure
+of income inequality [ 11 ], for the genres in the backbone for each
+city. First, for each city and time window Δ *𝜏*, we sorted the genre
+link weights in its corresponding backbone and used them as input
+
+
+to the following Gini equation *𝐺* = [2] *𝑛* [�] [�] *[𝑛]* *𝑖* = *[𝑛]* *𝑖* = 1 1 *[𝑖]* [·] *[𝑦]* *[𝑦]* *[𝑖][𝑖]* [−] *[𝑛]* *𝑛* [+][1] [.]
+
+In this definition, *𝑛* is the total number of genres, *𝑦* *𝑖* is the *𝑖* -th
+link weight in the sorted set, [�] *[𝑛]* *𝑖* =1 *[𝑦]* *[𝑖]* [is the sum of all weights, and]
+� *𝑛𝑖* =1 *[𝑖]* [·] *[𝑦]* *[𝑖]* [is the weighted sum of the values in the set, where] *[ 𝑖]* [is the]
+index of the value. The second term, *[𝑛]* *𝑛* [+][1] [, is the normalization that]
+
+guarantees that the value is between 0 and 1, where 0 means equally
+distributed and 1 means unequally distributed. In this way, we want
+to find out if the cities still have differences in these preferences
+according to their preferred genres in the backbone, essentially
+identifying the most preferred among the preferred genres.
+Next, we analyzed the persistence of genre preferences over time
+by examining the fraction of genres that remain in the backbone
+across sequential periods Δ *𝜏* and Δ *𝜏* +1 for each city. Our main idea
+here is to determine whether cities have a well-defined collection of
+preferred genres that persist over the entire period. These analyses
+allow us to understand how genre preferences vary across cities
+in Brazil over the years, addressing **RQ1** . They also help us to
+identify the regional factors that contribute to the persistence of
+these patterns, as described in the next section.
+### **4.2 Modeling track acoustic features and** **regional patterns**
+
+Recall that the goal of RQ2 is to understand the track acoustic features to reveal regional patterns of the preferred tracks in different
+cities and even within a genre in different regions. To achieve this,
+we first use the information about music and genre preferences
+obtained from the backbones, as described in the previous section.
+However, the edges of such backbones do not encode the many
+dimensions that make up the track acoustic features (detailed in
+Section 3), so multivariate analysis is required. Given the persistence of the genres analyzed in RQ1, as we will discuss in Section
+5, we assume that cities show very small variation of preferred
+genres listened to over time, making temporal analysis redundant.
+Therefore, we opted for analyzing a unique aggregated view of the
+regional time period on the track acoustic features. Then, we use
+the genre preference information from the backbones from RQ1,
+gather the track acoustic features, perform feature engineering, and
+use K-means clustering on these features to create clusters that
+tackle our RQ2, as detailed below.
+From the backbones B [∆] *[𝜏]*
+Backbone [, which capture the preferences of]
+genres, for each city *𝑐* *𝑖* a set of tracks *𝑆* *𝑐* *𝑖* is built. This set *𝑆* *𝑐* *𝑖* consists
+of the tracks from genres that belong to the backbone of genres
+linked to city *𝑐* *𝑖* in *𝑉* *𝐶𝑖𝑡𝑦* . However, we noticed that the same genre,
+preferred by two or more cities according to our backbone, may or
+may not have become preferred because of the same tracks. Thus,
+we observed that popular tracks of various genres appear in many
+cities, while others are exclusive to a given city. In the first case,
+these tracks are national hits of the genre, which do not contribute
+
+
+to revealing specific regional patterns. In the second case, they
+are tracks capable of revealing regional particularities, which are
+closely related to our objectives here. Based on this observation, for
+each city *𝑐* *𝑖*, we have discarded instances of tracks that are listened
+to in at least one other city (e.g., a track is only kept in the set if
+it is exclusively represented in the chart by the city in question).
+Thus, each city has a representative and exclusive set of tracks that
+belong to different genres and were preferred by it over the entire
+period analyzed.
+Nonetheless, we have retained a significant number of exclusive
+tracks for each city that are potentially capable of revealing the
+patterns of interest. More specifically, the number of tracks in the
+backbone for each city has decreased from 700–900 to 340–570.
+We found that most of the removed tracks belonged to very popular genres in Brazil, such as *sertanejo* and *funk*, including their
+sub-genres (e.g. *agronejo*, *funk-mtg* ). These genres accounted for
+about 45% and 10% of the removed tracks for each city, respectively.
+Another frequently removed genre was *arrocha*, which accounted
+for 10% of the removed tracks.
+
+After this, for each city *𝑐* *𝑖* and each track in its respective set
+*𝑆* *𝑐* *𝑖*, we gathered the values of the track acoustic features explained
+in Section 3, such as acousticness, valence, danceability, etc. From
+the distribution of values for each acoustic feature in the set *𝑆* *𝑐* *𝑖* of
+city *𝑐* *𝑖*, we extracted the four moments: *mean*, *variance*, *skewness*,
+and *kurtosis* . The intuition behind extracting these moments is to
+capture different aspects of the distribution of acoustic features
+for each city beyond the mean, allowing to obtain more consistent
+clusters [ 18, 35 ]. With this, we obtained a final feature matrix of 17
+Cities x 28 features (7 acoustic features x 4 moments). By analyzing
+this matrix, we expected to identify regional and cultural patterns
+in track preferences, providing a detailed view of the predominant
+acoustic characteristics in cities aggregated by region.
+To cluster the cities according to the audio characteristics of their
+preferred tracks, we started by applying Principal Component Analysis (PCA) to the final matrix of 17 Cities x 28 features (7 acoustic
+features x 4 moments) [ 18 ]. PCA was used to reduce the dimensionality of the data while retaining most of the explained variance
+
+[ 23 ]. Ultimately, we adopted 5 principal components, which corresponded to 82% of the explained variance. With the reduced data
+matrix, we then used the K-means clustering algorithm to group the
+cities based on the acoustic characteristics of their preferred tracks
+
+[ 18, 19 ]. Additionally, we used the silhouette index to determine
+the optimal number of clusters *𝑘*, which was found to be *𝑘* = 6,
+with a value of 0.38 indicating fair clustering [38].
+Finally, we characterized each cluster based on the most popular
+genres and the track acoustic features. This alignment addresses
+**RQ2** : the first aspect illustrates the favorite genres of a group of
+cities, while the second aspect reveals the similarities in the track
+acoustic features between these clusters. However, clusters may
+exhibit statistically equivalent average acoustic properties. To distinguish statistically significant differences, we employed a one-way
+analysis of variance (ANOVA) [21, 44].
+### **5 RESULTS**
+
+This section presents our results. First, we present a topological
+characterization of the networks modeled. Then we present the
+results for our RQ1 and finally for RQ2.
+
+
+83
+
+
+-----
+
+Characterization of the Brazilian musical landscape WebMedia’2024, Juiz de Fora, Brazil
+
+### **5.1 Topological analysis of genre preference** **networks**
+
+As described in Section 4, we extracted the backbone for all instances of B [∆] *[𝜏]* with a *p-value <* 0 *.* 05 to determine the preferred
+genres of each city. Networks were grouped by year and the average
+and standard deviation for some metrics are displayed in Table 1 of
+six networks per year. On average, the backbone retained about 25%
+of the nodes and 11% of the edges. This significant reduction in network size allows us to focus on the most salient genre preferences
+for each city, as shown in Figure 1.
+
+**Table 1: Topology of the original and backbone networks for**
+**all instances of** B [∆] *[𝜏]* **in 2022 and 2023.**
+
+**Metric** **Ori** **g** **inal** **Backbone**
+
+**2022** **2023** **2022** **2023**
+
+# *𝑉* *𝐶𝑖𝑡* *𝑦* 17 17 17 17
+# *𝑉* *𝐺𝑒𝑛𝑟𝑒* 118 ± 6.6 112 ± 20.7 25.6 ± 2.6 28.3 ± 4.2
+ˆ # Ed g es 1422 ± 176.8 1211.5 ± 203.7 161.8 ± 12.7 154.5 ± 23.3
+ˆ *𝑘* *𝑖𝑛* ( *𝑉* *𝐶𝑖𝑡* *𝑦* ) 76.8 ± 12.8 63.8 ± 12.7 9.4 ± 3.4 8.9 ± 3.3
+*𝑘* *𝑜𝑢𝑡* ( *𝑉* *𝐺𝑒𝑛𝑟𝑒* ) 11.3 ± 6.4 9.9 ± 6.6 6.19 ± 6.18 5.4 ± 5.8
+
+We observe the number of nodes and averaged metrics in the
+bimonthly original networks is quite similar between the two years,
+with 118±6.6 in 2022 and 112±20.7 in 2023. There is a significant
+decrease in the backbone networks, with an average of 25.6±2.6
+nodes in 2022 and 28.3±4.2 nodes in 2023. The average number
+of edges also decreased from 1422±176.8 and 1211.5±203.7 in the
+original networks to 161.8±12.7 and 154.5±23.3 in the backbone
+networks for 2022 and 2023, respectively. The average in-degree
+( *𝑘* [ˆ] *𝑖𝑛* ) for *𝑉* *𝐶𝑖𝑡𝑦* (cities) decreased from 76.8±12.8 and 63.8±12.7 in
+the original networks to 9.4±3.4 and 8.9±3.3 in the backbone networks, respectively. Similarly, the average out-degree ( *𝑘* [ˆ] *𝑜𝑢𝑡* ) for
+*𝑉* *𝐺𝑒𝑛𝑟𝑒* (genres) decreased from 11.3±6.4 and 9.9±6.6 to 6.19±6.18
+and 5.4±5.8, respectively. The significant reduction in the number of
+nodes and edges in the backbone networks emphasises the sparsity
+and more focused nature of the backbone, which is essential for
+identifying the most relevant genre preferences for each city.
+
+200
+
+150
+
+100
+
+50
+
+0
+
+|Col1|Col2|
+|---|---|
+|||
+
+
+
+Cities
+
+**Figure 1: Genres present in the** B [∆] Backbone *[𝜏]* **[compared with all]**
+**genres listened to in each city.**
+
+
+**Figure 2:** B [∆] *[𝜏]* **, which represent the time windows of**
+Δ *𝜏* = **January/February 2022.**
+### **5.2 Analysis of musical genre preferences**
+
+We then move on to analyze the distributed preference of genres
+in the backbone via the Gini index to determine whether cities
+
+listen to their favorite genres with similar intensity in the months
+analyzed. Figure 4 shows these results in the form of a heatmap. In
+this heatmap, the *𝑥* -axis represents the different cities and the *𝑦* -axis
+represents the bimonthly time windows from January/February
+2022 to November/December 2023. Each cell in the heatmap shows
+the Gini index for a specific city and time window, with the color
+intensity indicating the degree of inequality in genre preferences.
+The Gini index values range from 0 to 1, with values closer to 0
+indicating a more even distribution of genre preferences and values
+closer to 1 indicating a more uneven distribution.
+The Gini index values for cities are mostly between 0.1 and 0.4,
+suggesting overall balanced genre preferences. However, this balance could mask nuances in the distribution. For example, a Gini
+index of 0.1 could mean that there are two sets of genres that are
+very popular, while others are leveled down. The heatmap allows
+
+
+We also note that although most cities listened more than 150
+unique genres, only a maximum of 30 were considered urban preferences in the two years. To illustrate these topological patterns of
+revealed genre preferences, we show in Figures 2 and 3 the original
+network view for our first bipartite network corresponding to the
+period January/February 2022. The darker the edge, the stronger
+the preference of this genre for the connected city. If we follow our
+hypothesis that such genres are maintained and reinforced in the
+network behavior, we see that out of the 142 genres in the original network, only 17 remain in the backbone network, indicating
+that each city has a limited number of genres that are consistently
+preferred over time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+84
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Filipe A. S. Moura, Carlos H. G. Ferreira, and Helen C. S. C. Lima
+
+
+
+
+1 *.* 0
+
+0 *.* 9
+
+0 *.* 8
+
+0 *.* 7
+
+0 *.* 6
+
+
+
+
+Jan,Feb/2022 - Mar,Apr/2022
+
+Mar,Apr/2022 - May,Jun/2022
+
+May,Jun/2022 - Jul,Aug/2022
+
+Jul,Aug/2022 - Sep,Oct/2022
+
+Sep,Oct/2022 - Nov,Dec/2022
+
+Nov,Dec/2022 - Jan,Feb/2023
+
+Jan,Feb/2023 - Mar,Apr/2023
+
+Mar,Apr/2023 - May,Jun/2023
+
+May,Jun/2023 - Jul,Aug/2023
+
+Jul,Aug/2023 - Sep,Oct/2023
+
+Sep,Oct/2023 - Nov,Dec/2023
+
+
+
+
+
+
+
+
+Campo Grande
+
+
+
+trap pesado
+
+
+|0.88|0.67|0.86|1.0|0.82|1.0|0.73|0.8|0.73|0.78|0.82|0.67|0.92|0.83|0.82|0.88|0.86|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|1.0|0.85|1.0|0.85|0.82|0.81|0.91|0.89|0.9|1.0|0.75|1.0|0.89|0.91|1.0|1.0|1.0|
+|1.0|0.9|1.0|0.92|0.9|0.8|1.0|1.0|1.0|1.0|1.0|0.82|0.89|0.91|1.0|1.0|1.0|
+|1.0|0.9|0.83|1.0|0.91|0.65|0.8|0.78|0.78|1.0|0.91|0.92|0.89|0.83|0.78|1.0|1.0|
+|1.0|0.53|1.0|0.9|1.0|0.76|1.0|1.0|1.0|1.0|1.0|1.0|0.88|0.92|1.0|1.0|1.0|
+|1.0|0.89|1.0|0.89|0.75|0.88|0.89|0.78|1.0|0.83|0.91|0.91|0.62|0.8|0.71|1.0|1.0|
+|1.0|1.0|0.83|0.89|0.9|0.92|0.89|0.88|1.0|1.0|0.69|0.64|0.9|0.82|0.83|1.0|1.0|
+|1.0|0.89|0.75|0.78|1.0|0.86|1.0|1.0|1.0|0.83|0.9|1.0|1.0|1.0|1.0|1.0|1.0|
+|1.0|0.89|0.86|0.64|0.8|0.81|0.86|0.86|0.86|1.0|0.8|0.7|0.88|0.89|0.71|1.0|1.0|
+|1.0|0.88|1.0|0.9|0.62|0.82|0.88|1.0|1.0|0.86|0.75|0.69|0.58|0.8|0.86|1.0|1.0|
+|0.83|0.8|0.6|0.91|0.75|0.71|0.78|0.7|0.78|0.88|0.69|0.72|0.8|0.5|0.78|1.0|0.71|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Figure 3:** B [∆] *[𝜏]*
+Backbone **[, which represent the time windows of]**
+Δ *𝜏* = **January/February 2022.**
+
+
+Jan,Feb/2022
+
+Mar,Apr/2022
+
+May,Jun/2022
+
+Jul,Aug/2022
+
+Sep,Oct/2022
+
+Nov,Dec/2022
+
+Jan,Feb/2023
+
+Mar,Apr/2023
+
+May,Jun/2023
+
+Jul,Aug/2023
+
+Sep,Oct/2023
+
+Nov,Dec/2023
+
+
+
+0 *.* 40
+
+0 *.* 35
+
+0 *.* 30
+
+0 *.* 25
+
+0 *.* 20
+
+0 *.* 15
+
+0 *.* 10
+
+|0.22|0.260.|270.26|0.25|0.43|0.26|0.250.|260.26|0.21|0.260|.340.24|0.24|0.22|0.28|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|0.22|0.370.|230.25|0.21|0.2|0.2|0.210.|270.21|0.2|0.240|.170.19|0.2|0.22|0.21|
+|0.13|0.230.|140.26|0.28|0.22|0.23|0.240.|220.15|0.17|0.210|.170.18|0.26|0.13|0.14|
+|0.12|0.190.|140.24|0.21|0.24|0.19|0.230.|220.15|0.22|0.180|.110.17|0.19|0.11|0.14|
+|0.12|0.220.|140.22|0.19|0.22|0.23|0.230.|210.15|0.17|0.2 0|.120.18|0.2|0.11|0.14|
+|0.13|0.180.|140.13|0.21|0.32|0.2|0.064 0.|130.14|0.21|0.170|.120.18|0.14|0.12|0.12|
+|0.11|0.210.|120.21|0.17|0.2|0.26|0.12 0|.1 0.12|0.17|0.1 0|.310.35|0.12|0.11|0.11|
+|0.1|0.10.0|99 0.13|0.19|0.22|0.16|0.17 0|.1 0.11|0.078|0.350|.120.34|0.1|0.091|0.1|
+|0.099|0.13 0.|10.055|0.12|0.3|0.096|0.10.0|96 0.12|0.079|0.140|.170.14|0.11|0.091|0.1|
+|0.11|0.160.|110.17|0.18|0.39|0.15|0.160.|110.13|0.26|0.099 0|.160.12|0.12|0.11|0.11|
+|0.12|0.160.|120.16|0.16|0.37|0.15|0.120.|110.14|0.24|0.290|.290.17|0.12|0.11|0.12|
+|0.12|0.240.|210.24|0.27|0.32|0.23|0.260.|280.27|0.37|0.330|.260.39|0.22|0.11|0.13|
+
+
+Cities
+
+**Figure 4: Heatmap of the Gini index for each city across**
+**bimonthly time windows.**
+
+us to observe patterns and changes in the distribution of genre
+preferences over time and in different cities. From the heatmap, we
+can see that certain cities such as Rio de Janeiro, Manaus and Belém
+have relatively higher Gini index values, indicating a more unequal
+distribution of genre preferences in some time windows. On the
+other hand, cities such as Cuiabá, Campo Grande and Uberlândia
+show more balanced genre preferences with lower Gini index values throughout the analyzed period. We thus observe sometimes
+consistency, sometimes variation in genre preferences between different cities and time windows, which helps us to understand the
+distribution of music tastes in the Brazilian cities analyzed.
+We analyzed the persistence of genres in the backbone over time,
+aiming to identify whether cities listen to the same genres with
+
+
+0 *.* 5
+
+Cities
+
+**Figure 5: Heatmap of the genre persistence (%) of** Δ *𝜏* **in** Δ *𝜏* +1
+**for each city**
+
+consistent intensity, as shown in Figure 5. In this heatmap, the
+*x-axis* represent the cities and the *y-axis* represent the compared
+bimonthly time windows Δ *𝜏* and Δ *𝜏* +1 . Each cell shows the percentage of genres from Δ *𝜏* that are still present in Δ *𝜏* +1 for each city. This
+persistence analysis revealed two main findings. First, all cities have
+a well-defined group of preferred genres, indicated by a high persistence degree. Second, certain months showed significant changes
+in genre preferences compared to the previous months in most
+cities, except for Cuiabá, Campo Grande, and Uberlândia. These
+months are January/February, March/April, September/October,
+and November/December, which correspond to popular holidays
+in Brazil. January/February and March/April coincide with the
+carnival period, characterized by nationwide parties and specific
+music genres. September/October and November/December are
+the last four months of the year, associated with Christmas and
+New Year’s Eve celebrations. These holidays could increase the
+popularity of certain genres or change the acoustic characteristics
+of genres during these periods.
+Although we found seasonal differences, we did not formally
+establish a causal connection between the genres in these seasonal
+windows and the acoustic features, but a potential link could exist.
+Based on these findings, we divided the cities into two groups: those
+that consistently listen to the same genres over the years and those
+with seasonal variations. Cuiabá, Campo Grande, and Uberlândia
+stand out as cities with no significant changes in both years. These
+cities are geographically close, but other geographically close cities,
+such as São Paulo, Campinas, and Belo Horizonte, do not exhibit
+the same behavior. Besides Cuiabá, Campo Grande, and Uberlândia,
+all other cities show seasonal variances, mostly between 10% and
+30% in different genres. Overall, the favorite genres of each city
+vary very little, indicating that the preferences are stable with some
+seasonal influences.
+To summarize, preferences for music genres in Brazilian cities
+show a stable set of preferred genres, with backbone networks
+highlighting the most important ones. The Gini index indicates
+balanced preferences, while persistence analysis reveals minimal
+changes over time, except during major holidays. Overall, genre
+preferences remain consistent, with cultural events contributing to
+occasional variations.
+
+
+85
+
+
+-----
+
+Characterization of the Brazilian musical landscape WebMedia’2024, Juiz de Fora, Brazil
+### **5.3 Analysis of track acoustic features and** **regional patterns**
+
+In our RQ2, we wanted to understand to what extent the intrinsic
+acoustic features of tracks are independent of their musical genre
+and whether there are acoustic differences between different regions within the same musical genre. As explained in Section 4, we
+applied K-means clustering and used the average silhouette score
+to evaluate the quality of the resulting clusters on track acoustic
+features, uncovering 6 clusters composed of the following cities:
+
+  - **Cluster 1:** Florianópolis, Porto Alegre, Curitiba, and Belo
+
+Horizonte
+
+  - **Cluster 2:** Goiânia, Brasília, and Uberlândia
+
+  - **Cluster 3:** Recife, Fortaleza, and Salvador
+
+  - **Cluster 4:** Rio de Janeiro, Belém, and Manaus
+
+  - **Cluster 5:** Cuiabá and Campo Grande
+
+  - **Cluster 6:** São Paulo and Campinas
+
+
+We start by presenting in Figure 6 the geographic distribution
+of each cluster in the Brazilian territory. Geographically, we can
+characterize Cluster 1 as the Southern of Brazil, with the addition
+of Belo Horizonte. This is a distinctive pattern since Belo Horizonte is in the Southeast but clusters with Southern cities. Cluster 2
+
+likely represents the Central region, including part of the Midwest
+and the city of Uberlândia, bridging the Midwest and Southeast.
+Cluster 3, consisting of Recife, Fortaleza, and Salvador, aligns well
+with expectations as these are Northeastern cities, showing regional acoustic similarities. Cluster 4 contains Rio de Janeiro along
+with Belém and Manaus, indicating a notable divergence as Rio de
+Janeiro typically aligns with Southeastern cities. This cluster suggests that geographic distance was not a barrier to grouping these
+cities acoustically. Cluster 5 represents part of Brazil’s Midwest
+with Cuiabá and Campo Grande, reflecting acoustic similarities
+within this region. Finally, Cluster 6 includes São Paulo and Campinas, suggesting that these two cities from the state of São Paulo
+have unique acoustic features that set them apart from other Southeastern cities, further emphasizing the distinctiveness within the
+Southeast region itself. These clusters reveal both expected and
+unexpected patterns, illustrating the complex regional and cultural
+variations in the acoustic features of tracks across Brazilian cities.
+
+We move to our analysis of the exclusive tracks in each cluster,
+resulting in the classification of the genre preferences, as shown in
+Figure 7. The heatmap illustrates the distribution of genre preferences across different clusters. The *𝑥* -axis represents the clusters,
+while the *𝑦* -axis represents the genres. Each cell shows the percentage of tracks in the cluster that belong to a particular genre. For
+visualization purposes, we selected genres for the heatmap where
+the sum of all cells in a given row (genre) is at least 10% of what is
+listened to in the clusters. This threshold provided a good trade-off
+between highlighting the most popular genres of the clusters and
+including the sub-genres of these top genres. A higher threshold
+would have resulted in only the top genres being displayed, obscuring sub-genres, while a lower threshold would have displayed less
+popular genres, complicating visualization and interpretation.
+We found that Clusters 2 and 5 share similar genre preferences,
+focused on *sertanejo* and related styles. Similarly, Cluster 1 and
+Cluster 6 both prefer *funk* and its sub-genres. Although these clusters are geographically close, they suggest track acoustic features
+
+
+0 *.* 00
+
+|4.40|0.20|0.22|10.51|0.00|0.00|
+|---|---|---|---|---|---|
+|2.20|9.15|0.67|0.00|18.97|0.00|
+|3.30|10.16|19.69|2.39|13.79|4.17|
+|7.69|4.27|2.68|5.73|1.72|11.46|
+|13.74|1.63|0.67|0.32|0.00|9.38|
+|7.69|2.85|1.12|3.03|0.00|2.08|
+|2.75|2.03|0.22|0.64|0.57|10.42|
+|1.65|4.27|26.62|0.96|1.72|0.00|
+|1.65|15.45|1.57|1.91|20.69|2.08|
+|0.55|14.43|0.89|0.64|20.69|1.04|
+|1.10|1.02|0.00|3.66|0.00|7.29|
+|1.10|1.22|3.13|7.64|0.00|12.50|
+|0.55|0.41|0.22|2.71|0.57|10.42|
+|0.00|11.38|0.22|0.00|18.97|0.00|
+
+
+
+Clusters
+
+**Figure 7: Most relevant genres in each cluster (%).**
+
+differences within the same group of genres. In contrast, Cluster 3
+and Cluster 4 did not show significant similarities with any other
+cluster, despite their proximity to each other. Cluster 3 strongly
+prefers *forró* and *arrocha*, while Cluster 4 has a more general genre
+preference.
+Given the identified genre patterns, we analyzed significant differences in track acoustic features between clusters with similar
+
+genre preferences. We used one-way ANOVA with a *p-value* of 0.05
+to identify differences. This analysis revealed significant differences
+in 9 of 13 track acoustic features between at least two clusters. We
+used the average of these features to profile and compare clusters
+with similar genre preferences, as shown in Figure 8.
+In these radar plots, each axis represents one of the acoustic
+features (e.g., acousticness, valence, danceability). The values on
+the axes indicate the average feature value for each cluster. The
+
+
+**Figure 6: Geographical distribution of the cities in the indi-**
+**vidual clusters, with each color representing a cluster.**
+
+
+pop
+
+agronejo
+
+arrocha
+
+funk carioca
+
+funk mtg
+
+funk rj
+
+funk paulista
+
+forro
+
+sertanejo universitario
+
+sertanejo
+
+trap funk
+
+trap brasileiro
+
+funk consciente
+
+sertanejo pop
+
+
+
+0 *.* 25
+
+0 *.* 20
+
+0 *.* 15
+
+0 *.* 10
+
+0 *.* 05
+
+
+86
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Filipe A. S. Moura, Carlos H. G. Ferreira, and Helen C. S. C. Lima
+
+
+speechiness
+
+
+danceability
+
+energy
+
+
+1 *.* 00
+
+0 *.* 75
+
+0 *.* 50
+
+0 *.* 25
+
+0 *.* 00
+
+
+valence
+
+liveness
+
+
+acousticness
+
+1.0
+
+speechiness
+
+
+danceability
+
+energy
+
+
+valence
+
+liveness
+
+
+acousticness
+
+1.0
+
+
+valence
+
+liveness
+
+
+acousticness
+
+1.0
+
+speechiness
+
+
+danceability
+
+energy
+
+
+1 *.* 00
+
+0 *.* 75
+
+
+0 *.* 50
+
+0 *.* 25
+
+0 *.* 00
+
+
+0 *.* 8
+
+0 *.* 6
+
+0 *.* 4
+
+0 *.* 2
+
+0 *.* 0
+
+
+Cluster 1 Cluster 2 Cluster 3 Cluster 4 Cluster 5 Cluster 6
+
+
+**Figure 8: Average tracks’ audio features across clusters.**
+
+first plot compares Cluster 2 (Goiânia, Brasília, and Uberlândia)
+and Cluster 5 (Cuiabá and Campo Grande), which have preferences
+for *sertanejo* and related styles. The notable difference is in *live-*
+*ness*, while other features are relatively similar. Both clusters show
+high *energy*, indicating a preference for energetic national country
+music. The second plot compares Cluster 1 (Florianópolis, Porto
+Alegre, Curitiba, and Belo Horizonte) and Cluster 6 (São Paulo
+and Campinas), which are associated with *funk* and its sub-genres.
+The main differences are in *speechiness*, *acousticness*, and *energy* .
+However, *danceability* stands out as a core feature for *funk* across
+both clusters. Finally, the third plot compares Cluster 3 (Recife,
+Fortaleza, and Salvador) and Cluster 4 (Rio de Janeiro, Belém, and
+Manaus), which do not share common genre preferences. Cluster 3
+has higher values for most features than Cluster 4, but both clusters
+characterize their regions — the North with Rio de Janeiro and the
+Northeast — as very energetic and dance-oriented.
+Lastly, we deeply explored the distribution of the outstanding
+track acoustic features of each comparison made in Figure 8, as
+shown in Figure 9. These boxplots provide a detailed view of the
+distribution for *liveness*, *speechiness*, and *valence* in all clusters. The
+first plot illustrates the *liveness* feature for all clusters. Clusters
+2 (Goiânia, Brasília, and Uberlândia) and 5 (Cuiabá and Campo
+Grande), which share similar *sertanejo* preferences, contrast significantly with the other clusters. This suggests that *sertanejo* tracks
+are more associated with live performances compared to other genres. The second plot presents the *speechiness* feature. Clusters 1
+(Florianópolis, Porto Alegre, Curitiba and Belo Horizonte) and 6
+(São Paulo and Campinas), the *funk* clusters, show a higher lyrical
+presence in their favorite tracks. This suggests that these clusters
+value lyrical content more and differentiate the types of *funk* they
+prefer. The *funk* of Cluster 1 ( *mtg, bh, carioca* ) focuses on rhythm
+and energy, while Cluster 6 emphasizes a more lyrical funk ( *paulista,*
+*consciente* ). The third plot shows the *valence* feature. Cluster 4 (Rio
+de Janeiro, Belém, and Manaus) shows a more dispersed distribution, indicating a preference for more “negative” music compared
+to the other clusters.
+To summarise, the Brazilian city clusters show different acoustic
+patterns in the tracks, regardless of the musical genres. Significant
+differences were observed in features such as *liveness*, *speechiness*,
+and *valence* between clusters with similar genre preferences. This
+reveals regional and cultural differences in musical preferences and
+acoustic nuances within the same genres in different regions.
+### **6 CONCLUSION AND FUTURE WORKS**
+
+
+Cluster 1 Cluster 2 Cluster 3 Cluster 4 Cluster 5 Cluster 6
+
+**Figure 9: Distribution of values for the features** ***liveness*** **,**
+***speechiness*** **, and** ***valence*** **across clusters.**
+
+the period from 2022 to 2023. This analysis aimed to understand
+the regional and cultural patterns in musical preferences and how
+these preferences are reflected in both genre and acoustic characteristics. Our approach involved modeling bipartite networks of
+genres and cities, extracting their backbones to highlight significant
+preferences, and performing detailed temporal and cluster analyses.
+The primary objectives were to address two research questions.
+In response to RQ1, we discovered that each city has a well-defined
+set of favorite genres that remain relatively stable over time. These
+favorite genres are consistently preferred, but there are occasional
+seasonal variations influenced by major holidays like Christmas,
+New Year’s Eve, and Carnival. It follows the results of previous
+studies which shows Brazil as one of the countries that most listen
+
+to national genres and how diverse their preference can be over
+different regions [ 6, 25, 30 ]. Our analysis has shown that the cities
+can be divided into two groups: one group, which includes Cuiabá,
+Campo Grande, and Uberlândia, consume their strict favorite genres
+throughout the year, while the other group has seasonal preferences
+in addition to their favorite genres. This distinction sheds light on
+how cultural events influence musical tastes in different regions of
+Brazil.
+
+Regarding RQ2, our clustering based on track acoustic features
+revealed distinct regional patterns. We identified six clusters of
+cities, some of which showed strong geographical ties, while others,
+such as the cluster including Rio de Janeiro, Belém, and Manaus,
+demonstrated that geographical distance was not a barrier to similar
+acoustic preferences, even their genre consumption are significantly
+different, as shown by previous authors [ 25, 30, 45 ]. Notably, we
+found that clusters with similar genre preferences could exhibit
+significant acoustic differences. For example, Cluster 5 (Cuiabá
+and Campo Grande) and Cluster 2 (Goiânia, Brasília, and Uberlândia) both prefer *sertanejo*, but with different acoustic profiles.
+This suggests that even within the same genre, there are regional
+differences in acoustic preferences that reflect broader cultural and
+regional influences. Our results show the importance of considering
+both genre and acoustic features to understand regional musical
+preferences. These findings can be valuable for the development
+of targeted marketing strategies and the improvement of music
+recommendation systems.
+For future work, we plan to scale the analysis to a global level
+to gain even deeper insights into the cultural and regional diversity of musical preferences and to use the backbone extraction
+methodology to cope with the heterogeneity of global music data.
+
+
+In this study, we collected and analyzed data on digital music consumption from Spotify, focusing on various cities in Brazil over
+
+
+87
+
+
+-----
+
+Characterization of the Brazilian musical landscape WebMedia’2024, Juiz de Fora, Brazil
+
+### **REFERENCES**
+
+[1] Moonis Ali and Savvas Zannettou. 2024. From Isolation to Desolation: Investigating Self-Harm Discussions in Incel Communities. 18 (May 2024), 43–56.
+https://doi.org/10.1609/icwsm.v18i1.31296
+
+[2] Carlos Araujo, Marco Cristo, and Rafael Giusti. 2019. Predicting Music Popularity
+on Streaming Platforms. In *Anais do XVII Simpósio Brasileiro de Computação*
+*Musical* (São João del-Rei). SBC, Porto Alegre, RS, Brasil, 141–148. https://doi.
+org/10.5753/sbcm.2019.10436
+
+[3] Mariana Lopes Barata and Pedro Simoes Coelho. 2021. Music streaming services:
+understanding the drivers of customer purchase and intention to recommend.
+*Heliyon* 7, 8 (2021).
+
+[4] Gabriel Barbosa, Bruna Melo, Gabriel Oliveira, Mariana Silva, Danilo Seufitelli, and Mirella Moro. 2021. Hot Streaks in the Brazilian Music Market:
+A Comparison Between Physical and Digital Eras. In *Anais do XVIII Simpósio*
+*Brasileiro de Computação Musical* (Recife). SBC, Porto Alegre, RS, Brasil, 152–159.
+https://doi.org/10.5753/sbcm.2021.19440
+
+[5] Dogan Basaran and Keti Ventura. 2022. Exploring Digital Marketing In Entertainment Industry: A Case Of A Digital Music Platform. *Journal of Management*
+*Marketing and Logistics* 9, 3 (2022), 115–126.
+
+[6] Pablo Bello and David Garcia. 2021. Cultural Divergence in popular music: the increasing diversity of music consumption on Spotify across countries. *Humanities*
+*and Social Sciences Communications* 8, 1 (2021), 1–8.
+
+[7] Pauwke Berkers. 2012. Gendered scrobbling: Listening behaviour of young adults
+on Last. fm. *Interactions: Studies in Communication & Culture* 2, 3 (2012), 279–296.
+
+[8] Jean-Samuel Beuscart, Samuel Coavoux, and Jean-Baptiste Garrocq. 2023. Listening to music videos on YouTube. Digital consumption practices and the environmental impact of streaming. *Journal of Consumer Culture* (2023), 654–671.
+
+[9] Michele Coscia. 2021. Noise Corrected Sampling of Online Social Networks. *ACM*
+*Transactions on Knowledge Discovery from Data (TKDD)* 15, 2 (2021), 1–21.
+
+[10] Anne Danielsen and Yngvar Kjus. 2019. The mediated festival: Live music as
+trigger of streaming and social media engagement. *Convergence* (2019).
+
+[11] Robert Dorfman. 1979. A formula for the Gini coefficient. *The review of economics*
+*and statistics* (1979), 146–149.
+
+[12] Maura Edmond. 2014. Here we go again: Music videos after YouTube. *Television*
+*& New Media* 15, 4 (2014), 305–320.
+
+[13] Falina Enriquez. 2022. Pernambuco and Bahia’s Musical “War”: Contemporary
+Music, Intraregional Rivalry, and Branding in Northeastern Brazil. *Luso-Brazilian*
+*Review* 59, 1 (2022), 22–60.
+
+[14] Ghazal Fazelnia, Eric Simon, Ian Anderson, Benjamin Carterette, and Mounia Lalmas. 2022. Variational User Modeling with Slow and Fast Features. In *Proceedings*
+*of the Fifteenth ACM International Conference on Web Search and Data Mining*
+(Virtual Event, AZ, USA) *(WSDM ’22)* . Association for Computing Machinery,
+New York, NY, USA, 271–279. https://doi.org/10.1145/3488560.3498477
+
+[15] Andres Ferraro, Xavier Serra, and Christine Bauer. 2021. What is fair? Exploring
+the artists’ perspective on the fairness of music streaming platforms. In *IFIP*
+*conference on human-computer interaction* . Springer, 562–584.
+
+[16] Carlos Henrique Gomes Ferreira, Fabricio Murai, Ana P. C. Silva, Martino Trevisan, Luca Vassio, Idilio Drago, Marco Mellia, and Jussara M. Almeida. 2022. On
+network backbone extraction for modeling online collective behavior. *PLOS ONE*
+17, 9 (09 2022), 1–36. https://doi.org/10.1371/journal.pone.0274218
+
+[17] Jonathon Grasse. 2021. Musical Spaces and Deep Regionalism in Minas Gerais,
+Brazil. In *Musical Spaces* . Jenny Stanford Publishing, 5–21.
+
+[18] Jiawei Han, Jian Pei, and Hanghang Tong. 2022. *Data mining: concepts and*
+*techniques* . Morgan kaufmann.
+
+[19] John A Hartigan and Manchek A Wong. 1979. Algorithm AS 136: A k-means
+clustering algorithm. *Journal of the royal statistical society. series c (applied*
+*statistics)* 28, 1 (1979), 100–108.
+
+[20] David Hesmondhalgh. 2022. Streaming’s effects on music culture: Old anxieties
+and new simplifications. *Cultural Sociology* 16, 1 (2022), 3–24.
+
+[21] David C Howell. 1992. *Statistical methods for psychology* . PWS-Kent Publishing
+Co.
+
+[22] Julie Jiang, Aditiya Ponnada, Ang Li, Ben Lacker, and Samuel F Way. 2024. A
+Genre-Based Analysis of New Music Streaming at Scale. In *Proceedings of the*
+*16th ACM Web Science Conference* (<conf-loc>, <city>Stuttgart</city>, <country>Germany</country>, </conf-loc>) *(WEBSCI ’24)* . Association for Computing Machinery, New York, NY, USA, 191–201. https://doi.org/10.1145/3614419.
+3644002
+
+[23] Ian T Jolliffe and Jorge Cadima. 2016. Principal component analysis: a review
+and recent developments. *Philosophical transactions of the royal society A: Mathe-*
+*matical, Physical and Engineering Sciences* 374, 2065 (2016), 20150202.
+
+[24] Maarit Kinnunen, Harri Homi, and Antti Honkanen. 2020. Social sustainability
+in adolescents’ music event attendance. *Sustainability* 12, 22 (2020), 9419.
+
+[25] Conrad Lee and Padraig Cunningham. 2012. The Geographic Flow of Music. (04
+2012). https://doi.org/10.1109/ASONAM.2012.237
+
+[26] Conrad Lee and Padraig Cunningham. 2023. Number of music streaming subscribers worldwide from the 1st half of 2019 to 3rd quarter 2023. (2023). https:
+//www.statista.com/statistics/669113/number-music-streaming-subscribers/
+
+
+
+[27] Elisabeth Lex, Dominik Kowald, and Markus Schedl. 2020. Modeling Popularity
+and Temporal Drift of Music Genre Preferences. *Trans. Int. Soc. Music. Inf. Retr.* 3,
+1 (2020), 17–30.
+
+[28] Renan S Linhares, José M Rosa, Carlos HG Ferreira, Fabricio Murai, Gabriel
+Nobre, and Jussara Almeida. 2022. Uncovering coordinated communities on
+twitter during the 2020 us election. In *2022 IEEE/ACM International Conference*
+*on Advances in Social Networks Analysis and Mining (ASONAM)* . IEEE, 80–87.
+
+[29] Riccardo Marcaccioli and Giacomo Livan. 2019. A pólya urn approach to information filtering in complex networks. *Nature communications* (2019).
+
+[30] Maria Luiza Botelho Mondelli, Luiz M. R. Gadelha Jr., and Artur Ziviani. 2018.
+O Que os Países Escutam: Analisando a Rede de Gêneros Musicais ao Redor do
+Mundo. In *Anais do VII Brazilian Workshop on Social Network Analysis and Mining*
+(Natal). SBC, Porto Alegre, RS, Brasil. https://doi.org/10.5753/brasnam.2018.3586
+
+[31] Jeremy Wade Morris. 2020. Music platforms and the optimization of culture.
+*Social Media+ Society* 6, 3 (2020), 2056305120940690.
+
+[32] Shane Murphy. 2020. Music marketing in the digital music industries–An autoethnographic exploration of opportunities and challenges for independent
+musicians. *International Journal of Music Business Research* 9, 1 (2020), 7–40.
+
+[33] Houssam Nassif, Kemal Oral Cansizlar, Mitchell Goodman, and SVN Vishwanathan. 2018. Diversifying music recommendations. *arXiv preprint*
+*arXiv:1810.01482* (2018).
+
+[34] Zachary P Neal. 2022. backbone: An R package to extract network backbones.
+*PloS one* 17, 5 (2022), e0269137.
+
+[35] Robert Nisbet, John Elder, and Gary D Miner. 2009. *Handbook of statistical analysis*
+*and data mining applications* . Academic press.
+
+[36] Ramy A Rahimi and Kyung-Hye Park. 2020. A comparative study of internet
+architecture and applications of online music streaming services: The impact
+on the global music industry growth. In *2020 8th International Conference on*
+*Information and Communication Technology (ICoICT)* . IEEE, 1–6.
+
+[37] Jing Ren and Robert J. Kauffman. [n. d.]. Understanding music track popularity
+in a social network.(2017). In *Proceedings of the 25th European Conference on*
+*Information Systems ECIS, Guimarães, Portugal, June* . 5–10.
+
+[38] Peter J Rousseeuw. 1987. Silhouettes: a graphical aid to the interpretation and
+validation of cluster analysis. *Journal of computational and applied mathematics*
+20 (1987), 53–65.
+
+[39] M Ángeles Serrano, Marián Boguná, and Alessandro Vespignani. 2009. Extracting
+the multiscale backbone of complex weighted networks. *Proceedings of the*
+*national academy of sciences* 106, 16 (2009), 6483–6488.
+
+[40] Yading Song, Simon Dixon, and Marcus Pearce. 2012. A survey of music recommendation systems and future perspectives. In *9th international symposium on*
+*computer music modeling and retrieval*, Vol. 4. Citeseer, 395–410.
+
+[41] Vilde Schanke Sundet and Marika Lüders. 2023. “Young people are on YouTube”:
+industry notions on streaming and youth as a new media generation. *Journal of*
+*Media Business Studies* 20, 3 (2023), 223–240.
+
+[42] Fernando Terroso-Saenz, Jesús Soto, and Andres Muñoz. 2023. Music Mobility
+Patterns: How Songs Propagate Around the World Through Spotify. *Pattern*
+*Recognition* 143 (2023), 109807.
+
+[43] Pier Paolo Tricomi, Luca Pajola, Luca Pasa, and Mauro Conti. 2024. "All of
+Me": Mining Users’ Attributes from their Public Spotify Playlists. In *Companion*
+*Proceedings of the ACM on Web Conference 2024* . Association for Computing
+Machinery, New York, NY, USA.
+
+[44] Gerald Van Belle. 2011. *Statistical rules of thumb* . John Wiley & Sons.
+
+[45] Gabriel Vaz de Melo, Ana Machado, and Lucas Carvalho. 2020. Music consumption in Brazil: an analysis of streaming reproductions. *PragMATIZES - Revista*
+*Latino-Americana de Estudos em Cultura* 10 (09 2020), 141.
+
+[46] Samuel F. Way, Jean Garcia-Gathright, and Henriette Cramer. 2020. Local Trends
+in Global Music Streaming. *Proceedings of the International AAAI Conference on*
+*Web and Social Media* 14, 1 (May 2020), 705–714. https://doi.org/10.1609/icwsm.
+v14i1.7336
+
+[47] Jacob Wolbert. 2023. Multiple Brasilidades: Musician-Market Negotiations within
+the Brazilian Midstream. *Journal of Popular Music Studies* 35, 3 (2023), 102–127.
+
+
+88
+
+
+-----
+

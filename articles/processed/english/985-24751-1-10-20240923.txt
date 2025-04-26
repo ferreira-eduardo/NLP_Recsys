@@ -1,0 +1,844 @@
+# **Elderly Fall Monitoring in Smart Homes Using Wearable Device**
+
+## Júlia M. P. Moreira
+#### juliampmoreira7@gmail.com Department of Applyed Computing Federal University of Lavras - Lavras - Brazil
+
+## Raphael W. Bettio
+#### raphaelwb@ufla.br Department of Applyed Computing Federal University of Lavras - Lavras - Brazil
+
+## André P. Freire
+#### apfreire@ufla.br Department of Computer Science Federal University of Lavras - Lavras - Brazil
+
+## Luciano M. Santos
+#### mendesluciano@ufla.br Department of Computer Science Federal University of Lavras - Lavras - Brazil
+### **ABSTRACT**
+
+The constant progress of technology, especially in the area of health,
+brings numerous benefits, one of which is the increase in human
+life expectancy. However, problems that occur recurrently among
+the elderly age group are now on the radar of studies that also seek
+to improve the quality of life of these people. The number of cases
+of falls among elderly people is worrying, even more so as this is a
+portion of the population that tends to live alone. In the context of
+smart homes, several solutions have emerged for monitoring elderly
+people to increase safety and provide faster assistance, if necessary.
+One of these solutions is the use of wearable devices responsible for
+identifying the person’s movements. This work presents the study
+and development of a wearable device capable of detecting falls and,
+if they occur, automatically notifying the necessary people through
+alert messages via the Telegram application so that they can help
+the person who has suffered a fall. In this work, a Wi-Fi network,
+MQTT protocol, accelerometer and gyroscope inertial sensors and
+an ESP32 board programmed using the Arduino IDE were used.
+Preliminary tests indicated good performance in recognizing falls,
+based on tilt angle analysis, gyroscope readings and accelerometer
+readings. The proof of concept and preliminary tests carried out
+demonstrate the potential for using low-cost technologies for wearable resources for application in smart homes and monitoring the
+health of elderly people.
+### **KEYWORDS**
+
+fall detection, wearable technologies, accelerometer and gyroscope,
+alert messages
+### **1 INTRODUCTION**
+
+With the encouragement of innovation and technology as an important pillar to improve people’s quality of life, there is also an
+increase in life expectancy and the aging rate of the world’s population. In Brazil, according to the 2022 IBGE census, the population
+over 60 years of age reached 32,113,490 (15.6%) [ 9 ]. The best thermometer to measure an elderly person’s health is checking their
+functional capacity, which is a person’s real ability to carry out the
+
+In: Proceedings of the Brazilian Symposium on Multimedia and the Web (WebMe
+dia’2024). Juiz de Fora, Brazil. Porto Alegre: Brazilian Computer Society, 2024.
+© 2024 SBC – Brazilian Computing Society.
+ISSN 2966-2753
+
+## Marluce R. Pereira
+#### marluce@ufla.br Department of Applyed Computing Federal University of Lavras - Lavras - Brazil
+
+daily activities possible to live independently and self-sufficiently,
+which tends to reduce with aging. There are scales that measure
+this functional capacity, such as the Barthel scale, the Katz scale,
+the Lawton and Brody scale, the Pfeffer scale, among others [ 12 ],
+which assess the independence of the elderly in basic activities of
+daily living: eating, personal hygiene, getting dressed, using the
+toilet, moving from bed to chair and vice versa, cooking, managing
+medications, shopping, washing clothes, cleaning the house, using
+the telephone, remembering appointments, among others. Risks
+such as falling further increase the concern of family members and
+people close to elderly people, as they reduce functional capacity
+
+[28].
+A smart home has devices connected to the Internet that allow
+
+remote monitoring and control of appliances and systems such as
+lighting and heating, as well as other types of sensors, using the
+internet of things (IoT)[ 13 ]. Furthermore, there may be wearable
+sensors that allow the implementation of *Human Activity Recogni-*
+*tion (HAR)* systems in smart homes, helping to improve people’s
+quality of life with autonomy and safety [ 7 ], [ 23 ]. In this context,
+a solution to alleviate the consequences of these difficulties in the
+lives of elderly people, while rescuing independence in daily activities and reassuring people close to them, consists of installing
+monitoring systems in the home, in order to guarantee assistance
+if an incident occurs such as: a fire, fainting, fall or even illness
+caused by changes in vital signs. There are different types of emergency alert devices that have been developed for dependent people,
+including children, people with disabilities, the sick and the elderly.
+Most of them send an alarm only when help is needed, but some
+are developed to monitor the health of sick patients, such as blood
+pressure, heart rate, among others [ 17 ]. Monitoring an environment means using different devices that obtain desired data, such
+as a camera, motion sensor, temperature, humidity or brightness,
+among others, so that from this data it is possible to make decisions
+in order to achieve the objectives of monitoring.
+The problem addressed in this work is how to identify that an
+elderly person who is alone in their home has suffered a fall and, in
+addition to identifying, use this information to alert people nearby
+through warning messages [ 11 ]. Therefore, an effective, portable
+solution is sought, with integration with the internet network, to
+maintain connectivity and provide warnings when necessary. One
+of the ways to monitor situations that happen to human beings is by
+"wearing" sensors and devices capable of identifying variations and
+
+
+124
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Moreira et al.
+
+
+communicating important information in such a way that readings
+and data collection are not harmed and are useful for the necessary
+analysis.
+The main objective of this work is the design and implementation of a wearable device prototype for fall monitoring, using
+accelerometer and gyroscope sensors, and connecting this monitoring devices to a smart home ecosystem using the Node-RED
+platform to manage warnings when a fall has been detected. To
+achieve this objective, it was necessary to research and understand
+the technologies involved in existing wearable devices and, from
+this, choose the best and most affordable ones to implement in a
+real prototype. Then, an accelerometer and a gyroscope were integrated with the ESP32 module to build the wearable device. Finally,
+software was developed in a smart home environment capable of
+reliably collecting sensor data and interpreting it to identify different movements that determine a fall and manage alerts sent over
+the internet to registered people.
+Section 2 presents the references about elderly falls and domestic
+accidents, wearable devices, Node-RED and related work. Section
+3 describes the methodology adopted to build the prototype and
+defines the test cases studied, as well as the standard followed to
+carry out these tests. Section 4 presents all the results obtained
+with the developed solution and, finally, Section 5 deals with the
+conclusions about the prototype and implemented solution and
+indicates development opportunities to improve the project.
+### **2 THEORICAL REFERENCE** **2.1 Elderly falls and domestic accidents**
+
+A fall is defined as *"inadvertently coming to rest on the ground or*
+*at another lower level, excluding intentional changes of position to*
+*lean on furniture, walls or other objects"* [ 16 ]. As this is an increasingly present problem in the lives of families around the world, the
+World Health Organization (WHO), which defines the age group of
+elderly people as 60 years or older, publishes global reports aimed
+at preventing falls in old age. The frequency of falls increases with
+age and level of frailty. Approximately 28% to 35% of people over
+65 years of age suffer falls each year, and the proportion rises from
+32% to 42% for people over 70 years of age [16].
+Falls can occur due to factors such as: decreased muscle strength;
+osteoporosis; walking abnormalities; change in blood pressure; depression; senility; osteoarthritis, hip fragility or balance changes;
+neurological changes (stroke, Parkinson’s disease, multiple sclerosis and Alzheimer’s disease); decreased vision and/or hearing;
+among others. There are also factors related to the environment
+such as: poorly lit environments; poorly planned houses; inadequate arrangement of furniture that hinders movement; slippery
+objects scattered around the house; among others [5].
+Furthermore, a higher frequency of falls has been reported in
+nursing homes, in some cases including recurrent falls. It is possible to conclude, then, that even if nursing homes are adapted to
+the reality of the elderly’s tasks, they are still not out of danger.
+Therefore, the implementation of integrated solutions for these
+people’s homes is increasingly being studied so that assistance can
+be provided quickly if falls occur, such as the development of intelligent surveillance systems for monitoring, since the medical
+
+
+consequences of accidents like this depend on much of the rescue
+response time [18].
+### **2.2 Wearable devices**
+
+Wearable devices are technologies developed to be used directly
+in contact with the body, whether as sensors embedded in clothing, as accessories to wear on the head, badges or even as wrist
+accessories. Several brands already have so-called “smartwatches”,
+which are watches with the functions of well-known smartphones
+and which increasingly have applications that are interesting for
+monitoring the health of the individual who uses them. There are
+“smartwhatches” which are capable of measuring body temperature, blood glucose or oxygen concentration, blood pH and blood
+pressure through biometric sensors [24].
+The benefits of this type of technology are very interesting from
+the point of view of people’s quality of life, especially the elderly
+population.
+In the specific case of fall detection, as discussed in [ 1 ], there is
+also a study on the best location for the wearable device considering
+two main factors: the accuracy of the sensors and the need to be
+comfortable for the person using it. Among the places available to
+attach them, there are waist, head, wrist, front of the waist, thigh,
+chest, ankle and arm. According to [ 8 ] and [ 1 ], the best places to
+guarantee correct analysis of sensor data are the chest, ankle and
+waist, however these are strongly linked to the stigma of using a
+medical device and, combined with the fact needing to be used 24
+hours a day, they can be uncomfortable and less accepted [8].
+The most comfortable place from the user’s point of view is
+the wrist, however solutions based on wearable devices attached
+to the wrist have the worst accuracy results, with values lower
+than 90%, greatly increasing the level of complexity of the analysis
+and calculations involving the data obtained. For devices used in
+this location, a more in-depth study on the use of this data ends
+up being necessary. Some studies include, for example, machine
+learning applications as a resource to increase the precision and
+quality of analyzes [8].
+Accelerometers and gyroscopes are inertial sensors used to monitor movements that can be attached as wearables [ 26 ]. The accelerometer measures the acceleration of a body in relation to gravity, that is, it measures the acceleration exerted on certain objects,
+performing some type of action depending on the movement performed on it. The gyroscope uses the force of gravity to indicate the
+position of a given object in space, being able to identify whether
+something is rotating on its own axis or whether it is pointing
+up or down. When the objective is to accurately determine the
+movement of an object or user, it may be necessary to combine
+the signals from sensors accelerometers and gyroscopes, because
+accelerometers present as an output signal the linear acceleration
+of the object and gyroscopes the angular velocity. The combination
+of these signals results in more complete information about the
+movement and allows for more assertive analysis.
+### **2.3 Node-RED**
+
+In order to connect and implement IoT devices, it is possible to find
+some tools that facilitate activities at the code and programming
+levels. Node-Red is a programming tool, created by IBM Emerging
+
+
+125
+
+
+-----
+
+Elderly Fall Monitoring in Smart Homes Using Wearable Device WebMedia’2024, Juiz de Fora, Brazil
+
+
+Technology, based on flow, used to integrate electronic components
+with applications of different natures, making it possible to develop
+programs quickly and intuitively. It is open source and is based
+on *nodes*, blocks of pre-defined functions available in a platform
+tab called *palette* . It is possible to build the desired flow just by
+dragging the blocks to the provided workspace and making the
+desired connections and interactions between blocks [21].
+To make it possible to assess whether the constructed flow is
+performing the functions as determined, the platform also has a
+“debug" tab, where messages and actions appear synchronously
+with the functioning of the developed system. Node-RED has been
+used in the scenario of developing IoT and connectivity solutions
+as it proves to be a very useful and practical platform [3].
+### **2.4 Related works**
+
+Gupta et al. [ 14 ] presents an IoT-based fall detection monitoring
+system for the elderly using only a 3-axis accelerometer. Torres [ 26 ]
+uses two sensors (accelerometer and 3-axis gyroscope), attached
+to the user’s chest. A threshold analysis algorithm uses the data
+generated by these sensors to detect falls. This approach is the same
+as that used in this work. However, in the work of [ 26 ] Node-Red
+was not used as a tool to integrate devices with the network and a
+smart home system.
+Quadros et al. [ 8 ] show the development and evaluation of a fall
+detection solution with the implementation of machine learning to
+improve results. The developed solution is worn on the wrist, as it
+is considered the most comfortable place, and uses an accelerometer, gyroscope and magnetometer to calculate acceleration, speed
+and displacement which, implemented in methods based on machine learning, can define the best approach for detecting a fall.
+The results are based on data acquired from falling and non-falling
+movements of 22 volunteers demonstrating the approach used for
+testing with real users. The authors of [ 20 ] applied the methodology, focusing on precision and effectiveness, to evaluate the KNN,
+Decision Tree and MLP algorithms applied to accelerometer data to
+detect falls. Other works also applied machine learning algorithms
+and [2] and deep learning [4], [15] and [19].
+The works of [ 18 ] and [ 27 ] make a comprehensive survey of
+different devices, fall detection systems and the algorithms implemented in each one. Three categories of approaches are identified:
+solutions based on wearable devices, devices placed in the environment and solutions using cameras. The analysis on wearable
+devices deals with the same sensors used in this work and the approach is very close considering algorithms and location of the
+wearable device. The analyzes of other approaches are interesting,
+as they demonstrate alternatives that, if linked to wearable devices,
+add even more reliability to monitoring in smart homes, especially
+in the problem of elderly people falling.
+In the work of [ 25 ], wearable devices based on inertial sensors
+and insoles that were developed for applications related to falls
+are analyzed, identifying key points, including spatio-temporal
+parameters, biomechanical parameters of gait, physical activities
+and methods data analysis relating to developed systems.
+The assessment of confidence in the functioning of a ubiquitous
+system that uses a microphone and accelerometer and magnetometer sensors to detect and alert falls called fAlert is presented in the
+
+
+works [ 10 ] and [ 11 ]. Software quality measures such as precision,
+sensitivity, availability, specificity, performance, accuracy, among
+others, are used.
+This work presents a wearable device (on the chest) that collects
+and analyzes movement data from elderly people wherever they
+are in a smart home ecosystem. An alert is sent to the responsible
+personnel in real time via Telegram in a cell phone, speeding up
+the rescue process.
+### **3 METHODOLOGY**
+
+The wearable device for monitoring falls proposed in this work is
+based on two sensors, the accelerometer and the gyroscope, to find
+movement patterns that determine a fall and then alert family members of elderly people. The MPU6050 module was chosen because it
+has the two sensors mentioned integrated in order to facilitate the
+use of its output data when carrying out the tests. This module was
+connected to the ESP32 development module, which has a small
+size and built-in support for WiFi and Bluetooth networks, as well
+as integrated flash memory.
+To develop the project’s programming, the integrated development environment created to program microcontrollers from the
+Arduino family (Arduino IDE) was used, but which can also be used
+for compatible modules, such as the ESP32. The IDE’s programming language is C++, with the installation of specific libraries
+that already have ready-made functions for reading and processing sensor data, in addition to libraries that assist in the use of
+the ESP32 module’s WiFi connectivity (WiFi, Ethernet, Wire and
+PubSubClient).
+### **3.1 Construction of the wearable device**
+
+The construction of the prototype began with the assembly of the
+components on a bench to carry out basic functional tests, with
+the sole objective of reading sensor data in a satisfactory manner,
+implementing communication with other clients using the MQTT
+protocol ( *Message Queue Telemetry Transport* ) and implement the
+complementary filter in order to increase data reliability [ 26 ]. Figure
+1 depicts the arrangement of the prototype components in the first
+stage of construction without considering sensor reading axes.
+
+**Figure 1: Wearable device prototype on bench.**
+
+Source: From the author (2024).
+
+To build the wearable device prototype, the chest was considered as the best place to attach the components, aiming for more
+reliable data and better performance. Based on this determination,
+
+
+126
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Moreira et al.
+
+
+**Figure 2: Wearable device.**
+
+Source: From the author (2024).
+
+a comfortable and safe way to use the device was sought, as shown
+in Figure 2. The ESP32 is powered at this stage by a 9V battery.
+### **3.2 Algorithm**
+
+The algorithm implemented in Arduino IDE for the ESP32 module is
+schematized in the flowchart in Figure 3. ESP32 stablish connection
+with Wi-fi to access the MQTT broker and activate the MPU6050
+module composed by accelerometer and gyroscope. ESP32 remains
+in a loop taking sensor readings, converting values of gyroscope
+to degrees/second and accelerometer to degrees. After that, the
+complementary filter is used. The results are analyzed to identify
+falls and the alerts are sent.
+### **3.3 Test Cases**
+
+Considering the age range of the elderly, it is possible to identify
+some scenarios that could result in a fall: falls when walking or
+standing, falls when standing on supports (e.g. stairs, benches, etc.),
+falls when lying down or getting out of bed or falling when sitting
+on a chair [ 18 ]. Therefore, to carry out the tests, three non-falling
+movements and four falling movements were determined for analysis. The non-falling movements are walking, standing and sitting,
+and the falling movements are forwards, backwards and to the left
+and right sides. Movement variations occur based on the initialization and stationary values of the MPU6050 module sensors. In
+this way, the device is always initialized in the sitting position in
+order to reproduce a scenario where the user puts on the device in
+the morning before getting up, thus maintaining value references
+with the smallest possible variations and improving results. Other
+voluntary movements of lying down are considered normal and do
+not generate alerts.
+### **3.4 Testing methodology**
+
+To carry out tests, the following methodology was defined:
+
+(1) The person responsible for using the wearable device prototype must place it on the body, adjusting the straps so that
+it is coupled and fixed to the chest, but still in a comfortable
+way that does not impede movement. The device must be
+turned off.
+
+
+**Figure 3: Flowchart of the program developed for ESP32.**
+
+Source: From author (2024).
+
+(2) Once adjusted and dressed properly, the user must sit in a
+chair with an upright posture and turn on the device.
+(3) All tests must last two minutes to better visualize the plotted
+data and be carried out in a location with a stable Wi-Fi
+
+connection and by the same user.
+(4) For non-fall tests, data can be collected as soon as the device
+is turned on, however for fall data the user must get up and
+go to the testing location and wait at least thirty seconds until
+the data is collected and stabilized for better visualization in
+
+graphs that are plotted simultaneously.
+(5) After carrying out the falling movement, wait again for at
+least thirty seconds for the data to stabilize.
+(6) At the end of the desired data collection, the user must turn
+off the device so that the data plotting stops and the graphs
+can be saved with the recent data.
+
+(7) Ideally, the tests should be repeated three to four times for
+data comparison and coherence.
+### **4 RESULTS**
+
+Obtaining the results begins with reading the data from the MPU6050
+module. The raw values read by the sensors can be obtained using the Wire library, however it is necessary to process these data,
+as the values found do not correspond to any physical quantity
+
+
+127
+
+
+-----
+
+Elderly Fall Monitoring in Smart Homes Using Wearable Device WebMedia’2024, Juiz de Fora, Brazil
+
+
+and therefore it is necessary to convert them. In the case of the
+gyroscope, the values are converted to degrees per second (º/s) and
+represent the position variations in an angular velocity quantity.
+As for the accelerometer, the raw data is used to find an inclination
+angle, but for the result of the values obtained to be a more accurate
+value, it is necessary to use a relationship between the three axes,
+making a conversion according to equations (1) to (3) implemented
+in the code.
+
+
+*𝜌* = arctan ���
+�
+
+*𝜙* = arctan ���
+�
+
+*𝜃* = arctan
+���
+�
+
+
+*𝐴* *𝑥*
+~~√~~ *𝐴* [2] *𝑦* + *𝐴* *𝑧* [2]
+
+
+*𝐴* *𝑥*
+
+*𝐴* [2] +
+
+~~√~~ *𝑦*
+
+
+; (1)
+
+
+*𝐴*
+*𝑦*
+
+*𝐴* *𝑥* [2] +
+
+√︃
+
+[2]
+
+
+; (2)
+
+
+*𝐴* *𝑥* [2] + *𝐴* *𝑧* [2]
+
+
+√
+
+
+*𝐴* *𝑥* [2] + *𝐴* [2] *𝑦*
+
+
+(3)
+
+
+values (sitting, standing and walking) and are demonstrated in
+Figures 4 and 5. In Figure 4, it can be seen that the tilt angle in the
+Y axis increases, while in the X axis it decreases when the person
+stands up, but in the Z axis the change is small due to the position of
+the body where the wearable is located. The person leans forward
+to stand, so the values of X and Y vary more. These variations are
+visualized in the gyroscope and accelerometer readings. When the
+person is walking (Figure 5), the variations in the X and Y readings
+are greater, as the person varies the position of their body.
+Figures 6, 7, 8 and 9 present data on falling movements (forward,
+backward, right side and left side).
+In all plotted graphs, the X axis presents the last two minutes of
+sensor readings in HH:MM format. The Y axis for the “Accelerometer Readings" graph presents the angle variations in degrees, for
+the “Gyroscope Readings" graph it presents the angular velocity in
+degrees per second (º/s) and, for the “ Tilt angle" the Y axis presents
+the angles in degrees. The values presented were analyzed to verify coherence and are samples chosen from four others for each
+
+movement.
+
+It is possible to infer from the graphs generated that non-falling
+movements will not be confused with falling movements, since
+the values obtained for angular velocity for both the movement
+of getting up from a chair and movements for walking are not
+greater than 80 or less than -40, whereas for falling movements the
+values obtained from the gyroscope reading exceed these limits. The
+angular velocity is very important for determining the limits, as the
+speed of falling movements is clearly greater than that of everyday
+movements. It was expected that in the accelerometer readings the
+Z axis and the Y axis would present greater variation in degrees for
+forward and backward falling movements, since these movements
+occur by rotating the axes around the X axis. The falling movements
+to the right and left sides, the X and Y axes are those that show the
+greatest variations, as the movements occur by rotating the axes
+around the Z axis. Finally, the inclination angle values, mainly on
+the Y axis, are also very specific and clearly incorporate the critical
+components of the accelerometer and gyroscope.
+After analyzing and identifying limits for each component of the
+tests: accelerometer, gyroscope and tilt angle readings, these limits
+are implemented in conditional structures in the code to ensure
+that all cases are understood. Each case of an outage is published
+in a single topic called “ Outage " and this topic must be accessed on
+Node-RED, where messages are sent to the people registered for
+this purpose.
+With the implementation of all cases of failure in the developed
+algorithm, integration with Node-RED can be carried out. A flow
+was built with a node subscribed to the topic “ Queda " which, upon
+receiving the value “ 1 " indicating that there was a fall, activates a
+trigger that sends a message through the Telegram application. To
+implement the sending of messages via Node-RED, it is necessary
+to create a chat bot on Telegram, that is, a specific programmed
+conversation window for sending outage alert messages. The creation of the chat bot can be easily done through the application
+itself by chatting with another bot developed for this purpose. It
+is necessary to search for “ BotFather " within the Telegram application and send the “ newbot " command. With this, it is possible
+choose the bot’s name and username, but the username must be
+
+
+*𝐴* *𝑧*
+
+
+���;
+�
+
+���;
+�
+
+���
+�
+
+
+In the equations *𝜌* represents the rotation around the Y axis, *𝜙*
+the rotation around the X axis and *𝜃* the rotation around the Z
+axis, “arctan" refers to finding the arc tangent, the inverse function
+of the tangent, and the values *𝐴* *𝑥*, *𝐴* *𝑦* and *𝐴* *𝑧* represent the readings obtained with the MPU-6050 module on the X, Y and Z axes,
+respectively.
+After the sensor data reading provides treated values with known
+units, the implementation of the complementary filter is included
+with the function of reducing noise in the measurements by integrating gyroscope data with the angles obtained from the accelerometer
+readings. The complementary filter uses two constants in the calculations, *𝛼* (alpha) and Δ t (sampling rate). *𝛼* is determined by a
+relationship between a time constant and the sampling rate. For the
+calculations in this article, a time constant equal to 1 and a sampling
+rate of 0.04 are used, values obtained through the specifications of
+the chosen sensor module, resulting in an alpha value equal to 0.96.
+In this way, the filtered angle is found through the equation (4).
+
+*𝐴𝑛𝑔𝑙𝑒* = *𝛼* ∗( *𝐴𝑛𝑔𝐺𝑖𝑟𝑜𝑠𝑐𝑜𝑝𝑦* ) + (1 − *𝛼* ) ∗( *𝐴𝑛𝑔𝐴𝑐𝑐𝑒𝑙𝑒𝑟𝑜𝑚𝑒𝑡𝑒𝑟* ) (4)
+
+With all readings occurring correctly, the aim is to develop the
+fall detection algorithm based on values obtained for previously
+determined falling and non-falling movements.
+A dashboard was developed using the Node-RED platform capable of synchronously plotting the values obtained with the device.
+Data readings are published in topics and in the flow built in NodeRED, these topics are subscribed to nodes called “ mqtt in ", this
+is possible because both the ESP32 development module and the
+node are connected to the same broker, according to server and
+client concepts, using the MQTT protocol. These nodes responsible
+for receiving the reading values are connected to “ chart " nodes
+capable of plotting graphs on the dashboard. This way the data is
+posted at the same time as the readings take place. The constructed
+flow is demonstrated in Figure 10, where subscription nodes in the
+topics where sensor values are posted in Node-RED.
+From the built dashboard it is possible to monitor the values
+of the desired readings for subsequent analysis and definition of
+limits for each type of fall determined. The graphs present the tests
+following the methodology described previously, first for non-fall
+
+
+128
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Moreira et al.
+
+**Figure 4: Values obtained for user testing initially sitting and then standing.**
+
+Source: From author (2024).
+
+**Figure 5: Values obtained for walking user test.**
+
+Source: From author (2024).
+
+**Figure 6: Values obtained for user test initially stopped and then falling forward.**
+
+Source: From author (2024).
+
+
+unique. For this work, a bot named “ Monitoramento e saúde "
+with username “monitoramento-saudebot" was created.
+When creating a bot with “ BotFather " a token code is provided
+to access the HTTP API. Node-RED has an extension that directly accesses Telegram named “ telegrambot ", generating five new nodes.
+
+
+One of these is the “ sender " node responsible for sending a message to the registered chat when activated. To execute the sending
+action, a “ mqtt in " node is used to receive the message posted by
+ESP32 when a fall movement occurs and this event is enough to
+start the flow.
+
+
+129
+
+
+-----
+
+Elderly Fall Monitoring in Smart Homes Using Wearable Device WebMedia’2024, Juiz de Fora, Brazil
+
+**Figure 7: Values obtained for user testing initially standing still and then falling backwards.**
+
+Source: From author (2024).
+
+**Figure 8: Values obtained for user testing initially standing still and then falling to the right side.**
+
+Source: From author (2024).
+
+**Figure 9: Values obtained for user testing initially standing still and then falling to the left side.**
+
+Source: From author (2024).
+
+
+One message that will be sent with each fall alert can also be
+configured using nodes in Node-RED. The fall alert message is written in the “ funcion " block and connected to the “ mqtt in " block
+with the chatID number specific to the destination Telegram. The
+chatId is provided by the Telegram application searching for “ Get
+
+
+My ID " in the search field of the Telegram application itself and
+after starting the conversation, the number will be provided automatically. The “ sender " node must be filled in with the chatId
+provided and the message configured to indicate which chat bot
+the message is intended for.
+
+
+130
+
+
+-----
+
+WebMedia’2024, Juiz de Fora, Brazil Moreira et al.
+### **5 FINAL CONSIDERATIONS**
+
+
+**Figure 10: Subscription nodes in the topics where sensor**
+**values are posted.**
+
+For the person interested in monitoring falls to receive messages
+via Telegram on their cell phone, they must search for the name
+of the chat bot in the application’s search field and start the conversation, which corresponds to sending a “ start " command to
+the bot. An introduction message is also configured for when a
+person signs up for the conversation. Using the “ receiver " node,
+it is possible to trigger a new process when a message is received
+by the chat bot. From the “ start " received, a trigger is activated
+that sends an introduction message. The settings are the same as
+the fall alert flow. The constructed flows are represented in Figure
+11. The message sent by Node-RED to Telegram from the person
+responsible translate from Portuguese to English is:
+"Hello! I’m Mr. José’s falls monitoring assistant.
+I’m here to warn you if an accident happens.
+WARNING: Mr. José may have suffered a fall. Try to
+get in touch as soon as possible".
+
+**Figure 11:** **Message sending flows in Node-RED.**
+
+Source: From author (2024).
+
+
+The main problem addressed in this work is how to identify that an
+elderly person who is alone in their home has suffered a fall. When
+identifying that there has been a fall, it is necessary to alert people
+nearby through warning messages.
+The objective of this project was to implement a wearable device
+prototype for fall monitoring, using accelerometer and gyroscope
+sensors, and connect this monitoring to a smart home ecosystem using the Node-RED platform to manage warnings if a fall movement
+is detected.
+
+The wearable prototype developed in this work is a suitable
+solution for monitoring movements, more specifically for detecting
+falls. It has been proven that wearable devices developed with
+inertial sensors are suitable for this type of problem and can be
+used to reduce rescue time if accidents occur with elderly people,
+while increasing the independence and safety of this age group in
+their own houses.
+
+Even if low-cost modules with limited computational capacity
+are chosen, it is possible to implement data treatments such as
+the complementary filter to increase the precision of the values
+obtained and still develop reliable solutions. The approach used
+in this work to develop the algorithm responsible for determining
+falling movements was based on the limits found in coherent tests,
+however there is room for implementing more complex computational analyzes using machine learning. These are currently topics
+with great emphasis in the context of assistive technologies and can
+bring more performance to solutions such as the one developed.
+Finally, more and more investment is being made in smart home
+applications, and the integration of several of them results in more
+complete, reliable and comfortable controls. That said, a solution
+like the one developed combined with other systems will guarantee
+greater performance and reliability in your activities. Other systems
+that have the potential to be integrated may be based on different
+sensors, networks, communications protocols and algorithms. In
+this work, a Wi-Fi network, MQTT protocol, accelerometer and gyroscope inertial sensors and an ESP32 board programmed through
+the Arduino IDE were used, but there are more possibilities such as
+bluetooth connection, cameras, presence and light sensors, HTTP
+protocol and other development boards such as Arduino, Raspberry
+Pi, among others.
+As future work, we intend to carry out usability testing of the
+wearable in a smart home environment and with elderly people,
+aiming to further improve the prototype. Other real-world scenarios can be also used in tests. Fall movements can be analyzed along
+with movements performed during the person’s daily routine. Historical data generated by sensors associated with machine learning
+techniques can be used to more accurately identify fall situations.
+Another possibility is to use other forms of fall detection, such as
+analyzing images from monitoring cameras, as discussed by [ 6 ] and
+*deep learning* [22].
+### **6 ACKNOWLEDGMENTS**
+
+The authors thank FAPESP, CNPq and Fapemig for funding part of
+this research.
+
+
+131
+
+
+-----
+
+Elderly Fall Monitoring in Smart Homes Using Wearable Device WebMedia’2024, Juiz de Fora, Brazil
+
+### **REFERENCES**
+
+[1] Ibukun Awolusi, Eric Marks, and Matthew Hallowell. 2018. Wearable technology for personalized construction safety monitoring and trending: Review of
+applicable devices. *Automation in Construction* 85 (2018).
+
+[2] Sejal Badgujar and Anju S. Pillai. 2020. Fall Detection for Elderly People using
+Machine Learning. In *2020 11th International Conference on Computing, Commu-*
+*nication and Networking Technologies (ICCCNT)* . 1–4. https://doi.org/10.1109/
+ICCCNT49239.2020.9225494
+
+[3] Shirley Basílio. 2021. O que é Node-RED? Conhecendo e instalando.
+Disponível em: https://blogmasterwalkershop.com.br/outros/o-que-e-node-redconhecendo-e-instalando, Acesso em: ago de 2022.
+
+[4] Tingting Chen, Zhenglong Ding, and Biao Li. 2022. Elderly Fall Detection Based
+on Improved YOLOv5s Network. *IEEE Access* 10 (2022), 91273–91282. https:
+//doi.org/10.1109/ACCESS.2022.3202293
+
+[5] Ministério da Saúde. 2009. Quedas de idosos. Disponível em: https://bvsms.
+saude.gov.br/quedas-de-idosos. Acesso em: junho, 2024.
+
+[6] Koldo De Miguel, Alberto Brunete, Miguel Hernando, and Ernesto Gambao. 2017.
+Home Camera-Based Fall Detection System for the Elderly. *Sensors* 17, 12 (2017).
+https://doi.org/10.3390/s17122864
+
+[7] Luciana De Nardin, Kamila RH Rodrigues, Larissa C Zimmermann, Brunela DM
+Orlandi, and Maria da Graça C. Pimentel. 2020. Recognition of human activities
+via wearable sensors: variables identified in a systematic mapping. In *Proceedings*
+*of the Brazilian Symposium on Multimedia and the Web* . 49–56.
+
+[8] Thiago de Quadros, André Eugenio Lazzaretti, and Fábio Kürt Schneider. 2018. A
+Movement Decomposition and Machine Learning-Based Fall Detection System
+Using Wrist Wearable Device. *IEEE SENSORS* 18, 12 (2018).
+
+[9] Irene Gomes e Vinícius Britto. 2024. Censo 2022: número de pessoas com
+65 anos ou mais de idade cresceu 57,4% em 12 anos. Disponível
+em: https://agenciadenoticias.ibge.gov.br/agencia-detalhe-de-midia.html?view=
+mediaibge&catid=2101&id=6730, Acesso em: jun. de 2024.
+
+[10] Andressa B Ferreira, Leonardo S Piva, Reinaldo B Braga, and Rossana MC Andrade.
+2015. Avaliação da confiança no funcionamento de sistemas de detecção e alerta
+de quedas. *Revista de Informática Aplicada* 11, 2 (2015).
+
+[11] Andressa Bezerra Ferreira, Leonardo Sabadini Piva, Reinaldo Bezerra Braga, and
+Rossana Maria de Castro Andrade. 2014. Trust Evaluation in an Android System
+for Detection and Alert Falls. In *Proceedings of the 20th Brazilian Symposium on*
+*Multimedia and the Web* . 111–114.
+
+[12] Ligia FREITAS, Elizabete Viana de; PY. 2016. *Tratado de geriatria e gerontologia.*
+(4th ed.). Guanabara Koogan. 1651 pages.
+
+[13] Usman M. Daud S. Kabir A. Nawaz Q. Gilani, S.M.M. and O. Judit. 2024. SDN-based
+multi-level framework for smart home services. (2024), 327–347.
+
+[14] Akash Gupta, Rohini Srivastava, Himanshu Gupta, and Basant Kumar. 2020. IoT
+Based Fall Detection Monitoring and Alarm System For Elderly. In *2020 IEEE*
+*7th Uttar Pradesh Section International Conference on Electrical, Electronics and*
+*Computer Engineering (UPCON)* . 1–5. https://doi.org/10.1109/UPCON50219.2020.
+9376569
+
+[15] Sardor Juraev, Akash Ghimire, Jumabek Alikhanov, Vijay Kakani, and Hakil
+Kim. 2022. Exploring Human Pose Estimation and the Usage of Synthetic Data
+for Elderly Fall Detection in Real-World Surveillance. *IEEE Access* 10 (2022),
+94249–94261. https://doi.org/10.1109/ACCESS.2022.3203174
+
+[16] Alexandre Kalache. 2010. WHO Global Report on Falls Prevention in Older
+Age. Disponível em: https://www.who.int/ageing/publications/Falls_
+prevention7March.pdf, Acesso em: jun de 2024.
+
+[17] Suchitporn Lersilp, Supawadee Putthinoi, Peerasak Lerttrakarnnon, and Patima
+Silsupadol. 2020. Development and Usability Testing of an Emergency Alert
+Device for Elderly People and People with Disabilities. *e Scientific World Journal*
+2020 (2020).
+
+[18] Muhammad Mubashir, Ling Shao, and Luke Seed. 2013. A survey on fall detection:
+Principles and approaches. *Neurocomputing* 100 (2013).
+
+[19] Md. Jaber Al Nahian, Tapotosh Ghosh, Md. Hasan Al Banna, Mohammed A.
+Aseeri, Mohammed Nasir Uddin, Muhammad Raisuddin Ahmed, Mufti Mahmud,
+and M. Shamim Kaiser. 2021. Towards an Accelerometer-Based Elderly Fall
+Detection System Using Cross-Disciplinary Time Series Features. *IEEE Access* 9
+(2021), 39413–39431. https://doi.org/10.1109/ACCESS.2021.3056441
+
+[20] Camila Pereira de Oliveira, Cristiano da Silveira Colombo, and Daniel José Ventorim Nunes. 2024. Machine Learning Applied To Fall Detection in the Elderly. In
+*Proceedings of the 20th Brazilian Symposium on Information Systems* (<conf-loc>,
+<city>Juiz de Fora</city>, <country>Brazil</country>, </conf-loc>) *(SBSI ’24)* .
+Association for Computing Machinery, New York, NY, USA, Article 58, 9 pages.
+https://doi.org/10.1145/3658271.3658330
+
+[21] Guilherme Bruno Araújo Pimenta. 2019. *Uso da Ferramenta Node-RED em Pro-*
+*cessos de Automatização no Cenário da Quarta Revolução Industrial* . Monografia.
+Universidade Federal de Lavras, Lavras - MG.
+
+[22] Mahsa T. Pourazad, Anahita Shojaei-Hashemi, Panos Nasiopoulos, Maryam Azimi, Michelle Mak, Jennifer Grace, Doojin Jung, and Taran Bains. 2020. A NonIntrusive Deep Learning Based Fall Detection Scheme Using Video Cameras.
+In *2020 International Conference on Information Networking (ICOIN)* . 443–446.
+
+
+https://doi.org/10.1109/ICOIN48656.2020.9016455
+
+[23] Luis GS Rodrigues, Diego RC Dias, Marcelo P Guimarães, Alexandre F Brandão,
+Leonardo CD Rocha, Rogério L Iope, and José RF Brega. 2021. Upper limb motion
+tracking and classification: A smartphone approach. In *Proceedings of the Brazilian*
+*Symposium on Multimedia and the Web* . 61–64.
+
+[24] Thanos G. Stavropoulos, Asterios Papastergiou, Lampros Mpaltadoros, Spiros
+Nikolopoulos, and Ioannis Kompatsiaris. 2020. IoT Wearable Sensors and Devices
+in Elderly Care: A Literature Review. *Sensors* 20 (2020).
+
+[25] Deen MJ. Subramaniam S, Faisal AI. 2022. Wearable Sensor Systems for Fall Risk
+Assessment: A Review. Front Digit Health.
+
+[26] Guilherme Gerzson Torres. 2018. *Tecnologia Assistiva para Detecção de Quedas:*
+*Desenvolvimento de Sensor Vestível Integrado ao Sistema de Casa Inteligente* . Dissertação de mestrado. Universidade Federal do Rio Grande do Sul, Porto Alegre RS. Disponível em: http://hdl.handle.net/10183/180824.
+
+[27] Xueyi Wang, Joshua Ellul, and George Azzopardi. 2020. Elderly Fall Detection
+Systems: A Literature Survey. *Frontiers in Robotics and AI* 7 (2020). https:
+//doi.org/10.3389/frobt.2020.00071
+
+[28] Jing Zhang, Jia Li, and Weibing Wang. 2021. A Class-Imbalanced Deep Learning
+Fall Detection Algorithm Using Wearable Sensors. *Sensors* 21, 19 (2021). https:
+//doi.org/10.3390/s21196511
+
+
+132
+
+
+-----
+
