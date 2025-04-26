@@ -46,4 +46,4 @@ def process_pdfs(input_dir: str, out_dir: str):
         with open(f"{out_dir}/{name}.txt", "w", encoding='utf-8') as f:
             f.write(text)
 
-    print('Finished processing')
+    # print('Finished processing')
