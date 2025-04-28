@@ -19,8 +19,6 @@ def clean_text(text):
     :param text:
     :return:
     '''
-    # pattern = r'\d*https?://\S+|[\w.+-]+@[\w-]+\.[\w.-]+'
-    # text = text.replace("\u200b", "")
     text = text.replace('\n', ' ')
     text = text.replace('*', '')
     # text = text.replace('\n', ' ')
