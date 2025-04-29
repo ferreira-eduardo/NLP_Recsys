@@ -11,6 +11,36 @@ language = {
     "portuguese": "pt_core_news_sm"
 }
 
+import requests
+
+# confirmar se é pt-br
+def translate_long_text(text, dest='pt-br', chunk_size=4500):
+    """
+    Translates text using Google Translate API directly
+    """
+    translated = []
+
+    for start in range(0, len(text), chunk_size):
+        piece = text[start:start + chunk_size]
+
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            "client": "gtx",
+            "sl": "auto",
+            "tl": dest,
+            "dt": "t",
+            "q": piece
+        }
+
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            translations = response.json()[0]
+            translated_piece = ''.join([t[0] for t in translations if t[0]])
+            translated.append(translated_piece)
+
+    return ' '.join(translated)
+
+
 
 def clean_ref(text):
     '''
