@@ -123,7 +123,7 @@ def process_pdfs(list_input_dir: list, out_dir: str):
                 "informacoes_url": "",
                 "idioma": lang,
                 "storage_key": path,
-                "author": info['/Author'],
+                "autores": info['/Author'].split(';'),
                 "data_publicacao": format_date(str(info['/CreationDate'])),
                 "resumo": clean_abstract(abstract),
                 "keywords": info['/Keywords'],
