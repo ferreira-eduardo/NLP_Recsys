@@ -1,6 +1,5 @@
 import json
 import os
-import pickle
 import re
 from datetime import datetime
 import spacy
@@ -13,7 +12,7 @@ language = {
 }
 
 
-def clean_text(text):
+def clean_ref(text):
     '''
     Remove: references style[1], \n
     :param text:
@@ -21,12 +20,6 @@ def clean_text(text):
     '''
     text = text.replace('\n', ' ')
     text = text.replace('*', '')
-    # text = text.replace('\n', ' ')
-    # text = re.sub(r'([A-Za-z])-\s+([A-Za-z])', r'\1\2', text)
-    # text = re.sub(r'\[[^\]]+\]', '', text)
-    # text = re.sub(r'\d*https?://\S+', '', text)
-    # text = re.sub(r'https?://\S+', '', text)
-    # text = re.sub(pattern, '', text)
     return text
 
 
@@ -81,54 +74,68 @@ def clean_full_text(text: str) -> str:
     text = text.replace("*", "")
     text = re.sub(r'\[\s*([^\[]+?)\s*\]', r'[\1]', text)
 
+    text = re.sub(r'^#+\s*', '', text)
+
+
     return text
 
 
-def process_pdfs(input_dir: str, out_dir: str):
+def process_pdfs(list_input_dir: list, out_dir: str):
     corpus = []
-    i = 0
-    for fname in os.listdir(input_dir):
-        if not fname.lower().endswith(".pdf"):
-            continue
 
-        path = os.path.join(input_dir, fname)
-        print(f"Processing: {path}")
 
-        lang = path.split('/')[-2].replace('.pdf', '')
+    for input_dir in list_input_dir:
+        for fname in os.listdir(input_dir):
+            if not fname.lower().endswith(".pdf"):
+                continue
 
-        text = pymupdf4llm.to_markdown(path)
+            path = os.path.join(input_dir, fname)
+            print(f"Processing: {path}")
 
-        reader = PdfReader(path)
+            lang = path.split('/')[-2].replace('.pdf', '')
 
-        info = dict(reader.metadata)
+            text = pymupdf4llm.to_markdown(path)
 
-        abstract = text.split('**ABSTRACT**')[1].split('**KEYWORDS**')[0].strip()
+            # PYPDF provides metadata
+            reader = PdfReader(path)
+            info = dict(reader.metadata)
 
-        # extract and separate the references
-        raw_refs = text.split('**REFERENCES**')[1].strip()
-        references = split_references(raw_refs)
+            abstract = text.split('ABSTRACT')[1].split('KEYWORDS')[0].strip()
 
-        text = clean_full_text(text)
+            # extract and separate the references
+            pattern = r'REFERENCES|REFERÊNCIAS'
+            parts = re.split(pattern, text, maxsplit=1, flags=re.IGNORECASE)
+            if len(parts) == 2:
+                raw_refs = parts[1].strip()
+            else:
+                raise ValueError("References section not found")
 
-        article = {
-            "titulo": info['/Title'],
-            "informacoes_url": "",
-            "idioma": lang,
-            "storage_key": path,
-            "author": info['/Author'],
-            "data_publicacao": format_date(str(info['/CreationDate'])),
-            "resumo": clean_abstract(abstract),
-            "keywords": info['/Keywords'],
-            "referencias": [clean_text(ref) for ref in references],
-            "text": text,
-            "artigo_tokenizado": tokenize_text(text, lang),
-            "pos_tagger": pos_tag_text(text, lang),
-            "lema": get_lemmas(text, lang),
-        }
-        i += 1
-        corpus.append(article)
-        if i == 2:
-            break
+            raw_refs = raw_refs.split('\n###', 1)[0].strip()
+
+            references = split_references(raw_refs)
+
+            # remove references and clean the full text
+            head, *_ = re.split(pattern, text, maxsplit=1)
+            text = clean_full_text(head.strip())
+
+            article = {
+                "titulo": info['/Title'],
+                "informacoes_url": "",
+                "idioma": lang,
+                "storage_key": path,
+                "author": info['/Author'],
+                "data_publicacao": format_date(str(info['/CreationDate'])),
+                "resumo": clean_abstract(abstract),
+                "keywords": info['/Keywords'],
+                "referencias": [clean_ref(ref) for ref in references],
+                "text": text,
+                "artigo_tokenizado": tokenize_text(text, lang),
+                "pos_tagger": pos_tag_text(text, lang),
+                "lema": get_lemmas(text, lang),
+            }
+            corpus.append(article)
+
+
 
     with open(f"{out_dir}/corpus.json", "w", encoding='utf-8') as f:
         json.dump(corpus, f, ensure_ascii=False, indent=2)
