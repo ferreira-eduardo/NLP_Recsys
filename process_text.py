@@ -6,10 +6,12 @@ import spacy
 import pymupdf4llm
 from PyPDF2 import PdfReader
 
-language = {
-    "english": "en_core_web_sm",
-    "portuguese": "pt_core_news_sm"
-}
+# language = {
+#     "english": "en_core_web_sm",
+#     "portuguese": "pt_core_news_sm"
+# }
+
+nlp = spacy.load("pt_core_news_sm")
 
 import requests
 
@@ -72,25 +74,24 @@ def clean_abstract(abstract: str) -> str:
     else:
         text = abstract
 
+    text = text.replace('###', '')
+    text = text.replace('**', '')
+    text = translate_long_text(text)
     return text.replace('\n', ' ').strip()
 
 
 def tokenize_text(text: str, lang: str) -> list:
-    nlp = spacy.load(language[lang])
-
     doc = nlp(text)
     tokens = [token.text for token in doc]
     return tokens
 
 
 def get_lemmas(text: str, lang: str) -> list[str]:
-    nlp = spacy.load(language[lang])
     doc = nlp(text)
     return [token.lemma_ for token in doc if not token.is_punct and not token.is_space]
 
 
 def pos_tag_text(text: str, lang: str) -> list[tuple]:
-    nlp = spacy.load(language[lang])
     doc = nlp(text)
     return [(tok.text, tok.pos_, tok.tag_) for tok in doc]
 
@@ -103,16 +104,20 @@ def clean_full_text(text: str) -> str:
     text = re.sub(r'\n+', ' ', text).strip()
     text = text.replace("*", "")
     text = re.sub(r'\[\s*([^\[]+?)\s*\]', r'[\1]', text)
+    text = re.sub('#', '', text)
 
-    text = re.sub(r'^#+\s*', '', text)
-
+    text = translate_long_text(text)
 
     return text
 
+def process_autores(autores:str)->list[str]:
+    aut = autores.split(';')
+    aut[-1] = re.sub('and', '',  aut[-1])
+
+    return aut
 
 def process_pdfs(list_input_dir: list, out_dir: str):
     corpus = []
-
 
     for input_dir in list_input_dir:
         for fname in os.listdir(input_dir):
@@ -130,8 +135,11 @@ def process_pdfs(list_input_dir: list, out_dir: str):
             reader = PdfReader(path)
             info = dict(reader.metadata)
 
-            abstract = text.split('ABSTRACT')[1].split('KEYWORDS')[0].strip()
+            ## autores
+            autores = process_autores(info['/Author'])
 
+            abstract = text.split('ABSTRACT')[1].split('KEYWORDS')[0].strip()
+            abstract = clean_abstract(abstract)
             # extract and separate the references
             pattern = r'REFERENCES|REFERÊNCIAS'
             parts = re.split(pattern, text, maxsplit=1, flags=re.IGNORECASE)
@@ -153,9 +161,9 @@ def process_pdfs(list_input_dir: list, out_dir: str):
                 "informacoes_url": "",
                 "idioma": lang,
                 "storage_key": path,
-                "autores": info['/Author'].split(';'),
+                "autores": autores,
                 "data_publicacao": format_date(str(info['/CreationDate'])),
-                "resumo": clean_abstract(abstract),
+                "resumo": abstract,
                 "keywords": info['/Keywords'],
                 "referencias": [clean_ref(ref) for ref in references],
                 "text": text,
