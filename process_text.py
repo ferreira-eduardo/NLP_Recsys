@@ -2,6 +2,8 @@ import json
 import os
 import re
 from datetime import datetime
+
+import requests
 import spacy
 import pymupdf4llm
 from PyPDF2 import PdfReader
@@ -11,6 +13,32 @@ language = {
     "portuguese": "pt_core_news_sm"
 }
 
+
+def translate_long_text(text, dest='pt-br', chunk_size=4500):
+    """
+    Translates pt-br using Google Translate API directly
+    """
+    translated = []
+
+    for start in range(0, len(text), chunk_size):
+        piece = text[start:start + chunk_size]
+
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            "client": "gtx",
+            "sl": "auto",
+            "tl": dest,
+            "dt": "t",
+            "q": piece
+        }
+
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            translations = response.json()[0]
+            translated_piece = ''.join([t[0] for t in translations if t[0]])
+            translated.append(translated_piece)
+
+    return ' '.join(translated)
 
 def clean_ref(text):
     '''
@@ -76,13 +104,14 @@ def clean_full_text(text: str) -> str:
 
     text = re.sub(r'^#+\s*', '', text)
 
-
     return text
+
+def extract_autores(autores: str) -> list:
+    return autores.split(';')
 
 
 def process_pdfs(list_input_dir: list, out_dir: str):
     corpus = []
-
 
     for input_dir in list_input_dir:
         for fname in os.listdir(input_dir):
@@ -99,6 +128,11 @@ def process_pdfs(list_input_dir: list, out_dir: str):
             # PYPDF provides metadata
             reader = PdfReader(path)
             info = dict(reader.metadata)
+
+            ## autores
+            autores = extract_autores(info['/Author'])
+
+            ##########
 
             abstract = text.split('ABSTRACT')[1].split('KEYWORDS')[0].strip()
 
@@ -118,12 +152,14 @@ def process_pdfs(list_input_dir: list, out_dir: str):
             head, *_ = re.split(pattern, text, maxsplit=1)
             text = clean_full_text(head.strip())
 
+
+            lang ='portuguese' #only for test
             article = {
                 "titulo": info['/Title'],
                 "informacoes_url": "",
                 "idioma": lang,
                 "storage_key": path,
-                "autores": info['/Author'].split(';'),
+                "autores": autores,
                 "data_publicacao": format_date(str(info['/CreationDate'])),
                 "resumo": clean_abstract(abstract),
                 "keywords": info['/Keywords'],
@@ -135,9 +171,11 @@ def process_pdfs(list_input_dir: list, out_dir: str):
             }
             corpus.append(article)
 
+    # with open("corpus.json", "w", encoding='utf-8') as f:
+    #     json.dump(corpus, f, ensure_ascii=False, indent=2)
 
 
-    with open(f"{out_dir}/corpus.json", "w", encoding='utf-8') as f:
-        json.dump(corpus, f, ensure_ascii=False, indent=2)
 
     print('Finished processing')
+    return corpus
+
